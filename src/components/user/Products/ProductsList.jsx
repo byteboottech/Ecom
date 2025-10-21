@@ -7,9 +7,9 @@ import {
   FaSort,
   FaShoppingCart,
   FaBolt,
+  FaStar,
   FaChevronLeft,
-  FaChevronRight,
-  FaStar
+  FaChevronRight
 } from "react-icons/fa";
 import { getAllProduct } from '../../../Services/Products';
 import baseUrl from '../../../Static/Static';
@@ -249,45 +249,8 @@ function ProductsList() {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Auto-scroll functionality
-  useEffect(() => {
-    if (!scrollContainerRef.current || filteredProducts.length === 0) return;
-
-    const container = scrollContainerRef.current;
-    let scrollInterval;
-
-    const startAutoScroll = () => {
-      scrollInterval = setInterval(() => {
-        if (container.scrollLeft + container.clientWidth >= container.scrollWidth - 10) {
-          // If at the end, scroll to start
-          container.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          // Otherwise scroll right
-          container.scrollBy({ left: 200, behavior: 'smooth' });
-        }
-      }, 4000); // Scroll every 4 seconds
-    };
-
-    const stopAutoScroll = () => {
-      clearInterval(scrollInterval);
-    };
-
-    // Start auto-scroll
-    startAutoScroll();
-
-    // Pause auto-scroll on hover
-    container.addEventListener('mouseenter', stopAutoScroll);
-    container.addEventListener('mouseleave', startAutoScroll);
-
-    return () => {
-      clearInterval(scrollInterval);
-      container.removeEventListener('mouseenter', stopAutoScroll);
-      container.removeEventListener('mouseleave', startAutoScroll);
-    };
-  }, [filteredProducts]);
-
   return (
-    <div className={`min-h-screen px-4 py-4 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div className={`min-h-screen px-4 py-8 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {alertData && (
         <Alert 
           type={alertData.type}
@@ -298,66 +261,63 @@ function ProductsList() {
         />
       )}
 
-      <div className="w-full mx-auto">
-        {/* Header Section - Full Width */}
-        <div className={`mb-6 p-4 rounded-lg border ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-300'}`}>
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+      <div className="w-full max-w-7xl mx-auto">
+        {/* Header Section */}
+        <div className={`mb-8 p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="text-center lg:text-left">
-              <h1 className="text-2xl lg:text-4xl font-bold font-[Rajdhani] tracking-tight text-dark-900 dark:text-dark relative inline-block">
+              <h1 className="text-3xl lg:text-5xl font-bold font-[Rajdhani] tracking-tight text-primary-blue dark:text-white relative inline-block">
                 Featured Products
               </h1>
-              <p className={`mt-2 text-sm lg:text-base ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <p className={`mt-3 text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
                 Discover our exclusive collection
               </p>
             </div>
 
-            <div className="flex flex-col lg:flex-row gap-3 lg:items-center w-full lg:w-auto">
-              {/* Guest Cart Indicator */}
-             
-
+            <div className="flex flex-col lg:flex-row gap-4 lg:items-center w-full lg:w-auto">
               {/* Search Bar */}
-              <div className="relative w-full lg:w-64">
+              <div className="relative w-full lg:w-80">
                 <input
                   type="text"
                   placeholder="Search products..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className={`w-full pl-4 pr-10 py-2.5 text-sm rounded-lg border ${darkMode ? 'bg-gray-800 border-gray-700 text-white focus:border-red-500' : 'bg-white border-gray-300 text-gray-900 focus:border-red-500'} outline-none transition-colors duration-300`}
+                  className={`w-full pl-4 pr-12 py-3 text-base rounded-xl border-2 focus:border-[#07bff] ${darkMode ? 'bg-gray-800 border-gray-600 text-white placeholder-gray-400' : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500'} outline-none transition-all duration-300`}
                 />
-                <FaSearch className={`absolute right-3 top-1/2 transform -translate-y-1/2 text-base ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+                <FaSearch className={`absolute right-4 top-1/2 transform -translate-y-1/2 text-lg ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
               </div>
 
               {/* Control Buttons */}
-              <div className="flex items-center justify-center gap-2">
+              <div className="flex items-center justify-center gap-3">
                 <button 
-                  className={`flex items-center justify-center gap-1 px-3 py-2 rounded-lg ${filter 
-                    ? 'bg-red-600 text-white' 
+                  className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${filter 
+                    ? 'bg-[#07bff] text-white shadow-lg' 
                     : darkMode 
-                      ? 'bg-gray-800 text-gray-200 border border-gray-700 hover:bg-gray-700' 
-                      : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50'
-                  } transition-colors duration-300 font-semibold text-xs`}
+                      ? 'bg-gray-800 text-white border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]' 
+                      : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 hover:border-[#07bff]'
+                  }`}
                   onClick={() => {
                     setFilter(!filter);
                     if (sort) setSort(false);
                   }}
                 >
-                  <FaFilter className={filter ? 'text-white' : darkMode ? 'text-gray-400' : 'text-gray-500'} />
+                  <FaFilter className={filter ? 'text-white' : darkMode ? 'text-gray-300' : 'text-gray-600'} />
                   <span>FILTER</span>
                 </button>
 
                 <button 
-                  className={`flex items-center justify-center gap-1 px-3 py-2 rounded-lg ${sort 
-                    ? 'bg-red-600 text-white' 
+                  className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${sort 
+                    ? 'bg-[#07bff] text-white shadow-lg' 
                     : darkMode 
-                      ? 'bg-gray-800 text-gray-200 border border-gray-700 hover:bg-gray-700' 
-                      : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50'
-                  } transition-colors duration-300 font-semibold text-xs`}
+                      ? 'bg-gray-800 text-white border border-gray-600 hover:bg-gray-700 hover:border-[#07bff]' 
+                      : 'bg-white text-gray-900 border border-gray-300 hover:bg-gray-50 hover:border-[#07bff]'
+                  }`}
                   onClick={() => {
                     setSort(!sort);
                     if (filter) setFilter(false);
                   }}
                 >
-                  <FaSort className={sort ? 'text-white' : darkMode ? 'text-gray-400' : 'text-gray-500'} />
+                  <FaSort className={sort ? 'text-white' : darkMode ? 'text-gray-300' : 'text-gray-600'} />
                   <span>SORT</span>
                 </button>
               </div>
@@ -367,26 +327,26 @@ function ProductsList() {
 
         {/* Filter Section */}
         {filter && (
-          <div className={`mb-4 p-4 rounded-lg border ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-300'}`}>
+          <div className={`mb-6 p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
             <Filter products={products} setProducts={setProducts} />
           </div>
         )}
 
         {/* Sort Section */}
         {sort && (
-          <div className={`mb-4 p-4 rounded-lg border ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-50 border-gray-300'}`}>
+          <div className={`mb-6 p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
             <Sorting products={products} setProducts={setProducts} />
           </div>
         )}
 
         {/* Products Horizontal Scroller */}
         {loading ? (
-          <div className="flex justify-center items-center py-16">
+          <div className="flex justify-center items-center py-20">
             <Loader />
           </div>
         ) : filteredProducts.length === 0 ? (
-          <div className={`text-center py-12 px-4 rounded-lg border ${darkMode ? 'bg-gray-900 text-gray-400 border-gray-800' : 'bg-gray-50 text-gray-600 border-gray-300'}`}>
-            <p className="text-base font-semibold">No products found. Try adjusting your filters or search term.</p>
+          <div className={`text-center py-16 px-6 rounded-xl border ${darkMode ? 'bg-gray-900 text-gray-400 border-gray-700' : 'bg-gray-50 text-gray-600 border-gray-200'}`}>
+            <p className="text-lg font-semibold">No products found. Try adjusting your filters or search term.</p>
           </div>
         ) : (
           <div className="relative">
@@ -395,23 +355,23 @@ function ProductsList() {
               <>
                 <button 
                   onClick={scrollLeft}
-                  className={`absolute left-2 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                  className={`absolute left-2 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                     darkMode 
-                      ? 'bg-gray-900 text-white border border-gray-800 hover:bg-red-600' 
-                      : 'bg-white text-black border border-gray-300 hover:bg-red-600'
-                  }`}
+                      ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
+                      : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
+                  } shadow-lg`}
                 >
-                  <FaChevronLeft />
+                  <FaChevronLeft className="text-sm" />
                 </button>
                 <button 
                   onClick={scrollRight}
-                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${
+                  className={`absolute right-2 top-1/2 transform -translate-y-1/2 z-20 w-12 h-12 rounded-full flex items-center justify-center transition-all duration-300 ${
                     darkMode 
-                      ? 'bg-gray-900 text-white border border-gray-800 hover:bg-red-600' 
-                      : 'bg-white text-black border border-gray-300 hover:bg-red-600'
-                  }`}
+                      ? 'bg-gray-900 text-white border-2 border-gray-700 hover:bg-[#07bff]' 
+                      : 'bg-white text-black border-2 border-gray-300 hover:bg-[#07bff]'
+                  } shadow-lg`}
                 >
-                  <FaChevronRight />
+                  <FaChevronRight className="text-sm" />
                 </button>
               </>
             )}
@@ -419,100 +379,100 @@ function ProductsList() {
             {/* Products Scroll Container */}
             <div 
               ref={scrollContainerRef}
-              className="flex overflow-x-auto scrollbar-hide gap-4 pb-6 px-2 -mx-2 scroll-smooth"
+              className="flex overflow-x-auto gap-6 pb-8 px-2 -mx-2 scrollbar-hide scroll-smooth"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
               {filteredProducts.map((product) => (
                 <div 
                   key={product.id}
                   onClick={() => navigateToDetails(product.id)}
-                  className={`flex-shrink-0 w-64 group rounded-lg overflow-hidden transition-colors duration-300 cursor-pointer ${
-                    darkMode 
-                      ? 'bg-gray-900 border border-gray-800 hover:bg-gray-800' 
-                      : 'bg-white border border-gray-300 hover:bg-gray-50'
+                  className={`flex-shrink-0 w-72 group rounded-xl overflow-hidden transition-all duration-300 cursor-pointer border ${darkMode 
+                    ? 'bg-gray-900 border-gray-700 hover:bg-gray-800 hover:border-[#07bff]' 
+                    : 'bg-white border-gray-200 hover:bg-gray-50 hover:shadow-xl hover:border-[#07bff]'
                   }`}
                 >
                   {/* Product Badge */}
-                  <div className="absolute top-3 left-3 z-10">
-                    <span className="px-2.5 py-1 rounded-full text-xs font-bold bg-red-600 text-white">
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="px-3 py-1.5 rounded-full text-xs font-bold bg-[#07bff] text-white shadow-lg bg-blue-500">
                       FEATURED
                     </span>
                   </div>
 
                   {/* Image Container */}
-                  <div className="relative h-40 p-4 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800">
+                  <div className="relative h-56 flex items-center justify-center overflow-hidden bg-gray-100 dark:bg-gray-800">
                     <img 
                       src={product.images?.[0]?.image 
                         ? baseUrl + product.images[0].image 
                         : "https://pnghq.com/wp-content/uploads/pnghq.com-gaming-computer-picture-p-4.png"
                       } 
                       alt={product.name}
-                      className="max-h-32 max-w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                      className="h-44 w-full object-contain transition-transform duration-300 group-hover:scale-105"
                     />
                     
-                    {/* Quick Action Overlay */}
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-5 transition-all duration-300 flex items-center justify-center">
-                      <div className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-200">
-                        <button className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-gray-500 hover:bg-gray-500 hover:text-white transition-colors duration-300">
-                          <FaBolt />
+                    {/* Quick Action Overlay - Always visible but subtle, with text on hover */}
+                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                      <div className={`opacity-0 group-hover:opacity-100 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300 flex flex-col items-center gap-2 text-white`}>
+                        <button className="w-12 h-12 rounded-full bg-[#07bff] flex items-center justify-center shadow-lg hover:bg-white hover:text-[#07bff] transition-all duration-300">
+                          <FaBolt className="text-sm" />
                         </button>
+                        <span className="text-xs font-semibold">Quick View</span>
                       </div>
                     </div>
                   </div>
 
                   {/* Product Content */}
-                  <div className="p-4">
-                    <div className="mb-3">
-                      <h2 className="font-[Rajdhani] text-lg font-bold mb-2 line-clamp-2 leading-tight">
+                  <div className="p-6">
+                    <div className="mb-4">
+                      <h2 className="font-[Rajdhani] text-xl font-bold mb-3 line-clamp-2 leading-tight text-black dark:text-white">
                         {product.name}
                       </h2>
                       
                       {/* Rating */}
-                      <div className="flex items-center gap-1 mb-2">
+                      <div className="flex items-center gap-1 mb-3">
                         {[1,2,3,4,5].map((star) => (
                           <FaStar 
                             key={star}
-                            className={`text-xs ${
+                            className={`text-sm ${
                               star <= 4 ? 'text-yellow-400 fill-current' : 'text-gray-300 dark:text-gray-500'
                             }`}
                           />
                         ))}
-                        <span className={`text-xs ml-1 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+                        <span className={`text-sm ml-2 ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                           (4.0)
                         </span>
                       </div>
 
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-xl font-bold font-[Rajdhani]">
+                      <div className="flex items-baseline gap-3">
+                        <span className="text-2xl font-bold font-[Rajdhani] text-black dark:text-white">
                           ₹ {product.price?.toLocaleString()}
                         </span>
-                        <span className={`text-xs line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
+                        <span className={`text-sm line-through ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}>
                           ₹ {(product.price * 1.2)?.toLocaleString()}
                         </span>
                       </div>
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="flex gap-2">
+                    {/* Action Buttons - Always visible */}
+                    <div className="flex gap-3">
                       <button 
                         onClick={(e) => addTocart(product.id, e)}
                         disabled={addingToCart === product.id}
-                        className={`flex-1 py-2.5 rounded-lg flex items-center justify-center gap-1 text-xs font-[Rajdhani] font-semibold transition-colors duration-300 ${
+                        className={`flex-1 py-3 rounded-xl flex items-center justify-center gap-2 text-sm font-[Rajdhani] font-semibold transition-all duration-300 ${
                           addingToCart === product.id
-                            ? 'bg-gray-400 dark:bg-gray-600 text-gray-600 dark:text-gray-200 cursor-not-allowed'
+                            ? 'bg-gray-300 dark:bg-gray-600 text-gray-500 dark:text-gray-300 cursor-not-allowed'
                             : darkMode
-                              ? 'bg-gray-800 text-gray-200 hover:bg-gray-700'
-                              : 'bg-gray-200 text-gray-900 hover:bg-gray-300'
+                              ? 'bg-gray-800 text-white hover:bg-gray-700 border border-gray-600'
+                              : 'bg-gray-100 text-gray-900 hover:bg-gray-200 border border-gray-300'
                         }`}
                       >
                         {addingToCart === product.id ? (
                           <>
-                            <FaSpinner className="animate-spin" /> 
+                            <FaSpinner className="animate-spin text-sm" /> 
                             <span>ADDING...</span>
                           </>
                         ) : (
                           <>
-                            <FaShoppingCart /> 
+                            <FaShoppingCart className="text-sm" /> 
                             <span>ADD TO CART</span>
                           </>
                         )}
@@ -520,9 +480,9 @@ function ProductsList() {
 
                       <button 
                         onClick={(e) => handleBuyNow(product, e)}
-                        className="flex-1 py-2.5 rounded-lg text-xs font-[Rajdhani] font-bold bg-red-600 text-white flex items-center justify-center gap-1 hover:bg-red-700 transition-colors duration-300"
+                        className="flex-1 py-3 rounded-xl text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-2 bg-blue-500 shadow-lg"
                       >
-                        <FaBolt />
+                        <FaBolt className="text-sm" />
                         <span>BUY NOW</span>
                       </button>
                     </div>
@@ -532,23 +492,23 @@ function ProductsList() {
             </div>
 
             {/* Scroll Indicator */}
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-center mt-6">
               <div className={`flex gap-1 ${darkMode ? 'bg-gray-900' : 'bg-gray-100'} rounded-full p-1.5`}>
-                <div className="w-2 h-2 rounded-full bg-red-600"></div>
+                <div className="w-2 h-2 rounded-full bg-[#07bff]"></div>
                 <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
                 <div className="w-2 h-2 rounded-full bg-gray-400 dark:bg-gray-600"></div>
               </div>
             </div>
           </div>
         )}
-      </div>
 
-      {/* Custom scrollbar hide */}
-      <style jsx>{`
-        .scrollbar-hide::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
+        {/* Custom scrollbar hide */}
+        <style jsx>{`
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
+      </div>
     </div>
   );
 }
