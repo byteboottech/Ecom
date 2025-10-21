@@ -230,15 +230,7 @@ const ModernNavbar = () => {
     }
   };
 
-  const categories = [
-    "Components",
-    "Peripherals", 
-    "Gaming",
-    "Laptops & PCs",
-    "Networking",
-    "Software",
-    "Accessories"
-  ];
+ 
 
   const quickLinks = [
     { name: "Build Your PC", path: "/build-pc" },
@@ -306,7 +298,7 @@ const ModernNavbar = () => {
           </div>
 
           {/* Search Bar - Center */}
-          <div className="search-section">
+          {/* <div className="search-section">
             <form onSubmit={handleSearch} className="search-form">
               <div className="search-input-container">
                 <input
@@ -321,7 +313,7 @@ const ModernNavbar = () => {
                 </button>
               </div>
             </form>
-          </div>
+          </div> */}
 
           {/* User Actions - Right */}
           <div className="actions-section">
@@ -411,30 +403,12 @@ const ModernNavbar = () => {
                       </Link>
                     ))}
                   </div>
-                  {!dropdownScroll.bottom && (
-                    <button
-                      className="scroll-indicator scroll-down"
-                      onClick={() => scrollDropdown("down")}
-                    >
-                      <FaChevronDown />
-                    </button>
-                  )}
+                  
                 </div>
               </div>
             </div>
 
-            {/* Quick Categories */}
-            <div className="quick-categories">
-              {categories.map((category, index) => (
-                <Link
-                  key={index}
-                  to={`/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="category-link"
-                >
-                  {category}
-                </Link>
-              ))}
-            </div>
+          
 
             {/* Quick Links */}
             <div className="quick-links">

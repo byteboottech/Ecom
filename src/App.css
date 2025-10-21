@@ -2,6 +2,11 @@
   font-family: "Awanzman", sans-serif;
 }
 /* App.css */
+:root{
+  --color-primary: #4f46e5; /* Indigo */
+
+}
+
 html {
   overflow-y: scroll;
   scrollbar-width: none; /* Firefox */
