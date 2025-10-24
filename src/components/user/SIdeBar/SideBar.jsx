@@ -14,7 +14,7 @@ import {
   FiChevronDown,
   FiChevronRight,
 } from "react-icons/fi";
-import metrixLogo from "../../../Images/neo_tokyo-logo.png";
+import metrixLogo from "../../../Images/maxtreobgremoved.png";
 import { BsFillTicketFill } from "react-icons/bs";
 import {
   GamepadIcon,
@@ -46,9 +46,12 @@ function SideBar({ isOpen, onClose }) {
     try {
       const response = await getProductDropDown();
       console.log(response, "response form data form navbar items#############........");
-      setProductsItems(response);
+      // Fixed: Assume API returns { data: [...] }; ensure it's always an array
+      setProductsItems(Array.isArray(response?.data) ? response.data : []);
     } catch (error) {
       console.log(error, "error while fetching category products");
+      // Ensure fallback to empty array on error
+      setProductsItems([]);
     }
   };
   const toggleMenu = (menuName) => {
@@ -234,7 +237,7 @@ function SideBar({ isOpen, onClose }) {
                   </Link>
                 </li>
               )}
-
+{/* 
               <li
                 className="opacity-0 transform translate-x-5"
                 style={{
@@ -251,7 +254,7 @@ function SideBar({ isOpen, onClose }) {
                   <FiHome className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Store</span>
                 </Link>
-              </li>
+              </li> */}
               <li>
                  <Link
                   to="/cart"
@@ -346,7 +349,7 @@ function SideBar({ isOpen, onClose }) {
                     : "none",
                 }}
               >
-                <div>
+                {/* <div>
                   <button
                     onClick={() => toggleMenu("solutions")}
                     className="flex items-center justify-between w-full py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
@@ -387,9 +390,9 @@ function SideBar({ isOpen, onClose }) {
                       </Link>
                     ))}
                   </div>
-                </div>
+                </div> */}
               </li>
-              <li
+              {/* <li
                 className="opacity-0 transform translate-x-5"
                 style={{
                   animation: isOpen
@@ -405,7 +408,7 @@ function SideBar({ isOpen, onClose }) {
                   <Cpu className="mr-3 text-base min-w-4 transition-transform duration-300 group-hover:scale-110" />
                   <span>Nvidia</span>
                 </Link>
-              </li>
+              </li> */}
 
               {/* Support - Expandable */}
               <li
@@ -508,14 +511,14 @@ function SideBar({ isOpen, onClose }) {
               <div className="flex flex-col gap-3">
                 <div className="p-3 rounded-md bg-gray-50 hover:bg-gray-100 transition-all duration-300">
                   <h4 className="m-0 mb-1 text-xs font-medium text-gray-800">
-                    HQ - Thodupuzha
+                    Address
                   </h4>
                   <p className="m-0 text-xs text-gray-600 leading-tight">
-                    Technocraft Sreevalsum Building,
+                    xxxxxxxxx xxxxxxxx,
                     <br />
-                    Temple by Pass, Thodupuzha,
+                    xxxxx xx xxxxx, xxxxx,
                     <br />
-                    Kerala - 685584
+                    xxxxx - xxxxx
                   </p>
                 </div>
               </div>

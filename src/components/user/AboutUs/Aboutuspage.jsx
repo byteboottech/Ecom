@@ -10,6 +10,7 @@ import { useAuth } from '../../../Context/UserContext';
 import About from '../AboutUs/About';
 import QualityStandards from '../AboutUs/Quality';
 import DirectionalSection from '../AboutUs/Directional';
+import WhyWeStandOut from '../AboutUs/WhyWeStandOut';
 
 // Card components for stacking
 const HeaderCard = () => (
@@ -246,19 +247,29 @@ const FAQsCard = () => {
   );
 };
 
-const AboutCard = () => {
+const WhyWeStandOutCard = () => {
   return (
-    <motion.div 
-      className="w-full max-w-6xl mx-auto mb-16 pb-12"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: false }}
-      transition={{ duration: 0.7 }}
-    >
-      <About />
-    </motion.div>
+    <div className="relative w-full max-w-6xl mx-auto mb-16 pb-12">
+      {/* Stack effect - creating shadow cards underneath */}
+      <StackedCard index={2} total={3}>
+        <div className="h-full w-full"></div>
+      </StackedCard>
+      
+      <StackedCard index={1} total={3}>
+        <div className="h-full w-full"></div>
+      </StackedCard>
+      
+      {/* Main content card */}
+      <StackedCard index={0} total={3}>
+        <div className="p-8">
+          <h2 className="text-3xl font-bold mb-6">why we Standout</h2>
+          <WhyWeStandOut />
+        </div>
+      </StackedCard>
+    </div>
   );
 };
+
 
 const QualityCard = () => {
   return (
@@ -275,7 +286,7 @@ const QualityCard = () => {
       {/* Main content card */}
       <StackedCard index={0} total={3}>
         <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6">Our Quality Standards</h2>
+          <h2 className="text-3xl font-bold mb-6">why choose us</h2>
           <QualityStandards />
         </div>
       </StackedCard>
@@ -301,7 +312,7 @@ const ContactCard = () => {
           {/* Header Section */}
           <div className="text-center mb-12">
             <h2 className="text-4xl font-bold mb-4">
-              Get in <span className="text-pink-600">Touch</span>
+              Get in <span className="text-blue-600">Touch</span>
             </h2>
             <p className="text-gray-300 text-lg">
               Ready to build your dream PC? Our team is here to help you every step of the way.
@@ -313,7 +324,7 @@ const ContactCard = () => {
             {/* Support Hours */}
             <div className="space-y-6">
               <div className="flex items-center mb-6">
-                <div className="bg-pink-600 p-3 rounded-full mr-4">
+                <div className="bg-blue-600 p-3 rounded-full mr-4">
                   <Clock size={24} className="text-white" />
                 </div>
                 <h3 className="text-2xl font-bold">Support Hours</h3>
@@ -322,11 +333,11 @@ const ContactCard = () => {
               <div className="space-y-4 ml-16">
                 <div className="flex justify-between items-center py-2 border-b border-gray-700">
                   <span className="text-gray-300">Monday - Friday</span>
-                  <span className="font-semibold text-pink-600">9AM - 8PM</span>
+                  <span className="font-semibold text-blue-600">9AM - 8PM</span>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-gray-700">
                   <span className="text-gray-300">Saturday</span>
-                  <span className="font-semibold text-pink-600">10AM - 6PM</span>
+                  <span className="font-semibold text-blue-600">10AM - 6PM</span>
                 </div>
                 <div className="flex justify-between items-center py-2">
                   <span className="text-gray-300">Sunday</span>
@@ -338,7 +349,7 @@ const ContactCard = () => {
             {/* Contact Methods */}
             <div className="space-y-6">
               <div className="flex items-center mb-6">
-                <div className="bg-pink-600 p-3 rounded-full mr-4">
+                <div className="bg-blue-600 p-3 rounded-full mr-4">
                   <MessageCircle size={24} className="text-white" />
                 </div>
                 <h3 className="text-2xl font-bold">Contact Methods</h3>
@@ -346,26 +357,26 @@ const ContactCard = () => {
               
               <div className="space-y-6 ml-16">
                 <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <Mail size={20} className="text-pink-600 mr-4" />
+                  <Mail size={20} className="text-blue-600 mr-4" />
                   <div>
                     <p className="text-gray-300 text-sm">Email</p>
-                    <p className="font-semibold group-hover:text-pink-600 transition-colors">info@neotokyo.in</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors">info@neotokyo.in</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <Phone size={20} className="text-pink-600 mr-4" />
+                  <Phone size={20} className="text-blue-600 mr-4" />
                   <div>
                     <p className="text-gray-300 text-sm">Phone</p>
-                    <p className="font-semibold group-hover:text-pink-600 transition-colors">+91 (800) 555-1234</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors">+91 (800) 555-1234</p>
                   </div>
                 </div>
                 
                 <div className="flex items-center group hover:bg-gray-900 p-3 rounded-lg transition-colors">
-                  <MessageCircle size={20} className="text-pink-600 mr-4" />
+                  <MessageCircle size={20} className="text-blue-600 mr-4" />
                   <div>
                     <p className="text-gray-300 text-sm">Live Chat</p>
-                    <p className="font-semibold group-hover:text-pink-600 transition-colors">Available during business hours</p>
+                    <p className="font-semibold group-hover:text-blue-600 transition-colors">Available during business hours</p>
                   </div>
                 </div>
               </div>
@@ -374,9 +385,9 @@ const ContactCard = () => {
 
           {/* Call to Action */}
           <div className="mt-12 text-center">
-            <div className="bg-gradient-to-r from-pink-600 to-pink-500 p-6 rounded-xl">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-6 rounded-xl">
               <h4 className="text-xl font-bold mb-2">Ready to Start Your Build?</h4>
-              <p className="text-pink-100 mb-4">Join thousands of satisfied gamers who chose NeoTokyo for their custom PC builds.</p>
+              <p className="text-blue-100 mb-4">Join thousands of satisfied gamers who chose NeoTokyo for their custom PC builds.</p>
               <button className="bg-white text-black font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-colors">
                 Start Your Build
               </button>
@@ -447,7 +458,7 @@ function AboutPage() {
           
           <div className="space-y-24">
           
-            <AboutCard />
+            <WhyWeStandOut/>
             <QualityCard />
             <DirectionalSection />
             <ContactCard />

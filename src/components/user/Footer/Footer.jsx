@@ -1,7 +1,7 @@
 import React from "react";
 import { FaWhatsapp, FaFacebook, FaInstagram, FaMapMarkerAlt } from "react-icons/fa";
 
-function MetrixFooter() {
+function maxtreoFooter() {
   return (
     <footer className="bg-gray-900 text-white py-8">
       <div className="max-w-6xl mx-auto px-4">
@@ -9,7 +9,7 @@ function MetrixFooter() {
           
           {/* Logo and Description */}
           <div className="md:col-span-1">
-            <h2 className="text-2xl font-bold mb-2">METRIX</h2>
+            <h2 className="text-2xl font-bold mb-2">maxtreo</h2>
             <p className="text-sm text-gray-300">Building Gaming Experiences Since 2020</p>
           </div>
 
@@ -62,7 +62,7 @@ function MetrixFooter() {
 
         {/* Footer Bottom */}
         <div className="border-t border-gray-800 pt-4 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-sm text-gray-300 mb-2 md:mb-0">&copy; 2025 Metrix. All rights reserved.</p>
+          <p className="text-sm text-gray-300 mb-2 md:mb-0">&copy; 2025 maxtreo. All rights reserved.</p>
           <div className="flex space-x-4">
             <a href="/privacy" className="text-sm text-gray-300 hover:text-white transition-colors">Privacy Policy</a>
             <a href="/terms" className="text-sm text-gray-300 hover:text-white transition-colors">Terms of Service</a>
@@ -74,4 +74,4 @@ function MetrixFooter() {
   );
 }
 
-export default MetrixFooter;
+export default maxtreoFooter;

@@ -247,7 +247,7 @@ export default function Orders() {
         </p>
         <button
           onClick={() => (window.location.href = "/products")}
-          className="px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
         >
           Browse Products
         </button>
@@ -351,7 +351,7 @@ export default function Orders() {
               <div className="border-t border-gray-100 pt-4">
                 <a
                   href="/my-products"
-                  className="group inline-flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-pink-600 to-pink-700 text-white font-medium rounded-lg hover:from-pink-700 hover:to-pink-800 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-offset-2 transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
+                  className="group inline-flex items-center justify-center w-full px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 shadow-sm hover:shadow-md transform hover:-translate-y-0.5"
                 >
                   <svg
                     className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-200"
@@ -446,7 +446,7 @@ export default function Orders() {
                   <p>No orders match the selected filter.</p>
                   <button
                     onClick={() => setFilterStatus("all")}
-                    className="mt-2 text-pink-600 hover:text-pink-700"
+                    className="mt-2 text-blue-600 hover:text-blue-700"
                   >
                     Show All Orders
                   </button>
@@ -479,7 +479,7 @@ export default function Orders() {
                           ₹
                         </div>
                         <div>
-                          <span className="text-sm text-pink-700">
+                          <span className="text-sm text-blue-700">
                             Order Id
                           </span>
                           <div className="font-medium text-dark text-semibold">
@@ -491,7 +491,7 @@ export default function Orders() {
                         </div>
                       </div>
                       <div className="text-right text-sm md:block sm:hidden">
-                        <span className="text-sm text-pink-700">
+                        <span className="text-sm text-blue-700">
                           Delivery address
                         </span>
                         <div className="">
@@ -535,7 +535,7 @@ export default function Orders() {
                       </div>
                       <div className="flex">
                         <div className="text-right mr-3">
-                          <span className="text-sm text-pink-700">
+                          <span className="text-sm text-blue-700">
                             Payment Overline
                           </span>
                           <div className="font-medium">
@@ -695,7 +695,7 @@ export default function Orders() {
                         className={`relative flex items-center justify-center w-12 h-12 rounded-full shrink-0
                       ${
                         step.completed
-                          ? "bg-pink-600 text-white border-2 border-pink-600"
+                          ? "bg-blue-600 text-white border-2 border-blue-600"
                           : `${
                               darkMode ? "bg-gray-700" : "bg-gray-100"
                             } text-gray-400`
@@ -729,7 +729,7 @@ export default function Orders() {
               <div className="mt-6 text-center">
                 <button
                   onClick={openModal}
-                  className="flex items-center mx-auto px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition"
+                  className="flex items-center mx-auto px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
                   <Eye size={16} className="mr-2" />
                   More Details

@@ -1,10 +1,11 @@
+
 /* .App {
   font-family: "Awanzman", sans-serif;
 }
 /* App.css */
-:root{
-  --color-primary: #4f46e5; /* Indigo */
 
+:root{
+  --color-primary:#007bff; /* Indigo */
 }
 
 html {
@@ -16,7 +17,7 @@ html {
 html::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
-
+  
 body {
   overflow-y: auto; /* Ensures scrolling is possible */
 }

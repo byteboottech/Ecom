@@ -294,7 +294,7 @@ const deleteAddress = async (id) => {
     </div> */}
       {/* Header */}
       {/* <header className=" p-4 flex justify-between items-center" >
-        <h1 className="text-2xl font-bold text-pink-600" style={{textAlign:"center"}}>Your Profile</h1>
+        <h1 className="text-2xl font-bold text-blue-600" style={{textAlign:"center"}}>Your Profile</h1>
        
       </header> */}
 
@@ -332,7 +332,7 @@ const deleteAddress = async (id) => {
                   {userData?.first_name} {userData?.last_name || ""}
                 </h2>
                 <div className="flex items-center text-gray-400 text-sm">
-                  <span className="bg-pink-600 text-black text-xs px-2 py-0.5 rounded mr-2">
+                  <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded mr-2">
                     Member
                   </span>
                   <span>{userData?.email}</span>
@@ -391,7 +391,7 @@ const deleteAddress = async (id) => {
                   className="w-full text-left px-4 py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
                 >
                   <span className="flex items-center">
-                    <Edit size={18} className="mr-3 text-pink-500" />
+                    <Edit size={18} className="mr-3 text-blue-500" />
                     <span style={{color:'white'}}>Edit Profile</span>
                   </span>
                   <ChevronRight size={18} className="text-gray-400" />
@@ -401,7 +401,7 @@ const deleteAddress = async (id) => {
                   className="w-full text-left px-4 py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
                 >
                   <span className="flex items-center">
-                    <Plus size={18} className="mr-3 text-pink-500" />
+                    <Plus size={18} className="mr-3 text-blue-500" />
                     <span style={{color:'white'}}>Add New Address</span>
                   </span>
                   <ChevronRight size={18} className="text-gray-400" />
@@ -412,7 +412,7 @@ const deleteAddress = async (id) => {
                 >
                   <span className="flex items-center">
                     <svg
-                      className="w-5 h-5 mr-3 text-pink-500"
+                      className="w-5 h-5 mr-3 text-blue-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -573,7 +573,7 @@ const EditProfileForm = ({
           </button>
           <button
             type="submit"
-            className="flex items-center px-4 py-1.5 bg-pink-600 text-black rounded-full hover:bg-pink-700"
+            className="flex items-center px-4 py-1.5 bg-blue-600 text-black rounded-full hover:bg-blue-700"
           >
             <Save size={18} className="mr-1" /> Save Changes
           </button>
@@ -622,7 +622,7 @@ const EditProfileForm = ({
           <button
             type="button"
             onClick={triggerFileInput}
-            className="absolute bottom-0 right-0 bg-pink-600 text-black p-1.5 rounded-full hover:bg-pink-700 transition-colors"
+            className="absolute bottom-0 right-0 bg-blue-600 text-black p-1.5 rounded-full hover:bg-blue-700 transition-colors"
           >
             <Camera size={16} />
           </button>
@@ -639,7 +639,7 @@ const EditProfileForm = ({
             name="first_name"
             value={formData.first_name || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
             required
           />
         </div>
@@ -652,7 +652,7 @@ const EditProfileForm = ({
             name="last_name"
             value={formData.last_name || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
           />
         </div>
         <div className="form-group">
@@ -676,7 +676,7 @@ const EditProfileForm = ({
             name="phone_number"
             value={formData.phone_number || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
             required
           />
         </div>
@@ -689,7 +689,7 @@ const EditProfileForm = ({
             name="date_of_birth"
             value={formData.date_of_birth || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
           />
         </div>
         <div className="form-group">
@@ -701,7 +701,7 @@ const EditProfileForm = ({
             name="age"
             value={formData.age || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
             min="1"
           />
         </div>
@@ -714,7 +714,7 @@ const EditProfileForm = ({
             name="pin_code"
             value={formData.pin_code || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
           />
         </div>
         <div className="form-group">
@@ -726,7 +726,7 @@ const EditProfileForm = ({
             name="district"
             value={formData.district || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
           />
         </div>
         <div className="form-group">
@@ -738,7 +738,7 @@ const EditProfileForm = ({
             name="state"
             value={formData.state || ""}
             onChange={handleInputChange}
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
           />
         </div>
         <div className="form-group md:col-span-2">
@@ -750,7 +750,7 @@ const EditProfileForm = ({
             value={formData.address || ""}
             onChange={handleInputChange}
             rows="3"
-            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-pink-500 text-black"
+            className="w-full px-3 py-2 bg-gray-300 bg-opacity-10 backdrop-blur-sm border border-gray-700 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 text-black"
           ></textarea>
         </div>
       </div>
@@ -778,7 +778,7 @@ const ViewProfile = ({
         <button
           onClick={() => setIsEditing(true)}
           style={{color:'white'}}
-          className="flex items-center px-4 py-1.5 bg-pink-600 text-black rounded-full hover:bg-pink-700 transition-all"
+          className="flex items-center px-4 py-1.5 bg-blue-600 text-black rounded-full hover:bg-blue-700 transition-all"
         >
           <Edit size={16} className="mr-1"  style={{color:'white'}}/> Edit Profile
         </button>
@@ -843,7 +843,7 @@ const ViewProfile = ({
         <button
           onClick={() => setShowAddressPopup(true)}
           style={{color:'white'}}
-          className="flex items-center px-4 py-1.5 bg-pink-600 text-black rounded-full hover:bg-pink-700 transition-all"
+          className="flex items-center px-4 py-1.5 bg-blue-600 text-black rounded-full hover:bg-blue-700 transition-all"
         >
           <Plus size={16} className="mr-1" /> Add New Address
         </button>
@@ -857,13 +857,13 @@ const ViewProfile = ({
               className="bg-gray-300 bg-opacity-10 backdrop-blur-sm rounded-lg p-4 flex items-start"
             >
               <div className="bg-gray-700 p-2 rounded-full mr-3">
-                <MapPin size={20} className="text-pink-500" />
+                <MapPin size={20} className="text-blue-500" />
               </div>
               <div className="flex-grow">
                 <p className="font-medium">
                   {address.address_name || `Address ${idx + 1}`}
                   {address.is_default && (
-                    <span className="ml-2 text-xs bg-pink-600 text-black px-2 py-0.5 rounded">
+                    <span className="ml-2 text-xs bg-blue-600 text-black px-2 py-0.5 rounded">
                       Default
                     </span>
                   )}
@@ -923,7 +923,7 @@ const ViewProfile = ({
           <p className="text-gray-400">No delivery addresses found</p>
           <button
             onClick={() => setShowAddressPopup(true)}
-            className="mt-3 px-4 py-2 bg-pink-600 text-black rounded-md hover:bg-pink-700 transition-all flex items-center mx-auto"
+            className="mt-3 px-4 py-2 bg-blue-600 text-black rounded-md hover:bg-blue-700 transition-all flex items-center mx-auto"
           >
             <Plus size={16} className="mr-1" /> Add Address
           </button>

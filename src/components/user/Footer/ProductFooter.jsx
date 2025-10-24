@@ -7,7 +7,7 @@ function ProductFooter() {
         <div className="leftFooter">
                 <div className="top">
                     <p><span>SUBSCRIBE</span> FOR A SEAMLESS EXPERIENCE</p>
-                    <div className='imgContainer'><img src={footerLogo} alt="" /> <p>Priority One by Metrix</p> <p className='bottom-text'>For the Ultimate Experience</p></div>
+                    <div className='imgContainer'><img src={footerLogo} alt="" /> <p>Priority One by maxtreo</p> <p className='bottom-text'>For the Ultimate Experience</p></div>
                 </div>
                 <div className="bottomm">
                       
@@ -15,7 +15,7 @@ function ProductFooter() {
         </div>
         <div className="rightFooter">
                 <p>+91 - 7920938981</p>
-                <p>support@metrix.in</p>
+                <p>support@maxtreo.in</p>
         </div>
     </div>
   )

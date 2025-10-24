@@ -2,8 +2,8 @@ import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
-import Loader from "../Loader/Loader";
-import RenderRazorpay from "../RazorPay/RenderRazorpay";
+import Loader from "../../../Loader/Loader"
+import RenderRazorpay from "../../../Loader/Loader";  
 import BaseURL from "../../../Static/Static";
 import AddNewAddress from "../Profile/AddNewAddress";
 import Overview from "./OverView";

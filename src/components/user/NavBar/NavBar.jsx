@@ -1,3 +1,6 @@
+// Updated Parent Component: ModernNavbar.jsx
+// Navigation path changed to "/categoryproductlist" with query params for category.
+
 import React, { useState, useEffect, useRef } from "react";
 import {
   FaBars,
@@ -14,11 +17,12 @@ import {
 import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
-import { getProductDropDown } from "../../../Services/userApi";
+import { getCategory } from "../../../Services/Settings";
 import NavBarMenu from "./NavBarMenu";
 import { Link, useNavigate } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
-import metrix_logo from '../../../Images/neo_tokyo-logo.png';
+import metrix_logo from '../../../Images/maxtreobgremoved.png';
+
 const ModernNavbar = () => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
@@ -143,10 +147,14 @@ const ModernNavbar = () => {
 
   const getProductDropDownList = async () => {
     try {
-      const response = await getProductDropDown();
-      setProductsItems(response);
+      const categories = await getCategory();
+      console.log("categories:", categories);
+      const categoryData = Array.isArray(categories) ? categories : (categories.data || []);
+      setProductsItems(categoryData);
+      console.log("categories set:", categoryData);
     } catch (error) {
-      console.log(error, "error while fetching category products");
+      console.log(error, "error while fetching categories");
+      setProductsItems([]);
     }
   };
 
@@ -295,7 +303,11 @@ const ModernNavbar = () => {
             <Link to="/">
               <img src={metrix_logo} alt="Metrix Logo" className="logo" />
             </Link>
+              <div>
+                <h1 className="text-2xl ">Maxtreo</h1>
+              </div>
           </div>
+
 
           {/* Search Bar - Center */}
           {/* <div className="search-section">
@@ -350,7 +362,7 @@ const ModernNavbar = () => {
                   </a>
                 ))}
               </div>
-
+                
               <button className="mobile-menu-btn" onClick={openSidebar}>
                 <FaBars />
               </button>
@@ -392,12 +404,12 @@ const ModernNavbar = () => {
                     ref={dropdownRef}
                     onScroll={handleDropdownScroll}
                   >
-                    {productsItems.map((item, index) => (
+                    {Array.isArray(productsItems) && productsItems.map((item, index) => (
                       <Link
                         key={index}
-                        to={`/products/product/${item.slug}`}
-                        state={{ id: item.slug, item: item.name }}
+                        to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`} // Updated path to match page
                         className="dropdown-item"
+                        onClick={() => console.log(`Navigating to category: ${item.name}`)} // Debug log
                       >
                         {item.name}
                       </Link>
