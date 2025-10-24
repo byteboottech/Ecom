@@ -40,6 +40,7 @@ import GamingPCShowcase from "./components/user/ProductShowcase/ProductGaming";
 import NewUpdate from "./components/user/Solutions/NewUpdate";
 import ErrorPage from "./components/user/Error/Error";
 import ShippingPolicy from "./components/user/PoliciesAndRules/Shipping";
+import CategoryProductListPage from "./Pages/user/CategoryProductListPage";
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
           <Route path='/return-refunds' element={<ReturnRefund/>}/>
           <Route path='/teams-and-conditions' element={<TermsConditions/>}/>
           <Route path='/Shipping-Policy' element={<ShippingPolicy/>}/>
+          <Route path='/categoryproductlist' element={<CategoryProductListPage/>}/>
 
 
 
@@ -93,6 +95,8 @@ function App() {
           <Route path='/products/project-eden' element={<GamingPCShowcase/>}/>
           <Route path="/new-Solutions" element={<NewUpdate />} />
           <Route path="/Error" element={<ErrorPage/>} />
+
+
 
 
           {/* 

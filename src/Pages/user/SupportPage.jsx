@@ -275,7 +275,7 @@ const QualityCard = () => {
       {/* Main content card */}
       <StackedCard index={0} total={3}>
         <div className="p-8">
-          <h2 className="text-3xl font-bold mb-6">Our Quality Standards</h2>
+          <h2 className="text-3xl font-bold mb-6">Our Quality eStandards god</h2>
           <QualityStandards />
         </div>
       </StackedCard>

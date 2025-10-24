@@ -1,5 +1,5 @@
 import React from "react";
-import metrixLogo from '../../../Images/neo_tokyo-logo.png';
+import Logo from '../../../Images/neo_tokyo-logo.png';
 
 const ParallaxRevealSection = () => {
   return (
@@ -7,7 +7,7 @@ const ParallaxRevealSection = () => {
       <div className="content-container">
         {/* Company Logo */}
         <div className="company-logo">
-          <img src={metrixLogo} alt="Metrix Logo" />
+          <img src={Logo} alt=" Logo" />
         </div>
         
         {/* Description Content */}

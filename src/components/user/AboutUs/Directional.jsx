@@ -1,5 +1,5 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
-import directional1 from "../../../Images/diractional1.png"
+import directional1 from "../../../Images/darklaptop.jpeg"
 import directional2 from "../../../Images/Diractional2.png"
 
 export default function DirectionalSection() {
@@ -10,12 +10,10 @@ export default function DirectionalSection() {
         <div className="flex-1 space-y-10">
           {/* Text content section */}
           <div className="space-y-4 mb-8">
-            <h1 className="text-4xl font-bold">Directional</h1>
-            <h3 className="text-xl font-medium text-pink-600">AI and ML Tech</h3>
+            <h1 className="text-4xl font-bold">Our Promise</h1>
+            {/* <h3 className="text-xl font-medium text-pink-600">AI and ML Tech</h3> */}
             <p className="text-gray-800">
-              We specialize in creating high-performance custom PCs tailored to your needs. 
-              Our team of experts ensures top-quality components and exceptional craftsmanship 
-              to deliver the ultimate gaming and workstation experience.
+              From door-step delivery to responsive support, we stay with you long after checkout. Maxtreo promises transparency, care and a feel-good journey from click to unboxing and beyond.             
             </p>
             
             <div className="pt-4">

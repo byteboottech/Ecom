@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { useNavigate } from "react-router-dom";
 import { 
   FaSearch, 
   FaSpinner, 
@@ -20,7 +19,7 @@ import Sorting from '../Sorting/Sorting';
 import Alert from '../Alert/Alert';
 import Loader from '../../../Loader/Loader';
 
-function ProductsList() {
+function CategoryProductList({ category }) { // Receives category as prop: { id, name } or null
   const [filter, setFilter] = useState(false);
   const [sort, setSort] = useState(false);
   const [products, setProducts] = useState([]);
@@ -33,7 +32,6 @@ function ProductsList() {
   const [showScrollButtons, setShowScrollButtons] = useState(false);
   const alertTimeoutRef = useRef(null);
   const scrollContainerRef = useRef(null);
-  const navigate = useNavigate();
   const { user } = useAuth();
 
   // Guest cart management functions
@@ -107,16 +105,24 @@ function ProductsList() {
       try {
         setLoading(true);
         let productData = await getAllProduct();
+        
+        // Filter API response based on category prop (using string name to match API structure)
+        if (category && category.name) {
+          console.log(`Filtering products for category name: "${category.name}"`);
+          productData = productData.filter(product => product.category === category.name);
+        }
+        
         setProducts(productData || []);
       } catch (error) {
         console.error("Error fetching products:", error);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
-  }, []);
+  }, [category]); // Re-run when category prop changes
 
   // Check if scroll buttons should be shown
   useEffect(() => {
@@ -214,7 +220,7 @@ function ProductsList() {
       });
       
       setTimeout(() => {
-        navigate("/login");
+        window.location.href = "/login"; // Fallback
       }, 2000);
     } else {
       console.log(product, "buy now product");
@@ -222,7 +228,7 @@ function ProductsList() {
   };
 
   const navigateToDetails = (id) => {
-    navigate(`/Details/${id}`);
+    window.location.href = `/Details/${id}`; // Fallback without navigate
   };
 
   const toggleDarkMode = () => {
@@ -249,6 +255,10 @@ function ProductsList() {
     product.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Dynamic header based on category prop
+  const pageTitle = category ? `Products in ${category.name}` : "Featured Products";
+  const pageSubtitle = category ? `Explore our ${category.name.toLowerCase()} collection` : "Discover our exclusive collection";
+
   return (
     <div className={`min-h-screen px-4 py-8 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
       {alertData && (
@@ -262,15 +272,15 @@ function ProductsList() {
       )}
 
       <div className="w-full max-w-7xl mx-auto">
-        {/* Header Section */}
+        {/* Header Section - Dynamic based on category */}
         <div className={`mb-8 p-6 rounded-xl border ${darkMode ? 'bg-gray-900 border-gray-700' : 'bg-gray-50 border-gray-200'}`}>
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
             <div className="text-center lg:text-left">
               <h1 className="text-3xl lg:text-5xl font-bold font-[Rajdhani] tracking-tight text-primary-blue dark:text-white relative inline-block">
-                Featured Products
+                {pageTitle}
               </h1>
               <p className={`mt-3 text-base ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-                Discover our exclusive collection
+                {pageSubtitle}
               </p>
             </div>
 
@@ -513,4 +523,4 @@ function ProductsList() {
   );
 }
 
-export default ProductsList;
+export default CategoryProductList;

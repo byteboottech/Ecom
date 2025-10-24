@@ -254,7 +254,7 @@ function Overview({ product }) {
   if (loading && addresses.length === 0) {
     return (
       <div className="max-w-6xl mx-auto p-6 bg-white flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-red-500"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     );
   }
@@ -262,10 +262,10 @@ function Overview({ product }) {
   if (error) {
     return (
       <div className="max-w-6xl mx-auto p-6 bg-white">
-        <div className="text-red-500 mb-4">Error: {error}</div>
+        <div className="text-blue-500 mb-4">Error: {error}</div>
         <button
           onClick={() => window.location.reload()}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Try Again
         </button>
@@ -276,7 +276,7 @@ function Overview({ product }) {
   if (!product) {
     return (
       <div className="max-w-6xl mx-auto p-6 bg-white">
-        <div className="text-red-500 mb-4">Error: No product selected</div>
+        <div className="text-blue-500 mb-4">Error: No product selected</div>
       </div>
     );
   }
@@ -289,7 +289,7 @@ function Overview({ product }) {
           setDisplayRazorpay={setDisplayRazorpay}
         />
       )}
-      <div className="max-w-6xl mx-auto p-6 bg-white" style={{zIndex:"1020"}}>
+      <div className="max-w-6xl mx-auto p-6 bg-white  z-90" style={{zIndex:"1020"}}>
         <div className="mb-8">
           <br />
         </div>
@@ -301,13 +301,13 @@ function Overview({ product }) {
             <div className="mb-8 bg-gray-50 rounded-lg p-6 shadow-sm">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                  <MapPin className="text-red-600 mr-2" size={20} />
+                  <MapPin className="text-blue-600 mr-2" size={20} />
                   <h2 className="text-lg font-medium text-gray-800">
                     Shipping Address
                   </h2>
                 </div>
                 <button
-                  className="text-red-600 hover:text-red-800 text-sm font-medium flex items-center transition-colors"
+                  className="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center transition-colors"
                   onClick={() => setShowAddressModal(true)}
                   disabled={loading}
                 >
@@ -320,7 +320,7 @@ function Overview({ product }) {
                   <p className="text-gray-500 mb-4">No addresses found</p>
                   <button
                     onClick={() => setShowAddressModal(true)}
-                    className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+                    className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
                   >
                     Add Your First Address
                   </button>
@@ -357,7 +357,7 @@ function Overview({ product }) {
                         <p className="pt-1">{address.phone_number}</p>
                       </div>
                       <div className="flex justify-between mt-3 pt-3 border-t border-gray-200">
-                        <button className="text-red-600 hover:text-red-800 text-sm transition-colors">
+                        <button className="text-blue-600 hover:text-blue-800 text-sm transition-colors">
                           Edit
                         </button>
                         {selectedAddressId === address.id && (
@@ -375,7 +375,7 @@ function Overview({ product }) {
             {/* Product Section */}
             <div className="mb-8 bg-gray-50 rounded-lg p-6 shadow-sm">
               <div className="flex items-center mb-4">
-                <ShoppingBag className="text-red-600 mr-2" size={20} />
+                <ShoppingBag className="text-blue-600 mr-2" size={20} />
                 <h2 className="text-lg font-medium text-gray-800">
                   Product Details
                 </h2>
@@ -472,10 +472,10 @@ function Overview({ product }) {
               {/* Payment Button */}
               <button
                 onClick={handleCreateOrder}
-                className={`w-full bg-red-600 text-white py-4 px-6 rounded-lg font-medium flex items-center justify-center transition-colors duration-300 shadow-sm ${
+                className={`w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-medium flex items-center justify-center transition-colors duration-300 shadow-sm ${
                   !selectedAddressId
                     ? "opacity-50 cursor-not-allowed"
-                    : "hover:bg-red-700"
+                    : "hover:bg-blue-700"
                 }`}
                 disabled={!selectedAddressId || loading}
               >
@@ -505,7 +505,7 @@ function Overview({ product }) {
                       <div className="flex flex-col items-center flex-1">
                         <div
                           className={`h-8 w-8 rounded-full flex items-center justify-center ${
-                            index < 3 ? "bg-red-600" : "bg-gray-200"
+                            index < 3 ? "bg-blue-600" : "bg-gray-200"
                           }`}
                         >
                           {index < 3 ? (
@@ -518,7 +518,7 @@ function Overview({ product }) {
                           {step}
                         </span>
                       </div>
-                      {index < 3 && <div className="h-1 w-4 bg-red-200"></div>}
+                      {index < 3 && <div className="h-1 w-4 bg-blue-200"></div>}
                     </React.Fragment>
                   )
                 )}
@@ -529,7 +529,7 @@ function Overview({ product }) {
 
         {/* Add Address Modal */}
         {showAddressModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+        <div className="fixed inset-0  flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-md max-h-screen overflow-y-auto">
               <div className="flex justify-between items-center p-6 border-b">
                 <h3 className="text-lg font-medium text-gray-900">
@@ -554,7 +554,7 @@ function Overview({ product }) {
                     name="delivery_person_name"
                     value={newAddress.delivery_person_name}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Full name"
                     required
                     minLength={1}
@@ -574,9 +574,9 @@ function Overview({ product }) {
                     onChange={handleInputChange}
                     className={`w-full border ${
                       formErrors.phone_number
-                        ? "border-red-500"
+                        ? "border-blue-500"
                         : "border-gray-300"
-                    } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500`}
+                    } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                     placeholder="10 digit phone number"
                     required
                     maxLength={10}
@@ -584,7 +584,7 @@ function Overview({ product }) {
                     pattern="[0-9]{10}"
                   />
                   {formErrors.phone_number && (
-                    <p className="text-red-500 text-xs mt-1">
+                    <p className="text-blue-500 text-xs mt-1">
                       {formErrors.phone_number}
                     </p>
                   )}
@@ -598,7 +598,7 @@ function Overview({ product }) {
                     name="address"
                     value={newAddress.address}
                     onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                     placeholder="Street address"
                     required
                     minLength={1}
@@ -619,9 +619,9 @@ function Overview({ product }) {
                       onChange={handleInputChange}
                       className={`w-full border ${
                         formErrors.district
-                          ? "border-red-500"
+                          ? "border-blue-500"
                           : "border-gray-300"
-                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500`}
+                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                       placeholder="District"
                       required
                       minLength={1}
@@ -629,7 +629,7 @@ function Overview({ product }) {
                       disabled={loading}
                     />
                     {formErrors.district && (
-                      <p className="text-red-500 text-xs mt-1">
+                      <p className="text-blue-500 text-xs mt-1">
                         {formErrors.district}
                       </p>
                     )}
@@ -645,8 +645,8 @@ function Overview({ product }) {
                       value={newAddress.state}
                       onChange={handleInputChange}
                       className={`w-full border ${
-                        formErrors.state ? "border-red-500" : "border-gray-300"
-                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500`}
+                        formErrors.state ? "border-blue-500" : "border-gray-300"
+                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                       placeholder="State"
                       required
                       minLength={1}
@@ -654,7 +654,7 @@ function Overview({ product }) {
                       disabled={loading}
                     />
                     {formErrors.state && (
-                      <p className="text-red-500 text-xs mt-1">
+                      <p className="text-blue-500 text-xs mt-1">
                         {formErrors.state}
                       </p>
                     )}
@@ -671,7 +671,7 @@ function Overview({ product }) {
                       name="zip_code"
                       value={newAddress.zip_code}
                       onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder="Zip code"
                       required
                       minLength={1}
@@ -691,9 +691,9 @@ function Overview({ product }) {
                       onChange={handleInputChange}
                       className={`w-full border ${
                         formErrors.country
-                          ? "border-red-500"
+                          ? "border-blue-500"
                           : "border-gray-300"
-                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500`}
+                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
                       placeholder="Country"
                       required
                       minLength={1}
@@ -701,7 +701,7 @@ function Overview({ product }) {
                       disabled={loading}
                     />
                     {formErrors.country && (
-                      <p className="text-red-500 text-xs mt-1">
+                      <p className="text-blue-500 text-xs mt-1">
                         {formErrors.country}
                       </p>
                     )}
@@ -715,7 +715,7 @@ function Overview({ product }) {
                     name="is_primary"
                     checked={newAddress.is_primary}
                     onChange={handleInputChange}
-                    className="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                     disabled={loading}
                   />
                   <label
@@ -730,14 +730,14 @@ function Overview({ product }) {
                   <button
                     type="button"
                     onClick={() => setShowAddressModal(false)}
-                    className="mr-3 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    className="mr-3 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     disabled={loading}
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className={`px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-md shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 ${
+                    className={`px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
                       !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
                     }`}
                     disabled={loading || !isFormValid()}

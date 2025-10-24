@@ -7,7 +7,7 @@ import "@fontsource/rajdhani/700.css";
 import "@fontsource/raleway";
 import { featuredProduct } from "../../../Services/Products";
 import SingeProductOverview from '../CardPage/SingleProductOverView';
-import Loader from '../Loader/Loader';
+import Loader from '../../../Loader/Loader';
 import {useAuth} from '../../../Context/UserContext'
 function ProductBanner() {
     const { token, setToken, user } = useAuth();

@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../../../Context/UserContext";
 import { addTocart } from "../../../Services/userApi";
-import SingeProductOverview from "../CardPage/SingleProductOverView";
+import SingleProductOverview from "../CardPage/SingleProductOverView";
 import BaseURL from "../../../Static/Static";
 import NavBar from "../NavBar/NavBar";
 import Alert from "../Alert/Alert";
-import Loader from "../Loader/Loader";
+import Loader from "../../../Loader/Loader";
 import { useNavigate } from "react-router-dom";
 import { Play, Pause, ChevronLeft, ChevronRight, X } from "lucide-react";
 import VideoThumbnail from './VideoThumbnail';
 import Axios from '../../../Axios/Axios'
-import { FaDownload, FaYoutube, FaCartPlus, FaBolt, FaCheck } from 'react-icons/fa';
+import { FaDownload, FaYoutube, FaCartPlus, FaBolt, FaCheck,  } from 'react-icons/fa';
 
 function Details({ product }) {
   const { token, user } = useAuth();
@@ -428,22 +428,24 @@ function Details({ product }) {
           onClose={() => setAlertData(null)}
         />
       )}
-      {overView && (
-        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
-          <div className="relative max-w-4xl w-full bg-white rounded-xl overflow-hidden animate-pop-in">
-            <button
-              className="absolute top-4 right-4 z-50 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-800 hover:bg-gray-300 transition-colors"
-              onClick={() => setOverView(false)}
-            >
-              ×
-            </button>
-            <SingeProductOverview
-              product={product}
-              onClose={() => setOverView(false)}
-            />
-          </div>
-        </div>
-      )}
+ {overView && (
+  <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 pt-32">
+    <div className="relative max-w-4xl w-full max-h-[70vh] bg-white rounded-xl overflow-y-auto scroll-smooth animate-pop-in">
+      <button
+        className="absolute top-4 right-4 z-50 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-800 hover:bg-gray-300 transition-colors"
+        onClick={() => setOverView(false)}
+      >
+        <X className="w-5 h-5" /> {/* Lucide minimal close icon */}
+      </button>
+
+      <SingleProductOverview
+        product={product}
+        onClose={() => setOverView(false)}
+      />
+    </div>
+  </div>
+)}
+
 
       {/* Desktop Zoom Popup */}
       {showZoomPopup && (
@@ -580,7 +582,7 @@ function Details({ product }) {
                     }`}
                   />
                   {showZoomPopup && (
-                    <div className="absolute inset-0 border-2 border-red-500 pointer-events-none"></div>
+                    <div className="absolute inset-0 border-2 border-blue-500 pointer-events-none"></div>
                   )}
                   {/* Mobile tap indicator */}
                   <div className="md:hidden absolute top-2 left-2 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded pointer-events-none">
@@ -601,8 +603,8 @@ function Details({ product }) {
                 <div
                   key={index}
                   className={`w-16 h-16 overflow-hidden rounded border shadow-sm cursor-pointer transition-all ${
-                    BaseURL + mainImage === BaseURL + obj.image ? 'border-2 border-red-500' : 'border-gray-300'
-                  } hover:border-red-400`}
+                    BaseURL + mainImage === BaseURL + obj.image ? 'border-2 border-blue-500' : 'border-gray-300'
+                  } hover:border-blue-400`}
                   onClick={() => handleThumbnailClick(obj.image)}
                 >
                   <img
@@ -623,11 +625,11 @@ function Details({ product }) {
             className="w-full md:w-3/5 flex flex-col rounded-lg p-4 relative bg-white border border-gray-300"
             style={{zIndex:"0"}}
           >
-            <div className="absolute top-0 left-0 w-full h-1 bg-red-600"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-blue-600"></div>
 
             <div className="mb-4">
-              <h3 className="relative uppercase tracking-wider text-xs pl-3 mb-3 font-medium text-gray-600 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:bg-red-600">
-                {product.category || "GAMING PC"} <span className="text-red-600">||</span> {product.brand}
+              <h3 className="relative uppercase tracking-wider text-xs pl-3 mb-3 font-medium text-gray-600 before:absolute before:left-0 before:top-1/2 before:-translate-y-1/2 before:w-1 before:h-3 before:bg-blue-600">
+                {product.category || "GAMING PC"} <span className="text-blue-600">||</span> {product.brand}
               </h3>
 
               <h1
@@ -647,7 +649,7 @@ function Details({ product }) {
                   </del>
                 )}
                 <span
-                  className="text-xl font-bold text-red-600"
+                  className="text-xl font-bold text-blue-600"
                   style={{ fontFamily: "Rajdhani, sans-serif" }}
                 >
                   ₹ {formatPrice(price)}/-
@@ -665,7 +667,7 @@ function Details({ product }) {
               <div className="flex gap-4 mt-3">
                 {product?.broacher && (
                   <button
-                    className="flex items-center gap-1 text-red-600 hover:underline focus:outline-none"
+                    className="flex items-center gap-1 text-[var(--color-primary)] hover:underline focus:outline-none"
                     onClick={handleDownloadBrochure}
                   >
                     <FaDownload size={12} /> <span>Download Brochure</span>
@@ -674,7 +676,7 @@ function Details({ product }) {
 
                 {videoId && (
                   <button
-                    className="flex items-center gap-1 text-red-600 hover:underline focus:outline-none"
+                    className="flex items-center gap-1 text-blue-600 hover:underline focus:outline-none"
                     onClick={handleWatchYoutube}
                   >
                     <FaYoutube size={14} /> <span>Watch on YouTube</span>
@@ -700,7 +702,7 @@ function Details({ product }) {
                       onClick={() => handleVariantSelect(variant)}
                       className={`p-3 bg-white rounded-lg shadow-sm cursor-pointer transition-all duration-300 transform hover:scale-105 border-2 relative ${
                         selectedVariant === variant.id
-                          ? "border-red-500 ring-2 ring-red-100"
+                          ? "border-blue-500 ring-2 ring-blue-100"
                           : "border-gray-300 hover:border-gray-400"
                       }`}
                     >
@@ -729,7 +731,7 @@ function Details({ product }) {
                         </p>
                       </div>
                       {selectedVariant === variant.id && (
-                        <div className="absolute top-2 right-2 bg-red-500 rounded-full p-1">
+                        <div className="absolute top-2 right-2 bg-blue-500 rounded-full p-1">
                           <FaCheck className="text-white text-xs" />
                         </div>
                       )}
@@ -767,7 +769,7 @@ function Details({ product }) {
                   style={{ width: "180px", borderRadius: "30px" }}
                   onClick={handleBuyNow}
                   className="flex-1 py-2.5 px-5 rounded-lg font-bold uppercase tracking-wider text-xs flex items-center justify-center gap-2 
-                    bg-red-600 text-white hover:bg-red-700 hover:-translate-y-1 transition-all duration-300"
+                    bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-1 transition-all duration-300"
                 >
                   <FaBolt size={14} /> <span>Buy Now</span>
                 </button>
