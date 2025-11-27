@@ -26,6 +26,7 @@ interface ReusableCarouselProps {
   width?: string;
   height?: string;
   fitMode?: 'cover' | 'contain' | 'fill';
+  onSlideClick?: (slide: SlideData) => void; // 👈 Optional onClick handler for slides (e.g., for navigation or analytics)
 }
 
 const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
@@ -36,6 +37,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
   width = '100%',
   height = '400px',
   fitMode = 'cover',
+  onSlideClick,
 }) => {
 
   const sortedData = [...data].sort((a, b) => a.order - b.order);
@@ -65,6 +67,19 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
     // borderRadius: '8px', // 👈 Already removed for square edges (slides)
   };
 
+  // 👈 Handle slide click (e.g., navigate to button_link or custom logic)
+  const handleSlideClick = (slide: SlideData, e?: React.MouseEvent | React.TouchEvent) => {
+    if (e) {
+      e.stopPropagation(); // 👈 Prevent Swiper from interfering
+    }
+    if (onSlideClick) {
+      onSlideClick(slide);
+    } else {
+      // Default: Navigate to button_link (use '_self' for same tab if preferred)
+      window.location.href = slide.button_link; // 👈 Changed to direct navigation for reliability (avoids pop-up blockers)
+    }
+  };
+
   return (
     <div className="w-full" style={wrapperStyle}>
       <Swiper
@@ -79,6 +94,9 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
         }
         // Removed pagination={{ clickable: true }}
         navigation={slidesPerView > 1}
+        // 👈 KEY FIX: Allow clicks inside slides without preventing them (default is true, which blocks child clicks)
+        preventClicks={false}
+        preventClicksPropagation={false}
         
         // 🚀 FIX 2 — Guarantee Swiper always occupies full height
         className="h-full"
@@ -98,16 +116,24 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
 
             <div className="absolute inset-0 bg-black bg-opacity-40 z-10" />
 
-            <div className="absolute bottom-0 right-0 z-20 p-2 sm:p-4 md:p-6"> {/* 👈 Reduced padding on mobile for tighter button placement */}
+            {/* 👈 Clickable overlay: Full slide on all devices, z-15 below button (z-20) on desktop; pointer cursor for feedback */}
+            <div
+              className="absolute inset-0 z-[15] cursor-pointer select-none" // 👈 Full clickable area with pointer on all devices
+              onClick={(e) => handleSlideClick(slide, e)}
+            />
+
+            {/* 👈 Button: Hidden on mobile/tablet (under md), shown on desktop (md+); clickable via <a> */}
+            <div className="hidden md:block absolute bottom-0 right-0 z-20 p-2 sm:p-4 md:p-6"> {/* 👈 hidden md:block: Show only on desktop */}
               <a
                 href={slide.button_link}
+                onClick={(e) => handleSlideClick(slide, e)} // 👈 Consistent handler for button too
                 className="
                   inline-block 
                   bg-red-500 hover:bg-red-600 
                   text-white font-bold 
-                  py-1 px-2 text-xs        /* Mobile: even smaller padding and text */
-                  sm:py-2 sm:px-4 sm:text-sm /* Tablet: medium */
-                  md:py-3 md:px-6 md:text-base /* Desktop: large */
+                  py-1 px-2 text-xs        
+                  sm:py-2 sm:px-4 sm:text-sm 
+                  md:py-3 md:px-6 md:text-base 
                   transition-all duration-300
                   shadow-md hover:shadow-lg
                 "
