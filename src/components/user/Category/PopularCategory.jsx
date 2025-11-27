@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import laptop from "../../../Images/Gemini_Generated_laptop.png";
-import smartphone from "../../../Images/Gemini_Generated_Image_smartphone.png";
+import smartphone from "../../../Images/smartphone.png"
 import printer from "../../../Images/Gemini_Generated_Image_printer.png";
 import tablet from "../../../Images/Gemini_Generated_Image_tablet.png";
 
