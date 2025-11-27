@@ -12,6 +12,20 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Function to split array into n chunks as evenly as possible
+  const chunkArray = (arr, n) => {
+    const chunks = [];
+    const chunkSize = Math.floor(arr.length / n);
+    const remainder = arr.length % n;
+    let start = 0;
+    for (let i = 0; i < n; i++) {
+      const end = start + (chunkSize + (i < remainder ? 1 : 0));
+      chunks.push(arr.slice(start, end));
+      start = end;
+    }
+    return chunks;
+  };
+
   useEffect(() => {
     const fetchCarouselData = async () => {
       try {
@@ -64,23 +78,17 @@ function Home() {
   // Sort by order (if present)
   const sortedData = [...carouselData].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
-  // Split into 3 groups (left large + right top + right bottom)
-  const totalCarousels = 3;
-  const chunkSize = Math.ceil(sortedData.length / totalCarousels);
-  const groups = [];
+  // Split into 5 unique groups for all carousels (non-overlapping, evenly distributed)
+  const totalCarousels = 5;
+  const groups = chunkArray(sortedData, totalCarousels);
 
-  for (let i = 0; i < totalCarousels; i++) {
-    const start = i * chunkSize;
-    const end = start + chunkSize;
-    const group = sortedData.slice(start, end);
-    if (group.length > 0) groups.push(group);
-  }
-
-  console.log("Carousel groups (3):", groups);
+  console.log("Carousel groups (5):", groups.map(g => g.length));
 
   const leftLargeData = groups[0] || [];
   const rightTopData = groups[1] || [];
   const rightBottomData = groups[2] || [];
+  const leftBottomData = groups[3] || [];
+  const rightBottomDataNew = groups[4] || [];
 
   return (
     <div>
@@ -140,6 +148,35 @@ function Home() {
       {/* PopularCategory — WRAP: Same for category section */}
       <div className="overflow-hidden">
         <PopularCategory />
+      </div>
+
+      {/* Bottom side-by-side carousels: flex-row for side-by-side layout on all screens including mobile */}
+      <div className="flex flex-row gap-2 p-4 md:p-8 overflow-hidden">
+        <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[250px] overflow-hidden relative">
+          {leftBottomData.length > 0 && (
+            <ReusableCarousel
+              data={leftBottomData}
+              slidesPerView={1}
+              speed={500}
+              autoplayDelay={leftBottomData.length > 1 ? 4000 : 0}
+              width="100%"
+              height="100%"
+            />
+          )}
+        </div>
+
+        <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[250px] overflow-hidden relative">
+          {rightBottomDataNew.length > 0 && (
+            <ReusableCarousel
+              data={rightBottomDataNew}
+              slidesPerView={1}
+              speed={500}
+              autoplayDelay={rightBottomDataNew.length > 1 ? 4000 : 0}
+              width="100%"
+              height="100%"
+            />
+          )}
+        </div>
       </div>
 
       {/* Footer */}

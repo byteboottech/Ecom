@@ -62,7 +62,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
     height: '100%',
     overflow: 'hidden',
     position: 'relative',
-    borderRadius: '8px',
+    // borderRadius: '8px', // 👈 Already removed for square edges (slides)
   };
 
   return (
@@ -108,7 +108,6 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
                   py-1 px-3 text-xs        /* Mobile: smaller button */
                   sm:py-2 sm:px-4 sm:text-sm /* Tablet: medium */
                   md:py-3 md:px-6 md:text-base /* Desktop: large */
-                  rounded-lg 
                   transition-all duration-300
                   shadow-md hover:shadow-lg
                 "
