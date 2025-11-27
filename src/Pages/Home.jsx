@@ -151,33 +151,34 @@ function Home() {
       </div>
 
       {/* Bottom side-by-side carousels: flex-row for side-by-side layout on all screens including mobile */}
-      <div className="flex flex-row gap-2 p-4 md:p-8 overflow-hidden">
-        <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[250px] overflow-hidden relative">
-          {leftBottomData.length > 0 && (
-            <ReusableCarousel
-              data={leftBottomData}
-              slidesPerView={1}
-              speed={500}
-              autoplayDelay={leftBottomData.length > 1 ? 4000 : 0}
-              width="100%"
-              height="100%"
-            />
-          )}
-        </div>
+   <div className="flex flex-row gap-2 p-4 md:p-8 overflow-hidden">
+  <div className="flex-1 min-w-0 aspect-video overflow-hidden relative">
+    {leftBottomData.length > 0 && (
+      <ReusableCarousel
+        data={leftBottomData}
+        slidesPerView={1}
+        speed={500}
+        autoplayDelay={leftBottomData.length > 1 ? 4000 : 0}
+        width="100%"
+        height="100%"
+      />
+    )}
+  </div>
 
-        <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[250px] overflow-hidden relative">
-          {rightBottomDataNew.length > 0 && (
-            <ReusableCarousel
-              data={rightBottomDataNew}
-              slidesPerView={1}
-              speed={500}
-              autoplayDelay={rightBottomDataNew.length > 1 ? 4000 : 0}
-              width="100%"
-              height="100%"
-            />
-          )}
-        </div>
-      </div>
+  <div className="flex-1 min-w-0 aspect-video overflow-hidden relative">
+    {rightBottomDataNew.length > 0 && (
+      <ReusableCarousel
+        data={rightBottomDataNew}
+        slidesPerView={1}
+        speed={500}
+        autoplayDelay={rightBottomDataNew.length > 1 ? 4000 : 0}
+        width="100%"
+        height="100%"
+      />
+    )}
+  </div>
+</div>
+
 
       {/* Footer */}
       <Footer />

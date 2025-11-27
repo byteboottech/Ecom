@@ -98,14 +98,14 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
 
             <div className="absolute inset-0 bg-black bg-opacity-40 z-10" />
 
-            <div className="absolute bottom-0 right-0 z-20 p-6">
+            <div className="absolute bottom-0 right-0 z-20 p-2 sm:p-4 md:p-6"> {/* 👈 Reduced padding on mobile for tighter button placement */}
               <a
                 href={slide.button_link}
                 className="
                   inline-block 
                   bg-red-500 hover:bg-red-600 
                   text-white font-bold 
-                  py-1 px-3 text-xs        /* Mobile: smaller button */
+                  py-1 px-2 text-xs        /* Mobile: even smaller padding and text */
                   sm:py-2 sm:px-4 sm:text-sm /* Tablet: medium */
                   md:py-3 md:px-6 md:text-base /* Desktop: large */
                   transition-all duration-300
