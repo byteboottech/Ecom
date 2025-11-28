@@ -80,25 +80,31 @@ export const verifyOtp = async (email, otp, setToken, setIsAdmin) => {
 
     console.log(response.data, "response from verifyOtp");
 
-    console.log(response.data.is_admin, "admin");
+    // NEW: Use role instead of is_admin (fixes backend mismatch)
+    const adminRole = response.data.role === "admin";  // True if role is "admin"
+    console.log(response.data.is_admin, "old is_admin (ignore) | New admin from role:", adminRole);
+
     if (response?.data?.access) {
       let token = response.data.access;
-      let admin = response.data.is_admin;
-      setIsAdmin(response.data.is_admin);
-      // Set the token using setToken from context
+      
+      // Set token (unchanged)
       if (typeof setToken === "function") {
         setToken(token);
       } else {
         console.warn("setToken is not a function");
       }
 
-      // Encrypt the token before storing it
+      // Encrypt and store (unchanged)
       const encryptedToken = CryptoJS.AES.encrypt(token, SECRET_KEY).toString();
-
-      // Store the encrypted token in localStorage
       localStorage.setItem("token", encryptedToken);
 
-      return { data: true, admin };
+      // FIXED RETURN: Send role instead of is_admin + full data for flexibility
+      return { 
+        data: true, 
+        admin: adminRole,  // Now based on role (true for admin)
+        role: response.data.role,  // Direct role string
+        fullData: response.data  // Full backend (tokens, user info)
+      };
     } else {
       console.error("No access token in response data");
       return false;
@@ -111,6 +117,7 @@ export const verifyOtp = async (email, otp, setToken, setIsAdmin) => {
     return false;
   }
 };
+
 export const decryptToken = () => {
   try {
     const encryptedToken = localStorage.getItem("token");

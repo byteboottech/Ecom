@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 // import { jwtDecode } from "jwt-decode";
 // import axios from "axios";
-import { googleAuth } from "../../../Services/userApi";
+import { googleAuth, getUserInfo } from "../../../Services/userApi";
 import { useAuth } from "../../../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 const GoogleLoginComponent = ({ onLoginSuccess }) => {
@@ -21,6 +21,7 @@ const GoogleLoginComponent = ({ onLoginSuccess }) => {
       // credentialResponse.credential is the JWT token
       const token = credentialResponse.credential;
       const response = await googleAuth(token);
+      console.log("response of google login:", response);
       
       // Handle the response from your backend
       const data = response.data;
@@ -37,9 +38,29 @@ const GoogleLoginComponent = ({ onLoginSuccess }) => {
       if (onLoginSuccess) {
         onLoginSuccess(data);
       }
-      
-      // Navigate to home page
-      navigate("/");
+
+      // NEW: Fetch user info to get role (since googleAuth may not include it)
+      try {
+        const userInfoResponse = await getUserInfo(data.access); // Pass access token to getUserInfo
+        const userData = userInfoResponse.data;
+        console.log("User info from getUserInfo:", userData);
+        
+        // Check role for admin redirect
+        const userRole = userData.role?.toLowerCase().trim();
+        setTimeout(() => { // Brief delay for UX
+          if (userRole === "admin") {
+            navigate("/admin/dashboard");
+          } else {
+            navigate("/");
+          }
+        }, 1000);
+      } catch (userInfoError) {
+        console.error("Error fetching user info:", userInfoError);
+        // Fallback: Redirect to home if user info fetch fails
+        setTimeout(() => {
+          navigate("/");
+        }, 1000);
+      }
       
     } catch (error) {
       console.error("Error during Google authentication:", error);
@@ -50,7 +71,7 @@ const GoogleLoginComponent = ({ onLoginSuccess }) => {
         setAlertMessage("This account is inactive. Please contact administrator.");
       } else {
         setAlertType('error');
-        setAlertMessage(error.response?.data?.error || "Authentication failed.This account is inactive Please contact administrator");
+        setAlertMessage(error.response?.data?.error || "Authentication failed. This account is inactive. Please contact administrator.");
       }
     }
   };

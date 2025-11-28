@@ -87,7 +87,7 @@ function Sorting({ setProducts }) {
 
   return (
     <div className={`rounded-lg shadow-sm border border-gray-200 p-4 my-6 transition-all duration-700 ease-out ${animateIn ? 'opacity-100' : 'opacity-0 translate-y-4'}`}>
-      {/* Font import for Rajdhani */}
+      {/* Font import for  */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
         
