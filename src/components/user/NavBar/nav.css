@@ -1,4 +1,4 @@
-/* Modern Navbar Styles - MDComputers Inspired */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 .announcement-bar {
   background: linear-gradient(135deg, #ff4444, #ff6b6b);
@@ -24,6 +24,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  font-family: 'Poppins', sans-serif;
 }
 
 .modern-navbar.scrolled {
@@ -63,8 +64,12 @@
   position: relative;
 }
 
+.maxtreo {
+  font-family: 'Poppins', sans-serif;
+}
+
 .logo {
-  height: 40px;
+  height: 60px;
   width: auto;
   transition: height 0.3s ease;
 }

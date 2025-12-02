@@ -22,7 +22,8 @@ import { getAllProduct } from "../../../Services/Products";
 // import NavBarMenu from "./NavBarMenu";
 import { Link, useLocation } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
-import metrix_logo from '../../../Images/maxtreobgremoved.png';
+// import metrix_logo from '../../../Images/maxtreobgremoved.png';
+import maxtreoLogo from '../../../Images/maxreo_yellow_imag_generated.png'
 import Login from "../../user/Login/Login"; 
 
 const ModernNavbar = () => {
@@ -370,14 +371,14 @@ const ModernNavbar = () => {
           {/* Logo - Left */}
           <div className="logo-section">
             <Link to="/">
-              <img src={metrix_logo} alt="Metrix Logo" className="logo" />
+              <img src={maxtreoLogo} alt="Metrix Logo" className="logo" />
             </Link>
               <div>
-                <h1 className="text-2xl ">Maxtreo</h1>
+                <h1 className="maxtreo">Maxtreo</h1>
               </div>
               {!isMobile && (
 
-<div 
+    <div 
   className="dropdown-container"
 >
   <button

@@ -1,17 +1,4 @@
-/* Custom font */
-@font-face {
-  font-family: "Awanzman";
-  src: url("./fonts/AwanZaman Regular.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
 
-/* Use your font globally */
-body {
-  font-family: "Awanzman", sans-serif;
-}
-
-/* App logo animation */
 .App-logo {
   height: 40vmin;
   pointer-events: none;
