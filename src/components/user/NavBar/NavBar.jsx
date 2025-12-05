@@ -23,7 +23,7 @@ import { getAllProduct } from "../../../Services/Products";
 import { Link, useLocation } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 // import metrix_logo from '../../../Images/maxtreobgremoved.png';
-import maxtreoLogo from '../../../Images/maxreo_yellow_imag_generated.png'
+import maxtreoLogo from '../../../Images/maxtreo-refined-logo.png'
 import Login from "../../user/Login/Login"; 
 
 const ModernNavbar = () => {
@@ -373,9 +373,9 @@ const ModernNavbar = () => {
             <Link to="/">
               <img src={maxtreoLogo} alt="Metrix Logo" className="logo" />
             </Link>
-              <div>
+              {/* <div>
                 <h1 className="maxtreo">Maxtreo</h1>
-              </div>
+              </div> */}
               {!isMobile && (
 
     <div 
