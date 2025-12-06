@@ -21,10 +21,10 @@ import {
   ChevronRight
 } from 'lucide-react';
 import MapIframe from "./MapIframe";
-import  UPI  from "../../../Images/upi.png"
-import  Visa  from "../../../Images/visa-3.png"
-import  MasterCard  from "../../../Images/mastercard.png"
-import  RuPay  from "../../../Images/rupay.png"
+import  UPI  from "../../../Images/new-upi-removebg-preview.png"
+import  Visa  from "../../../Images/new visa.png"
+import  MasterCard  from "../../../Images/mastercard-new.png"
+import  RuPay  from "../../../Images/new-rupay-removebg-preview.png"
 import  Bank  from "../../../Images/bank.png"
 
 const MaxtreoFooter = () => {
@@ -199,61 +199,28 @@ const MaxtreoFooter = () => {
               <CreditCard className="h-4 w-4 lg:h-5 lg:w-5" />
               <span>Payment System:</span>
             </h4>
-            <div className="flex space-x-2 lg:space-x-3">
-  <div
-    className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center"
-    title="UPI"
-  >
-    <img
-      src={UPI}
-      alt="UPI"
-      className="h-4 w-4 lg:h-5 lg:w-5 object-contain"
-    />
+<div className="flex space-x-2 lg:space-x-3">
+  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="UPI">
+    <img src={UPI} alt="UPI" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 
-  <div
-    className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center"
-    title="Visa"
-  >
-    <img
-      src={Visa}
-      alt="Visa"
-      className="h-4 w-4 lg:h-5 lg:w-5 object-contain"
-    />
+  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="Visa">
+    <img src={Visa} alt="Visa" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 
-  <div
-    className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center"
-    title="RuPay"
-  >
-    <img
-      src={RuPay}
-      alt="RuPay"
-      className="h-4 w-4 lg:h-5 lg:w-5 object-contain"
-    />
+  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="RuPay">
+    <img src={RuPay} alt="RuPay" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 
-  <div
-    className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center"
-    title="master-card"
-  >
-    <img
-      src={MasterCard}
-      alt="master-card"
-      className="h-4 w-4 lg:h-5 lg:w-5 object-contain"
-    />
+  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="master-card">
+    <img src={MasterCard} alt="master-card" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
-    <div
-    className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center"
-    title="Bank"
-  >
-    <img
-      src={Bank}
-      alt="Bank"
-      className="h-4 w-4 lg:h-5 lg:w-5 object-contain"
-    />
+
+  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="Bank">
+    <img src={Bank} alt="Bank" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 </div>
+
       
           </div>
 
