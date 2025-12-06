@@ -187,7 +187,7 @@ function ProductHighlights() {
       <div className="w-full max-w-7xl mx-auto px-4">
         {/* Section Header - Clean & Bold */}
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-extrabold text-gray-900 font-[Rajdhani]">
+          <h2 className="text-3xl font-extrabold text-gray-900 font-Roboto">
             Best Sellers
           </h2>
           <button 
@@ -241,12 +241,12 @@ function ProductHighlights() {
                     {/* Product Content - Responsive padding and text sizes, flex to align button at bottom */}
                     <div className="flex-1 flex flex-col justify-between p-3 lg:p-5">
                       <div>
-                        <h2 className="font-[Rajdhani] text-base lg:text-xl font-bold mb-3 lg:mb-4 line-clamp-2 leading-tight text-gray-900 text-center">
+                        <h2 className="font-Roboto text-base lg:text-xl font-bold mb-3 lg:mb-4 line-clamp-2 leading-tight text-gray-900 text-center">
                           {product.name}
                         </h2>
 
                         <div className="flex items-center justify-center gap-1.5 lg:gap-2 mb-3 lg:mb-4">
-                          <span className="text-sm lg:text-base font-bold font-[Rajdhani] text-gray-900 whitespace-nowrap">
+                          <span className="text-sm lg:text-base font-bold font-Roboto text-gray-900 whitespace-nowrap">
                             ₹{product.price?.toLocaleString()}
                           </span>
                           <span className="text-xs lg:text-sm line-through text-gray-400 whitespace-nowrap">
@@ -259,7 +259,7 @@ function ProductHighlights() {
                       <button 
                         onClick={(e) => addTocart(product.id, e)}
                         disabled={addingToCart === product.id}
-                        className={`w-full py-1.5 lg:py-2 flex items-center justify-center gap-1 lg:gap-2 text-xs lg:text-base font-[Rajdhani] font-bold transition-all duration-300 ${
+                        className={`w-full py-1.5 lg:py-2 flex items-center justify-center gap-1 lg:gap-2 text-xs lg:text-base font-Roboto font-bold transition-all duration-300 ${
                           addingToCart === product.id
                             ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                             : 'bg-black text-white hover:bg-gray-800'

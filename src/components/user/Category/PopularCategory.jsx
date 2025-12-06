@@ -15,7 +15,7 @@ function PopularCategory() {
 
   return (
     <div className="py-5 lg:py-8 max-w-7xl mx-auto px-4 lg:px-0">
-      <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 font-[Rajdhani] mb-6 lg:mb-8 text-left">
+      <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 font-Roboto mb-6 lg:mb-8 text-left">
         Popular Category
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">

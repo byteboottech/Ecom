@@ -5,6 +5,12 @@ module.exports = {
     'whitespace-normal', 'whitespace-nowrap', 'break-words', 'overflow-wrap-anywhere',
     { pattern: /(sm|md|lg|xl):(whitespace-(normal|nowrap)|break-(words|normal|all))/ }
   ],
-  theme: { extend: {} },
+  theme: {
+    extend: {
+      fontFamily: {
+        roboto: ["Roboto", "sans-serif"],
+      },
+    },
+  },
   plugins: [],
 };

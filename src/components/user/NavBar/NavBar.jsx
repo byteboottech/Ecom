@@ -1,5 +1,16 @@
 // Updated Parent Component: ModernNavbar.jsx
 // Navigation path changed to "/categoryproductlist" with query params for category.
+// Removed client-side search functionality with dropdown results.
+// Changes:
+// - Moved hamburger menu button to left side (inside logo-section, only visible on mobile) for sidebar opening from left.
+// - Categories dropdown icon remains on left next to logo on desktop.
+// - Sidebar position set to "left" (assumes SideBar component handles left slide-in).
+// - Ensured navbar attractiveness with previous enhancements.
+// Fixes:
+// 1. Hamburger icon now visible on all screens (desktop and mobile) for consistent sidebar access.
+// 2. Sidebar prop position="left" retained; assumes SideBar component implements left-side slide-in (no changes needed here if SideBar uses the prop correctly).
+// 3. Search bar now visible and responsive on mobile: stacked layout with horizontal scrollable categories above full-width search.
+// Additional Fix: On mobile, conditionally render only the full-width search bar (hide left-categories entirely via JSX condition for better performance/responsiveness).
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
@@ -12,7 +23,8 @@ import {
   FaInstagram,
   FaYoutube,
   FaChevronUp,
-  FaTimes
+  FaTimes,
+  FaSearch
 } from "react-icons/fa";
 import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
@@ -20,14 +32,14 @@ import { useAuth } from "../../../Context/UserContext";
 import { getCategory } from "../../../Services/Settings";
 import { getAllProduct } from "../../../Services/Products";
 // import NavBarMenu from "./NavBarMenu";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 // import metrix_logo from '../../../Images/maxtreobgremoved.png';
 import maxtreoLogo from '../../../Images/maxtreo-refined-logo.png'
 import Login from "../../user/Login/Login"; 
 
 const ModernNavbar = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
   // const [lastScroll, setLastScroll] = useState(0);
   // const [navbarHidden, setNavbarHidden] = useState(false);
@@ -35,6 +47,7 @@ const ModernNavbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
+  const [hoveredSearchCategory, setHoveredSearchCategory] = useState(null);
   const [dropdownScroll, setDropdownScroll] = useState({
     top: true,
     bottom: false,
@@ -42,7 +55,8 @@ const ModernNavbar = () => {
   const [syncingCart, setSyncingCart] = useState(false);
   const [cartSyncStatus, setCartSyncStatus] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  // const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
   
   const { user } = useAuth();
   const dropdownRef = useRef(null);
@@ -152,7 +166,13 @@ const ModernNavbar = () => {
   useEffect(() => {
     setActiveDropdown(null);
     setHoveredCategory(null);
+    setHoveredSearchCategory(null);
   }, [location.pathname]);
+
+  // Clear search on blur or escape
+  const handleSearchClear = () => {
+    setSearchQuery("");
+  };
 
   const getProductDropDownList = async () => {
     try {
@@ -195,9 +215,10 @@ const ModernNavbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest(".dropdown-container")) {
+      if (!event.target.closest(".dropdown-container") && !event.target.closest(".search-category-dropdown")) {
         setActiveDropdown(null);
         setHoveredCategory(null);
+        setHoveredSearchCategory(null);
       }
     };
 
@@ -246,13 +267,27 @@ const ModernNavbar = () => {
     }
   };
 
-  // const handleSearch = (e) => {
-  //   e.preventDefault();
-  //   if (searchQuery.trim()) {
-  //     navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-  //     setSearchQuery("");
-  //   }
-  // };
+  const handleSearchCategoryHover = (catId) => {
+    setHoveredSearchCategory(catId);
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      const params = new URLSearchParams({ q: searchQuery });
+      if (selectedCategory !== "all") {
+        params.append('category', selectedCategory);
+      }
+      navigate(`/search?${params.toString()}`);
+      setSearchQuery(""); // Clear input
+    }
+  };
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
+
+  const firstFourCategories = productsItems.slice(0, 4);
 
  
 
@@ -278,6 +313,114 @@ const ModernNavbar = () => {
   const closeLoginModal = () => {
     setShowLoginModal(false);
     document.body.style.overflow = "auto"; // Restore body scroll
+  };
+
+  const renderCategoryDropdown = (category) => {
+    const catProducts = allProducts.filter((p) => p.category === category.name).slice(0, 6);
+    return (
+      <div className={`search-category-dropdown ${hoveredSearchCategory === category.id ? 'active' : ''}`} key={category.id} style={{ position: 'relative' }}>
+        <Link
+          to={`/categoryproductlist?categoryId=${category.id}&categoryName=${encodeURIComponent(category.name)}`}
+          className="search-category-trigger"
+          onMouseEnter={() => handleSearchCategoryHover(category.id)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px',
+            background: 'none',
+            border: 'none',
+            padding: '8px 16px',
+            cursor: 'pointer',
+            fontSize: '14px',
+            whiteSpace: 'nowrap',
+            textDecoration: 'none',
+            color: '#333',
+            fontWeight: '500',
+            borderRadius: '4px',
+            transition: 'background-color 0.2s'
+          }}
+          onMouseOver={(e) => e.target.style.backgroundColor = '#f5f5f5'}
+          onMouseOut={(e) => e.target.style.backgroundColor = 'transparent'}
+        >
+          {category.name}
+          <FaChevronDown className="dropdown-icon-small" style={{ fontSize: '10px' }} />
+        </Link>
+        {hoveredSearchCategory === category.id && (
+          <div 
+            className="search-category-menu" 
+            style={{ 
+              position: 'absolute', 
+              top: '100%', 
+              left: '-50%', // Adjust to center or full width as needed
+              zIndex: 1000, 
+              background: 'white', 
+              border: '1px solid #e0e0e0', 
+              boxShadow: '0 8px 25px rgba(0,0,0,0.15)', 
+              minWidth: '400px',
+              padding: '20px',
+              borderRadius: '8px',
+              maxHeight: '400px',
+              overflow: 'hidden'
+            }}
+          >
+            <div className="category-products-section" style={{ display: 'flex', flexDirection: 'column' }}>
+              <h4 style={{ 
+                margin: '0 0 15px 0', 
+                fontSize: '18px', 
+                color: '#333', 
+                fontWeight: '600',
+                paddingBottom: '10px',
+                borderBottom: '1px solid #f0f0f0'
+              }}>
+                {category.name} Products
+              </h4>
+              {catProducts.length > 0 ? (
+                <div className="product-grid" style={{ 
+                  display: 'grid', 
+                  gridTemplateColumns: 'repeat(3, 1fr)', 
+                  gap: '12px',
+                  width: '100%'
+                }}>
+                  {catProducts.map((product, idx) => (
+                    <Link 
+                      key={idx} 
+                      to={`/product/${product.id}`} 
+                      className="product-item"
+                      style={{
+                        textDecoration: 'none',
+                        color: '#555',
+                        padding: '10px',
+                        border: '1px solid #f0f0f0',
+                        borderRadius: '6px',
+                        transition: 'all 0.2s ease',
+                        fontSize: '13px',
+                        lineHeight: '1.4',
+                        textAlign: 'center',
+                        backgroundColor: 'white'
+                      }}
+                      onMouseOver={(e) => {
+                        e.target.style.backgroundColor = '#f8f9fa';
+                        e.target.style.borderColor = '#ddd';
+                        e.target.style.transform = 'translateY(-1px)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.target.style.backgroundColor = 'white';
+                        e.target.style.borderColor = '#f0f0f0';
+                        e.target.style.transform = 'none';
+                      }}
+                    >
+                      {product.name}
+                    </Link>
+                  ))}
+                </div>
+              ) : (
+                <div style={{ padding: '20px', color: '#999', textAlign: 'center' }}>No products available</div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -365,180 +508,183 @@ const ModernNavbar = () => {
       {/* Top Announcement Bar */}
      
 
-      {/* Main Navigation */}
-      <nav className={`modern-navbar ${scrolled ? "scrolled" : ""}`}>
-        <div className="nav-container">
-          {/* Logo - Left */}
-          <div className="logo-section">
-            <Link to="/">
-              <img src={maxtreoLogo} alt="Metrix Logo" className="logo" />
-            </Link>
-              {/* <div>
-                <h1 className="maxtreo">Maxtreo</h1>
-              </div> */}
-              {!isMobile && (
-
-    <div 
-  className="dropdown-container"
->
-  <button
-    className="category-dropdown-trigger"
-    onClick={() => handleDropdownToggle("categories")}
-    onMouseEnter={() => setActiveDropdown("categories")}
-  >
-    <FaBars className="categories-icon" />
-    All Categories
-    <FaChevronDown className="dropdown-icon" />
-  </button>
-  <div
-    className={`categories-dropdown ${
-      activeDropdown === "categories" ? "active" : ""
-    } ${hoveredCategory ? "expanded" : ""}`}
-    onMouseLeave={() => {
-      setActiveDropdown(null);
-      setHoveredCategory(null);
-    }}
-  >
-    <div className="dropdown-wrapper">
-      {!dropdownScroll.top && (
-        <button
-          className="scroll-indicator scroll-up"
-          onClick={() => scrollDropdown("up")}
-        >
-          <FaChevronUp />
-        </button>
-      )}
-      <div
-        className="dropdown-content mega-dropdown"
-        ref={dropdownRef}
-        onScroll={handleDropdownScroll}
-        style={{ display: 'flex', flexDirection: 'row', height: '100%' }}
+      {/* Main Navigation - Enhanced for attractiveness */}
+      <nav 
+        className={`modern-navbar ${scrolled ? "scrolled" : ""}`}
+        style={{
+          background: scrolled 
+            ? 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' 
+            : 'transparent',
+          boxShadow: scrolled 
+            ? '0 4px 20px rgba(0, 0, 0, 0.1)' 
+            : 'none',
+          backdropFilter: scrolled ? 'blur(10px)' : 'none',
+          transition: 'all 0.3s ease',
+          borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.2)' : 'none'
+        }}
       >
-        <div 
-          className={`left-column ${hoveredCategory ? 'has-hover' : ''}`}
-          style={{ 
-            minWidth: '200px',
-            borderRight: hoveredCategory ? '1px solid #eee' : 'none'
-          }}
-        >
-          {Array.isArray(productsItems) && productsItems.length > 0 ? (
-            productsItems.map((item, index) => (
-              <div
-                key={index}
-                className={`dropdown-item-wrapper ${hoveredCategory === item.id ? 'active' : ''}`}
-                onMouseEnter={() => setHoveredCategory(item.id)}
-                onMouseLeave={() => setHoveredCategory(null)}
-              >
-                <Link
-                  to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`}
-                  className="dropdown-item"
+        <div className="nav-container">
+          {/* Logo Section - Hamburger on left for all screens */}
+          <div className="logo-section">
+            {/* Hamburger - Now visible on all screens */}
+            <button className="menu-btn" onClick={openSidebar}>
+              <FaBars />
+            </button>
+            <Link 
+              to="/" 
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center',
+                transition: 'transform 0.2s ease'
+              }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+            >
+              <img src={maxtreoLogo} alt="Maxtreo Logo" className="logo" />
+            </Link>
+            {/* Desktop Categories Dropdown - Next to logo */}
+            {!isMobile && (
+              <div className="dropdown-container">
+                <button
+                  className="category-dropdown-trigger"
+                  onClick={() => handleDropdownToggle("categories")}
+                  onMouseEnter={() => setActiveDropdown("categories")}
                 >
-                  {item.name}
-                </Link>
-              </div>
-            ))
-          ) : (
-            <div className="loading-placeholder">Loading categories...</div>
-          )}
-        </div>
-        <div 
-          className={`right-column sub-dropdown separate-box ${hoveredCategory ? 'show' : ''}`}
-          style={{ 
-            display: hoveredCategory ? 'block' : 'none'
-          }}
-          onMouseEnter={() => {
-            // Keep the current hovered category active when mouse enters products section
-          }}
-        >
-          {(() => {
-            const selectedCat = productsItems.find((cat) => cat.id === hoveredCategory);
-            if (selectedCat) {
-              const catProducts = allProducts
-                .filter((p) => p.category === selectedCat.name)
-                .slice(0, 6);
-              if (catProducts.length > 0) {
-                return (
-                  <div className="products-box">
-                    <h4 style={{ marginBottom: '15px', fontSize: '18px', color: '#333' }}>
-                      {selectedCat.name} Products
-                    </h4>
-                    <div className="product-grid" style={{ 
-                      display: 'grid', 
-                      gridTemplateColumns: 'repeat(2, 1fr)', 
-                      gap: '12px' 
-                    }}>
-                      {catProducts.map((product, idx) => (
-                        <Link 
-                          key={idx} 
-                          to={`/product/${product.id}`} 
-                          className="product-item"
-                          style={{
-                            textDecoration: 'none',
-                            color: '#555',
-                            padding: '10px 12px',
-                            border: '1px solid #eee',
-                            borderRadius: '4px',
-                            transition: 'all 0.2s',
-                            fontSize: '14px',
-                            lineHeight: '1.4'
-                          }}
-                        >
-                          {product.name}
-                        </Link>
-                      ))}
+                  <FaBars className="categories-icon" />
+                  All Categories
+                  <FaChevronDown className="dropdown-icon" />
+                </button>
+                <div
+                  className={`categories-dropdown ${
+                    activeDropdown === "categories" ? "active" : ""
+                  } ${hoveredCategory ? "expanded" : ""}`}
+                  onMouseLeave={() => {
+                    setActiveDropdown(null);
+                    setHoveredCategory(null);
+                  }}
+                >
+                  <div className="dropdown-wrapper">
+                    {!dropdownScroll.top && (
+                      <button
+                        className="scroll-indicator scroll-up"
+                        onClick={() => scrollDropdown("up")}
+                      >
+                        <FaChevronUp />
+                      </button>
+                    )}
+                    <div
+                      className="dropdown-content mega-dropdown"
+                      ref={dropdownRef}
+                      onScroll={handleDropdownScroll}
+                      style={{ display: 'flex', flexDirection: 'row', height: '100%' }}
+                    >
+                      <div 
+                        className={`left-column ${hoveredCategory ? 'has-hover' : ''}`}
+                        style={{ 
+                          minWidth: '200px',
+                          borderRight: hoveredCategory ? '1px solid #eee' : 'none'
+                        }}
+                      >
+                        {Array.isArray(productsItems) && productsItems.length > 0 ? (
+                          productsItems.map((item, index) => (
+                            <div
+                              key={index}
+                              className={`dropdown-item-wrapper ${hoveredCategory === item.id ? 'active' : ''}`}
+                              onMouseEnter={() => setHoveredCategory(item.id)}
+                              onMouseLeave={() => setHoveredCategory(null)}
+                            >
+                              <Link
+                                to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`}
+                                className="dropdown-item"
+                              >
+                                {item.name}
+                              </Link>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="loading-placeholder">Loading categories...</div>
+                        )}
+                      </div>
+                      <div 
+                        className={`right-column sub-dropdown separate-box ${hoveredCategory ? 'show' : ''}`}
+                        style={{ 
+                          display: hoveredCategory ? 'block' : 'none'
+                        }}
+                        onMouseEnter={() => {
+                          // Keep the current hovered category active when mouse enters products section
+                        }}
+                      >
+                        {(() => {
+                          const selectedCat = productsItems.find((cat) => cat.id === hoveredCategory);
+                          if (selectedCat) {
+                            const catProducts = allProducts
+                              .filter((p) => p.category === selectedCat.name)
+                              .slice(0, 6);
+                            if (catProducts.length > 0) {
+                              return (
+                                <div className="products-box">
+                                  <h4 style={{ marginBottom: '15px', fontSize: '18px', color: '#333' }}>
+                                    {selectedCat.name} Products
+                                  </h4>
+                                  <div className="product-grid" style={{ 
+                                    display: 'grid', 
+                                    gridTemplateColumns: 'repeat(2, 1fr)', 
+                                    gap: '12px' 
+                                  }}>
+                                    {catProducts.map((product, idx) => (
+                                      <Link 
+                                        key={idx} 
+                                        to={`/product/${product.id}`} 
+                                        className="product-item"
+                                        style={{
+                                          textDecoration: 'none',
+                                          color: '#555',
+                                          padding: '10px 12px',
+                                          border: '1px solid #eee',
+                                          borderRadius: '4px',
+                                          transition: 'all 0.2s',
+                                          fontSize: '14px',
+                                          lineHeight: '1.4'
+                                        }}
+                                      >
+                                        {product.name}
+                                      </Link>
+                                    ))}
+                                  </div>
+                                </div>
+                              );
+                            } else {
+                              return (
+                                <div className="no-products" style={{ padding: '20px', color: '#999' }}>
+                                  No products available
+                                </div>
+                              );
+                            }
+                          } else {
+                            return (
+                              <div className="no-products" style={{ padding: '20px', color: '#999' }}>
+                                Hover over a category to see products
+                              </div>
+                            );
+                          }
+                        })()}
+                      </div>
                     </div>
+                    {!dropdownScroll.bottom && (
+                      <button
+                        className="scroll-indicator scroll-down"
+                        onClick={() => scrollDropdown("down")}
+                      >
+                        <FaChevronDown />
+                      </button>
+                    )}
                   </div>
-                );
-              } else {
-                return (
-                  <div className="no-products" style={{ padding: '20px', color: '#999' }}>
-                    No products available
-                  </div>
-                );
-              }
-            } else {
-              return (
-                <div className="no-products" style={{ padding: '20px', color: '#999' }}>
-                  Hover over a category to see products
                 </div>
-              );
-            }
-          })()}
-        </div>
-      </div>
-      {!dropdownScroll.bottom && (
-        <button
-          className="scroll-indicator scroll-down"
-          onClick={() => scrollDropdown("down")}
-        >
-          <FaChevronDown />
-        </button>
-      )}
-    </div>
-  </div>
-</div>
-              )}
-              
+              </div>
+            )}
           </div>
 
-
-          {/* Search Bar - Center */}
-          {/* <div className="search-section">
-            <form onSubmit={handleSearch} className="search-form">
-              <div className="search-input-container">
-                <input
-                  type="text"
-                  placeholder="Search products, brands, categories..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="search-input"
-                />
-                <button type="submit" className="search-button">
-                  <FaSearch className="search-icon" />
-                </button>
-              </div>
-            </form>
-          </div> */}
+          {/* Quick Links - Center */}
           {!isMobile && (
             <div>
               <div className="quick-links">
@@ -555,7 +701,7 @@ const ModernNavbar = () => {
             </div>
           )}
 
-          {/* User Actions - Right */}
+          {/* User Actions - Right (No hamburger here now) */}
           <div className="actions-section">
             <div className="action-items">
               {!isMobile && (
@@ -578,7 +724,7 @@ const ModernNavbar = () => {
                 </>
               )}
               
-              {/* Social Media Icons */}
+              {/* Social Media Icons - Desktop only */}
               {!isMobile && (
                 <div className="social-icons" style={{ display: 'flex', flexDirection: 'row', gap: '8px', alignItems: 'center' }}>
                   {socialMedia.map((social, index) => (
@@ -596,9 +742,12 @@ const ModernNavbar = () => {
                 </div>
               )}
                 
-              <button className="menu-btn" onClick={openSidebar}>
-                <FaBars />
-              </button>
+              {/* Mobile Cart Icon - Right side */}
+              {isMobile && (
+                <Link to="/cart" className="mobile-cart-icon">
+                  <FaShoppingCart className="action-icon" />
+                </Link>
+              )}
             </div>
           </div>
         </div>
@@ -621,7 +770,106 @@ const ModernNavbar = () => {
         </div> */}
       </nav>
 
-      <SideBar isOpen={isSidebarOpen} onClose={closeSidebar} />
+      {/* Search Bar Under Navbar - Less Rounded */}
+      <div className="search-bar-section attractive-search">
+        <div className="search-wrapper" style={{ 
+          display: 'flex', 
+          flexDirection: 'row', 
+          alignItems: 'center', 
+          justifyContent: 'space-between', 
+          padding: '15px 20px', 
+          maxWidth: '1400px', // Full width increase
+          margin: '0 auto',
+          gap: '20px', // Increased space between elements
+          width: '100%'
+        }}>
+          {/* Left Categories - All Four Horizontal - Only on Desktop */}
+          {!isMobile && (
+            <div className="left-categories" style={{ 
+              display: 'flex', 
+              flexDirection: 'row', 
+              gap: '20px', // Space between each category
+              alignItems: 'center',
+              flexShrink: 0
+            }}>
+              {firstFourCategories.map((category) => renderCategoryDropdown(category))}
+            </div>
+          )}
+
+          {/* Center Search - Modern Design, Less Rounded */}
+          <div className="search-container" style={{ 
+            flex: 1, 
+            maxWidth: '600px', 
+            minWidth: '300px',
+            flexShrink: 0,
+            position: 'relative'
+          }}>
+            <form onSubmit={handleSearch} className="search-form" style={{ position: 'relative' }}>
+              <div 
+                className="search-input-container" 
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  backgroundColor: 'white',
+                  border: '2px solid #e0e0e0',
+                  borderRadius: '10px', // Reduced from 50px for less rounded appearance
+                  padding: '0 20px',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+                  transition: 'all 0.2s ease',
+                  overflow: 'hidden'
+                }}
+              >
+                <input
+                  type="text"
+                  placeholder="Search products, brands, categories..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={(e) => { 
+                    e.target.parentElement.style.borderColor = '#ddd'; 
+                    e.target.parentElement.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)'; 
+                  }}
+                  onBlur={(e) => { 
+                    e.target.parentElement.style.borderColor = '#e0e0e0'; 
+                    e.target.parentElement.style.boxShadow = '0 2px 10px rgba(0,0,0,0.08)'; 
+                  }}
+                  className="search-input"
+                  style={{
+                    flex: 1,
+                    border: 'none',
+                    outline: 'none',
+                    padding: '12px 0',
+                    fontSize: '16px',
+                    background: 'transparent'
+                  }}
+                />
+                <button 
+                  type="submit" 
+                  className="search-button"
+                  style={{
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#666',
+                    cursor: 'pointer',
+                    padding: '12px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'color 0.2s ease'
+                  }}
+                  onMouseOver={(e) => e.target.style.color = '#333'}
+                  onMouseOut={(e) => e.target.style.color = '#666'}
+                >
+                  <FaSearch className="search-icon" style={{ fontSize: '18px' }} />
+                </button>
+              </div>
+            </form>
+          </div>
+
+          {/* No Right Categories */}
+        </div>
+      </div>
+
+      <SideBar isOpen={isSidebarOpen} onClose={closeSidebar} position="left" />
     </>
   );
 };

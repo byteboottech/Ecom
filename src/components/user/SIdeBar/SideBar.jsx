@@ -11,7 +11,8 @@ import {
   FiMapPin,
   FiChevronDown,
   FiChevronRight,
-  FiGrid
+  FiGrid,
+  FiX
 } from "react-icons/fi";
 import metrixLogo from "../../../Images/maxtreobgremoved.png";
 import {
@@ -21,7 +22,7 @@ import {
 import { logout } from "../../../Services/userApi";
 import { getProductCategories } from "../../../Services/Settings";
 
-function SideBar({ isOpen, onClose }) {
+function SideBar({ isOpen, onClose, position = "right" }) {
   const { token, setToken, user } = useAuth();
   const navigate = useNavigate();
   const [productsItems, setProductsItems] = useState([]);
@@ -98,6 +99,9 @@ function SideBar({ isOpen, onClose }) {
     { name: "Shipping Policy", path: "/Shipping-Policy" },
   ];
 
+  const isLeft = position === "left";
+  const slideAnimation = isLeft ? "slideInLeft" : "slideInRight";
+
   return (
     <>
       {/* Overlay */}
@@ -110,21 +114,23 @@ function SideBar({ isOpen, onClose }) {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 right-0 z-[1999] h-screen w-full md:w-1/2 lg:w-[350px] bg-white/90 backdrop-blur-xl shadow-xl transition-transform duration-400 overflow-y-auto border-l border-gray-200 transform ${
-          isOpen ? "translate-x-0" : "translate-x-full"
+        className={`fixed top-0 z-[1999] h-screen w-full md:w-80 bg-white/90 backdrop-blur-xl shadow-xl transition-transform duration-400 overflow-y-auto ${
+          isLeft ? "left-0 border-r" : "right-0 border-l"
+        } border-gray-200 transform ${
+          isOpen ? "translate-x-0" : (isLeft ? "-translate-x-full" : "translate-x-full")
         }`}
         style={{ transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)" }}
       >
         <div className="flex flex-col h-full p-6 gap-2">
           {/* Header */}
           <div className="flex items-center justify-between mb-6 pt-4">
-          <Link to="/">
-            <img
-              src={metrixLogo}
-              alt="Metrix Logo"
-              className="h-10 w-auto object-contain cursor-pointer"
-            />
-          </Link>
+            <Link to="/">
+              <img
+                src={metrixLogo}
+                alt="Metrix Logo"
+                className="h-10 w-auto object-contain cursor-pointer"
+              />
+            </Link>
 
             <div className="flex items-center gap-2">
               {!token ? (
@@ -142,7 +148,7 @@ function SideBar({ isOpen, onClose }) {
                     className="flex items-center gap-1 py-1.5 px-3 bg-black text-white font-medium rounded-md border border-black hover:bg-gray-800 transition-all duration-300 text-sm"
                     onClick={() => {
                       onClose();
-                      navigate("/login");
+                      navigate("/register");
                     }}
                   >
                     <FiUserPlus size={12} /> Register
@@ -172,7 +178,7 @@ function SideBar({ isOpen, onClose }) {
                 className="w-7 h-7 flex items-center justify-center rounded-md text-black bg-white hover:bg-gray-100 transition-all duration-300"
                 onClick={onClose}
               >
-                <FiMenu size={18} />
+                <FiX size={18} />
               </button>
             </div>
           </div>
@@ -181,7 +187,7 @@ function SideBar({ isOpen, onClose }) {
           <div className="flex-1 overflow-y-auto">
             <ul className="flex flex-col gap-0.5 p-0 m-0">
               {token && (
-                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.1s" : "none" }}>
+                <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.1s` }}>
                   <Link
                     to="/profile"
                     onClick={onClose}
@@ -193,7 +199,7 @@ function SideBar({ isOpen, onClose }) {
                 </li>
               )}
 
-              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.1s" : "none" }}>
+              <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.1s` }}>
                 <Link
                   to="/cart"
                   onClick={onClose}
@@ -204,7 +210,7 @@ function SideBar({ isOpen, onClose }) {
                 </Link>
               </li>
 
-              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.2s" : "none" }}>
+              <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.2s` }}>
                 <Link
                   to="/products"
                   onClick={onClose}
@@ -216,7 +222,7 @@ function SideBar({ isOpen, onClose }) {
               </li>
 
               {/* All Categories - Expandable */}
-              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.3s" : "none" }}>
+              <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.3s` }}>
                 <div>
                   <button
                     onClick={() => toggleMenu("categories")}
@@ -257,7 +263,7 @@ function SideBar({ isOpen, onClose }) {
               </li>
 
               {token && (
-                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.4s" : "none" }}>
+                <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.4s` }}>
                   <Link
                     to="/myorder"
                     onClick={onClose}
@@ -270,7 +276,7 @@ function SideBar({ isOpen, onClose }) {
               )}
 
               {/* Support - Expandable */}
-              <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.5s" : "none" }}>
+              <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.5s` }}>
                 <div>
                   <button
                     onClick={() => toggleMenu("support")}
@@ -314,7 +320,7 @@ function SideBar({ isOpen, onClose }) {
               </li>
 
               {token && (
-                <li className="opacity-0 transform translate-x-5" style={{ animation: isOpen ? "slideInRight 0.4s ease forwards 0.6s" : "none" }}>
+                <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.6s` }}>
                   <button
                     onClick={handleLogout}
                     className="flex w-full items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
@@ -349,6 +355,10 @@ function SideBar({ isOpen, onClose }) {
         }
         @keyframes slideInRight {
           from { opacity: 0; transform: translateX(20px); }
+          to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInLeft {
+          from { opacity: 0; transform: translateX(-20px); }
           to { opacity: 1; transform: translateX(0); }
         }
       `}</style>

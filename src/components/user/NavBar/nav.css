@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap');
 
 .announcement-bar {
   background: linear-gradient(135deg, #ff4444, #ff6b6b);
@@ -24,7 +24,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .modern-navbar.scrolled {
@@ -54,7 +54,7 @@
   object-fit: contain;
 }
 
-/* Logo Section */
+/* Logo Section - Logo on left */
 .logo-section {
   display: flex;
   gap: 10px;
@@ -65,7 +65,7 @@
 }
 
 .maxtreo {
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .logo {
@@ -227,9 +227,9 @@
   transform: scale(1.1);
 }
 
-/* Menu Button - Always Visible */
+/* Menu Button - Now visible on all screens, positioned left */
 .menu-btn {
-  display: flex !important;
+  display: flex;
   align-items: center;
   justify-content: center;
   background: none;
@@ -706,6 +706,15 @@
     min-width: 700px; /* Adjusted expanded for tablet */
     max-width: 900px;
   }
+
+  /* Ensure spacing in logo-section and actions */
+  .logo-section {
+    gap: 8px;
+  }
+
+  .action-items {
+    gap: 10px; /* Reduced gap for mobile icons */
+  }
 }
 
 @media (max-width: 768px) {
@@ -777,6 +786,69 @@
     width: 60%;
     padding: 15px;
   }
+
+  /* Mobile cart icon and menu-btn styling */
+  .mobile-cart-icon,
+  .menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+    font-size: 18px; /* Slightly smaller for mobile */
+  }
+
+  .mobile-cart-icon:hover,
+  .menu-btn:hover {
+    background: #f8f9fa;
+  }
+
+  /* Search bar now visible on mobile - responsive stacked layout, only show search bar */
+  .search-bar-section.attractive-search {
+    display: block;
+  }
+
+  .search-wrapper {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 10px 15px;
+  }
+
+  /* Ensure left-categories hidden on mobile (backed by JSX condition) */
+  .left-categories {
+    display: none;
+  }
+
+  .search-container {
+    max-width: none;
+    min-width: auto;
+    flex: none;
+    width: 100%;
+  }
+
+  .search-input-container {
+    border-radius: 25px; /* Slightly more rounded for mobile touch */
+    padding: 0 16px;
+  }
+
+  .search-input {
+    font-size: 16px; /* Prevent zoom on iOS */
+  }
+
+  /* Adjust category triggers for mobile (though hidden) */
+  .search-category-trigger {
+    font-size: 13px;
+    padding: 6px 12px;
+    white-space: nowrap;
+    min-width: fit-content;
+  }
+
+  /* Hide submenus on mobile for simplicity (or adjust z-index if needed) */
+  .search-category-menu {
+    display: none; /* Optional: Hide complex submenus on mobile to save space */
+  }
 }
 
 @media (max-width: 480px) {
@@ -809,9 +881,14 @@
     height: 32px;
   }
 
-  .menu-btn {
-    font-size: 18px;
+  .menu-btn,
+  .mobile-cart-icon {
+    font-size: 16px;
     padding: 6px;
+  }
+
+  .action-items {
+    gap: 5px; /* Tight spacing for small screens */
   }
 
   .product-grid {
@@ -840,4 +917,184 @@
     flex-direction: column;
     max-height: 500px;
   }
+
+  /* Further mobile refinements for search */
+  .search-wrapper {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+
+  .search-category-trigger {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .search-input-container {
+    padding: 0 12px;
+  }
 }
+
+/* Additional styles for search bar section (attractive-search) */
+.search-bar-section.attractive-search {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.search-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 15px 20px;
+}
+
+.left-categories {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.search-container {
+  flex: 1;
+  max-width: 600px;
+  min-width: 300px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.search-form {
+  position: relative;
+}
+
+.search-input-container {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  padding: 0 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.search-input-container:focus-within {
+  border-color: #ddd;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 0;
+  font-size: 16px;
+  background: transparent;
+}
+
+.search-button {
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.search-button:hover {
+  color: #333;
+}
+
+.search-icon {
+  font-size: 18px;
+}
+
+/* Search category dropdown styles */
+.search-category-dropdown {
+  position: relative;
+}
+
+.search-category-trigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.search-category-trigger:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown-icon-small {
+  font-size: 10px;
+}
+
+.search-category-menu {
+  position: absolute;
+  top: 100%;
+  left: -50%;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  min-width: 400px;
+  padding: 20px;
+  border-radius: 8px;
+  max-height: 400px;
+  overflow: hidden;
+}
+
+.category-products-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-products-section h4 {
+  margin: 0 0 15px 0;
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  width: 100%;
+}
+
+.product-item {
+  text-decoration: none;
+  color: #555;
+  padding: 10px;
+  border: 1px solid #f0f0f0;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: center;
+  background-color: white;
+}
+
+.product-item:hover {
+  background-color: #f8f9fa;
+  border-color: #ddd;
+  transform: translateY(-1px);
+}
+
+/* Mobile Independent Categories - Simple list in sidebar or via hamburger, but for now, assume sidebar handles it */

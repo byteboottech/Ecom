@@ -245,7 +245,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
       <div className="w-full max-w-7xl mx-auto">
         {/* Dynamic Title Section */}
         <div className="text-center lg:text-left mb-6">
-          <h1 className="text-3xl lg:text-5xl font-bold font-[Rajdhani] tracking-tight text-gray-900 relative inline-block">
+          <h1 className="text-3xl lg:text-5xl font-bold font-Roboto tracking-tight text-gray-900 relative inline-block">
             {pageTitle}
           </h1>
           <p className="mt-3 text-base text-gray-600">
@@ -477,7 +477,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                   {/* Product Content - Responsive padding and text sizes, flex to align button at bottom */}
                   <div className="flex-1 flex flex-col justify-between p-3 lg:p-5">
                     <div>
-                      <h2 className="font-[Rajdhani] text-base lg:text-xl font-bold mb-3 lg:mb-4 line-clamp-2 leading-tight text-gray-900 text-center">
+                      <h2 className="font-Roboto text-base lg:text-xl font-bold mb-3 lg:mb-4 line-clamp-2 leading-tight text-gray-900 text-center">
                         {product.name}
                       </h2>
 
@@ -514,7 +514,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                       </div>
 
                       <div className="flex items-center justify-center gap-1.5 lg:gap-2 mb-3 lg:mb-4">
-                        <span className="text-sm lg:text-base font-bold font-[Rajdhani] text-gray-900 whitespace-nowrap">
+                        <span className="text-sm lg:text-base font-bold font-Roboto text-gray-900 whitespace-nowrap">
                           ₹{product.price?.toLocaleString()}
                         </span>
                         <span className="text-xs lg:text-sm line-through text-gray-400 whitespace-nowrap">
@@ -528,7 +528,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
                       <button 
                         onClick={(e) => addTocart(product.id, e)}
                         disabled={addingToCart === product.id}
-                        className={`flex-1 py-1.5 lg:py-2 flex items-center justify-center gap-1 lg:gap-2 text-xs lg:text-sm font-[Rajdhani] font-bold transition-all duration-300 ${
+                        className={`flex-1 py-1.5 lg:py-2 flex items-center justify-center gap-1 lg:gap-2 text-xs lg:text-sm font-Roboto font-bold transition-all duration-300 ${
                           addingToCart === product.id
                             ? 'bg-gray-300 text-gray-600 cursor-not-allowed'
                             : 'bg-black text-white hover:bg-gray-800'
@@ -551,7 +551,7 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
 
                       <button 
                         onClick={(e) => handleBuyNow(product, e)}
-                        className="flex-1 py-1.5 lg:py-2 text-xs lg:text-sm font-[Rajdhani] font-bold text-white flex items-center justify-center gap-1 lg:gap-2 bg-red-600 hover:bg-red-700 transition-all duration-300"
+                        className="flex-1 py-1.5 lg:py-2 text-xs lg:text-sm font-Roboto font-bold text-white flex items-center justify-center gap-1 lg:gap-2 bg-red-600 hover:bg-red-700 transition-all duration-300"
                       >
                         <FaBolt className="text-xs lg:text-sm" />
                         <span className="hidden lg:inline">Buy Now</span>
