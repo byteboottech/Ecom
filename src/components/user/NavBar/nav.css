@@ -747,7 +747,11 @@
 
   .logo-img,
   .logo {
+<<<<<<< HEAD
     height: 45px;
+=======
+    height: 60px;
+>>>>>>> BottomNavbar
   }
 
   .logo-section {
@@ -828,12 +832,18 @@
   }
 
   .search-input-container {
+<<<<<<< HEAD
     border-radius: 0px; /* Slightly more rounded for mobile touch */
     padding: 0 16px;
+=======
+    border-radius: 25px; /* Slightly more rounded for mobile touch */
+    padding: 0 12px;
+>>>>>>> BottomNavbar
   }
 
   .search-input {
     font-size: 16px; /* Prevent zoom on iOS */
+    padding: 8px 0;
   }
 
   /* Adjust category triggers for mobile (though hidden) */
@@ -877,7 +887,11 @@
   }
 
   .logo {
+<<<<<<< HEAD
     height: 40px;
+=======
+    height: 60px;
+>>>>>>> BottomNavbar
   }
 
   .menu-btn,
@@ -929,7 +943,19 @@
   }
 
   .search-input-container {
-    padding: 0 12px;
+    padding: 0 10px;
+  }
+
+  .search-input {
+    padding: 6px 0;
+  }
+
+  .search-button {
+    padding: 6px;
+  }
+
+  .search-icon {
+    font-size: 16px;
   }
 }
 

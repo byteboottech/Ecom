@@ -6,6 +6,7 @@ import NavBar from '../../components/user/NavBar/NavBar'
 // import ProductFooter from '../../components/user/Footer/ProductFooter'
 import ProductsGrid from '../../components/user/Products/ProductsGrid'
 import Footer from '../../components/user/Footer/Footer'
+import MobileBottomNavbar from '../../components/user/NavBar/MobileBottomNavbar'
     
     function  Products() {
       return (
@@ -15,6 +16,7 @@ import Footer from '../../components/user/Footer/Footer'
             <ProductsList/> */}
             <ProductsGrid/>
             <Footer/>
+            <MobileBottomNavbar/> 
         </div>
       )
     }

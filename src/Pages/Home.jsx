@@ -6,6 +6,7 @@ import Footer from "../components/user/Footer/Footer";
 import ReusableCarousel from '../components/user/Carousel/ReusableCarousel';
 import ProductHighlights from '../components/user/Products/ProductHighlights';
 import PopularCategory from '../components/user/Category/PopularCategory';
+import MobileBottomNavbar from '../components/user/NavBar/MobileBottomNavbar';
 
 function Home() {
   const [carouselData, setCarouselData] = useState([]);
@@ -182,6 +183,7 @@ function Home() {
 
       {/* Footer */}
       <Footer />
+      <MobileBottomNavbar/>
     </div>
   );
 }
