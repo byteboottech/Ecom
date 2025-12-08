@@ -8,6 +8,7 @@ import { useParams } from "react-router-dom";
 import { getSingleProduct } from "../../Services/Products";
 import  Loader from "../../Loader/Loader"
 import Footer from "../../components/user/Footer/Footer"
+import MobileBottomNavbar from "../../components/user/NavBar/MobileBottomNavbar";
 
 function DetailedView() {
   const { id } = useParams(); 
@@ -61,7 +62,8 @@ function DetailedView() {
       <Inside product={product}/>
       <Rating product={product}/>
       <ProductCard product={product}/>
-      <Footer/>    
+      <Footer/>   
+      <MobileBottomNavbar/> 
     </div>
   );
 }

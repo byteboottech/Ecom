@@ -748,7 +748,7 @@
 
   .logo-img,
   .logo {
-    height: 35px;
+    height: 60px;
   }
 
   .logo-section {
@@ -830,11 +830,12 @@
 
   .search-input-container {
     border-radius: 25px; /* Slightly more rounded for mobile touch */
-    padding: 0 16px;
+    padding: 0 12px;
   }
 
   .search-input {
     font-size: 16px; /* Prevent zoom on iOS */
+    padding: 8px 0;
   }
 
   /* Adjust category triggers for mobile (though hidden) */
@@ -878,7 +879,7 @@
   }
 
   .logo {
-    height: 32px;
+    height: 60px;
   }
 
   .menu-btn,
@@ -930,7 +931,19 @@
   }
 
   .search-input-container {
-    padding: 0 12px;
+    padding: 0 10px;
+  }
+
+  .search-input {
+    padding: 6px 0;
+  }
+
+  .search-button {
+    padding: 6px;
+  }
+
+  .search-icon {
+    font-size: 16px;
   }
 }
 

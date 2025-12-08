@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom'; // To read query params
 import Navbar from '../../components/user/NavBar/NavBar'
 import CategoryProductList from '../../components/user/Products/CategoryProductList'; // Adjust path as needed
 import Footer from '../../components/user/Footer/Footer'; // Adjust path as needed (assuming it exists)
+import MobileBottomNavbar from '../../components/user/NavBar/MobileBottomNavbar';
 
 function CategoryProductListPage() {
   const [searchParams] = useSearchParams();
@@ -17,6 +18,7 @@ function CategoryProductListPage() {
         <Navbar/>
         <CategoryProductList category={category} />
         <Footer/>
+        <MobileBottomNavbar/>
       </div>
   );
 }

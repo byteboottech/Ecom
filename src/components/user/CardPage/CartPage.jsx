@@ -18,6 +18,7 @@ import {
   CreateOrder,
   getMyDeliveryAddress,
 } from "../../../Services/userApi";
+import MobileBottomNavbar from "../NavBar/MobileBottomNavbar";
 
 const CartPage = () => {
   const { user } = useAuth();
@@ -452,6 +453,7 @@ const CartPage = () => {
         )}
       </motion.div>
      <Footer/>
+     <MobileBottomNavbar/>
     </div>
   );
 };
