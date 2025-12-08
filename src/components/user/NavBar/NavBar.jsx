@@ -1,17 +1,3 @@
-// Updated Parent Component: ModernNavbar.jsx
-// Navigation path changed to "/categoryproductlist" with query params for category.
-// Removed client-side search functionality with dropdown results.
-// Changes:
-// - Moved hamburger menu button to left side (inside logo-section, only visible on mobile) for sidebar opening from left.
-// - Categories dropdown icon remains on left next to logo on desktop.
-// - Sidebar position set to "left" (assumes SideBar component handles left slide-in).
-// - Ensured navbar attractiveness with previous enhancements.
-// Fixes:
-// 1. Hamburger icon now visible on all screens (desktop and mobile) for consistent sidebar access.
-// 2. Sidebar prop position="left" retained; assumes SideBar component implements left-side slide-in (no changes needed here if SideBar uses the prop correctly).
-// 3. Search bar now visible and responsive on mobile: stacked layout with horizontal scrollable categories above full-width search.
-// Additional Fix: On mobile, conditionally render only the full-width search bar (hide left-categories entirely via JSX condition for better performance/responsiveness).
-
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   FaBars,
@@ -512,15 +498,11 @@ const ModernNavbar = () => {
       <nav 
         className={`modern-navbar ${scrolled ? "scrolled" : ""}`}
         style={{
-          background: scrolled 
-            ? 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)' 
-            : 'transparent',
-          boxShadow: scrolled 
-            ? '0 4px 20px rgba(0, 0, 0, 0.1)' 
-            : 'none',
-          backdropFilter: scrolled ? 'blur(10px)' : 'none',
+          background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+          backdropFilter: 'blur(10px)',
           transition: 'all 0.3s ease',
-          borderBottom: scrolled ? '1px solid rgba(255, 255, 255, 0.2)' : 'none'
+          borderBottom: '1px solid rgba(255, 255, 255, 0.2)'
         }}
       >
         <div className="nav-container">
@@ -812,7 +794,7 @@ const ModernNavbar = () => {
                   alignItems: 'center',
                   backgroundColor: 'white',
                   border: '2px solid #e0e0e0',
-                  borderRadius: '10px', // Reduced from 50px for less rounded appearance
+                  borderRadius: '0px', // Reduced from 50px for less rounded appearance
                   padding: '0 20px',
                   boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
                   transition: 'all 0.2s ease',
