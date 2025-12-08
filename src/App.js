@@ -42,6 +42,7 @@ import ErrorPage from "./components/user/Error/Error";
 import ShippingPolicy from "./components/user/PoliciesAndRules/Shipping";
 import CategoryProductListPage from "./Pages/user/CategoryProductListPage";
 import SearchResults from "./components/user/NavBar/SearchResults";
+import WishlistPage from "./components/user/Wishlist/WishlistPage";
 
 function App() {
   return (
@@ -78,6 +79,7 @@ function App() {
           <Route path='/Shipping-Policy' element={<ShippingPolicy/>}/>
           <Route path='/categoryproductlist' element={<CategoryProductListPage/>}/>
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/wishlist" element={<WishlistPage/>} />
 
 
 

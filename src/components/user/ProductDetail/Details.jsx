@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import VideoThumbnail from './VideoThumbnail';
 import Axios from '../../../Axios/Axios'
-import { FaYoutube, FaCartPlus, FaBolt, FaCheck, FaWhatsapp } from 'react-icons/fa';
+import { FaYoutube, FaCartPlus, FaBolt, FaCheck, FaWhatsapp, FaHeart } from 'react-icons/fa';
 
 function Details({ product }) {
   const { token, user } = useAuth();
@@ -319,6 +319,28 @@ function Details({ product }) {
       });
     } finally {
       setAddingToCart(null);
+    }
+  };
+  const handleAddToWishlist = () => {
+    try {
+      const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+      const exists = wishlist.some(item => item.id === product.id);
+      if (!exists) {
+        wishlist.push({
+          id: product.id,
+          name: product.name,
+          price: price,
+          image: product.images?.[0]?.image || product.image,
+          addedAt: new Date().toISOString()
+        });
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+        showAlert({ type: "success", message: "Added to wishlist!" });
+      } else {
+        showAlert({ type: "info", message: "Already in wishlist!" });
+      }
+    } catch (error) {
+      console.error('Error adding to wishlist:', error);
+      showAlert({ type: "error", message: "Failed to add to wishlist" });
     }
   };
   const handleVariantSelect = (variant) => {
@@ -710,6 +732,12 @@ function Details({ product }) {
                     <FaCartPlus size={12} /> <span>Add To Cart</span>
                   </>
                 )}
+              </button>
+              <button
+                onClick={handleAddToWishlist}
+                className="flex-1 py-2 px-3 rounded-lg font-semibold uppercase tracking-wider text-xs flex items-center justify-center gap-2 transition-all duration-300 bg-red-100 text-red-600 hover:bg-red-200 hover:-translate-y-1 border border-red-300"
+              >
+                <FaHeart size={12} /> <span>Add to Wishlist</span>
               </button>
               {token && (
                 <button

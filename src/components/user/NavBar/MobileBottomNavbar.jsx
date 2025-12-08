@@ -1,6 +1,9 @@
-// components/user/NavBar/MobileBottomNavbar.jsx - Full corrected component
-// No major changes to the component itself; the "correction" is ensuring proper integration
-// (e.g., parent padding). Added optional active state example and better accessibility.
+// components/user/NavBar/MobileBottomNavbar.jsx - Updated component
+// Removed "Products" tab, added "Wishlist" tab.
+// Adjusted grid to maintain 3 columns.
+// Added Wishlist icon (heart SVG for consistency).
+// Wishlist links to "/wishlist".
+// Reordered: Wishlist (left), Login (middle), Cart (right).
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom'; // useLocation for active states; adjust if no Router
 
@@ -16,20 +19,20 @@ const MobileBottomNavbar = () => {
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 md:hidden dark:bg-gray-700 dark:border-gray-600 shadow-lg">
       {/* Added shadow-lg for subtle elevation */}
       <div className="grid h-16 max-w-lg grid-cols-3 mx-auto px-2">
-        {/* Products */}
+        {/* Wishlist */}
         <Link
-          to="/products"
+          to="/wishlist"
           className={`inline-flex flex-col items-center justify-center py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
-            isActive('/products')
+            isActive('/wishlist')
               ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
               : 'text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800'
           }`}
-          aria-label="Products"
+          aria-label="Wishlist"
         >
           <svg className="w-5 h-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
           </svg>
-          <span className="text-xs">Products</span>
+          <span className="text-xs">Wishlist</span>
         </Link>
 
         {/* Login */}

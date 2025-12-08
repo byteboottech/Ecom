@@ -12,7 +12,8 @@ import {
   FiChevronDown,
   FiChevronRight,
   FiGrid,
-  FiX
+  FiX,
+  FiHeart
 } from "react-icons/fi";
 import metrixLogo from "../../../Images/maxtreobgremoved.png";
 import {
@@ -218,6 +219,16 @@ function SideBar({ isOpen, onClose, position = "right" }) {
                 >
                   <FiShoppingBag className="mr-3 text-base min-w-4" />
                   <span>Products</span>
+                </Link>
+              </li>
+                <li className="opacity-0 transform translate-x-5" style={{ animation: `${slideAnimation} 0.4s ease forwards 0.2s` }}>
+                <Link
+                  to="/wishlist"
+                  onClick={onClose}
+                  className="flex items-center py-2.5 px-3 rounded-md text-gray-800 font-medium hover:bg-gray-100 transition-all duration-300 hover:translate-x-0.5"
+                >
+                  <FiHeart className="mr-3 text-base min-w-4" />
+                  <span>wishlist</span>
                 </Link>
               </li>
 
