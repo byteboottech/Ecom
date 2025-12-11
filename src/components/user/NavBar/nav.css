@@ -69,7 +69,7 @@
 }
 
 .logo {
-  height: 50px;
+  height: 70px;
   width: auto;
 }
 
@@ -752,10 +752,24 @@
 
   .logo-section {
     gap: 8px;
+    flex: 1;
+    position: relative;
+    justify-content: center;
   }
 
-  .logo-section h1 {
-    font-size: 1.25rem;
+  /* Position hamburger on left in mobile */
+  .logo-section .menu-btn {
+    position: absolute;
+    left: 10px;
+    z-index: 1001;
+  }
+
+  /* Center the logo in mobile */
+  .logo-section a {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
   }
 
   .categories-dropdown {

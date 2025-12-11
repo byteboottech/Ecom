@@ -35,36 +35,36 @@ const MaxtreoFooter = () => {
       <div className="py-3 mb-4 lg:mb-6">
         <div className="container mx-auto px-4">
           <div className="relative">
-            <div className="flex flex-row items-center justify-between gap-1 sm:gap-2 lg:gap-4 pb-4 sm:pb-6 lg:pb-8">
-              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
-                <Truck className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
-                <div className="min-w-0">
-                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Free Shipping</p>
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">Across India</p>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 pb-4 lg:pb-8">
+              <div className="flex items-center space-x-2 lg:space-x-4">
+                <Truck className="h-4 w-4 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div>
+                  <p className="text-xs lg:text-lg font-semibold text-white">Free Shipping</p>
+                  <p className="text-xs lg:text-base text-gray-400">Across India</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
-                <Headphones className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
-                <div className="min-w-0">
-                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Customer Support</p>
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">Expert is here to help</p>
+              <div className="flex items-center space-x-2 lg:space-x-4">
+                <Headphones className="h-4 w-4 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div>
+                  <p className="text-xs lg:text-lg font-semibold text-white">Customer Support</p>
+                  <p className="text-xs lg:text-base text-gray-400">Expert is here to help</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
-                <CreditCard className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
-                <div className="min-w-0">
-                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Online Payment</p>
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">100% Secure</p>
+              <div className="flex items-center space-x-2 lg:space-x-4">
+                <CreditCard className="h-4 w-4 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div>
+                  <p className="text-xs lg:text-lg font-semibold text-white">Online Payment</p>
+                  <p className="text-xs lg:text-base text-gray-400">100% Secure</p>
                 </div>
               </div>
               
-              <div className="flex items-center space-x-1 sm:space-x-2 lg:space-x-4 flex-1 min-w-0">
-                <Package className="h-4 w-4 sm:h-5 sm:w-5 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
-                <div className="min-w-0">
-                  <p className="text-sm sm:text-base lg:text-lg font-semibold text-white truncate">Fast Delivery</p>
-                  <p className="text-xs sm:text-sm lg:text-base text-gray-400 truncate">Fast & reliable</p>
+              <div className="flex items-center space-x-2 lg:space-x-4">
+                <Package className="h-4 w-4 lg:h-6 lg:w-6 text-orange-500 flex-shrink-0" />
+                <div>
+                  <p className="text-xs lg:text-lg font-semibold text-white">Fast Delivery</p>
+                  <p className="text-xs lg:text-base text-gray-400">Fast & reliable</p>
                 </div>
               </div>
             </div>

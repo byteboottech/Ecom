@@ -43,11 +43,13 @@ import ShippingPolicy from "./components/user/PoliciesAndRules/Shipping";
 import CategoryProductListPage from "./Pages/user/CategoryProductListPage";
 import SearchResults from "./components/user/NavBar/SearchResults";
 import WishlistPage from "./components/user/Wishlist/WishlistPage";
+import ScrollToTop from "./ScrollToTop/ScrollToTop";
 
 function App() {
   return (
     <>
       <AuthProvider>
+      <ScrollToTop />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Login" element={<LoginComponent />} />

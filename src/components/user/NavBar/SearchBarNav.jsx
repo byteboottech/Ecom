@@ -7,8 +7,6 @@ import { getAllProduct } from "../../../Services/Products";
 const SearchBarNav = () => {
   const navigate = useNavigate();
   const [isMobile, setIsMobile] = useState(false);
-  const [showLeftCategories, setShowLeftCategories] = useState(true);
-  const CATEGORY_THRESHOLD = 1200; // Adjust this threshold as needed
   const [hoveredSearchCategory, setHoveredSearchCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
@@ -89,9 +87,7 @@ const SearchBarNav = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth;
-      setIsMobile(width <= 1024);
-      setShowLeftCategories(width > CATEGORY_THRESHOLD);
+      setIsMobile(window.innerWidth <= 1024);
     };
 
     handleResize();
@@ -121,10 +117,6 @@ const SearchBarNav = () => {
     setHoveredSearchCategory(catId);
   };
 
-  const handleSearchCategoryLeave = () => {
-    setHoveredSearchCategory(null);
-  };
-
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
@@ -142,16 +134,22 @@ const SearchBarNav = () => {
     setSelectedCategory(e.target.value);
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    console.log('Suggestion clicked:', suggestion);
-    setShowSuggestions(false);
-    setSearchQuery("");
-    if (suggestion.type === 'product') {
-      navigate(`/product/${suggestion.id}`);
-    } else if (suggestion.type === 'category') {
-      navigate(`/categoryproductlist?categoryId=${suggestion.id}&categoryName=${encodeURIComponent(suggestion.label)}`);
-    }
-  };
+//   const handleSuggestionClick = (suggestion) => {
+//     console.log('Suggestion clicked:', suggestion);
+//     setShowSuggestions(false);
+//     setSearchQuery("");
+//     if (suggestion.type === 'product') {
+//       navigate(`/product/${suggestion.id}`);
+//     } else if (suggestion.type === 'category') {
+//       navigate(`/categoryproductlist?categoryId=${suggestion.id}&categoryName=${encodeURIComponent(suggestion.label)}`);
+//     }
+//   };
+
+    const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion.label); // put clicked value inside input
+    setShowSuggestions(false);        // hide dropdown
+    };
+
 
   const handleClearSearch = () => {
     setSearchQuery("");
@@ -173,16 +171,11 @@ const SearchBarNav = () => {
   const renderCategoryDropdown = (category) => {
     const catProducts = allProducts.filter((p) => p.category === category.name).slice(0, 6);
     return (
-      <div 
-        className={`search-category-dropdown ${hoveredSearchCategory === category.id ? 'active' : ''}`} 
-        key={category.id} 
-        style={{ position: 'relative' }}
-        onMouseEnter={() => handleSearchCategoryHover(category.id)}
-        onMouseLeave={handleSearchCategoryLeave}
-      >
+      <div className={`search-category-dropdown ${hoveredSearchCategory === category.id ? 'active' : ''}`} key={category.id} style={{ position: 'relative' }}>
         <Link
           to={`/categoryproductlist?categoryId=${category.id}&categoryName=${encodeURIComponent(category.name)}`}
           className="search-category-trigger"
+          onMouseEnter={() => handleSearchCategoryHover(category.id)}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -283,29 +276,21 @@ const SearchBarNav = () => {
     );
   };
 
-  const searchContainerStyle = {
-    flex: 1, 
-    maxWidth: showLeftCategories ? '600px' : 'none',
-    minWidth: showLeftCategories ? '300px' : 'auto',
-    flexShrink: 0,
-    position: 'relative'
-  };
-
   return (
     <div className="search-bar-section attractive-search">
       <div className="search-wrapper" style={{ 
         display: 'flex', 
         flexDirection: 'row', 
         alignItems: 'center', 
-        justifyContent: showLeftCategories ? 'space-between' : 'center',
+        justifyContent: 'space-between', 
         padding: '15px 20px', 
         maxWidth: '1400px', // Full width increase
         margin: '0 auto',
-        gap: showLeftCategories ? '20px' : '0', // Increased space between elements
+        gap: '20px', // Increased space between elements
         width: '100%'
       }}>
-        {/* Left Categories - All Four Horizontal - Only on Desktop and enough space */}
-        {showLeftCategories && !isMobile && (
+        {/* Left Categories - All Four Horizontal - Only on Desktop */}
+        {!isMobile && (
           <div className="left-categories" style={{ 
             display: 'flex', 
             flexDirection: 'row', 
@@ -318,7 +303,13 @@ const SearchBarNav = () => {
         )}
 
         {/* Center Search - Modern Design, Less Rounded */}
-        <div className="search-container" style={searchContainerStyle} ref={suggestionsRef}>
+        <div className="search-container" style={{ 
+          flex: 1, 
+          maxWidth: '600px', 
+          minWidth: '300px',
+          flexShrink: 0,
+          position: 'relative'
+        }} ref={suggestionsRef}>
           <form onSubmit={handleSearch} className="search-form" style={{ position: 'relative' }}>
             <div 
               className="search-input-container" 

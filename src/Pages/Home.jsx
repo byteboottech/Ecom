@@ -53,13 +53,7 @@ function Home() {
     console.log("Updated carouselData:", carouselData);
   }, [carouselData]);
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex justify-center items-center">
-        <div className="text-lg">Loading carousels...</div>
-      </div>
-    );
-  }
+ 
 
   if (error) {
     return (
@@ -69,13 +63,13 @@ function Home() {
     );
   }
 
-  if (!carouselData || carouselData.length === 0) {
-    return (
-      <div className="min-h-screen flex justify-center items-center text-gray-500">
-        <div className="text-lg">No carousel data available.</div>
-      </div>
-    );
-  }
+  // if (!carouselData || carouselData.length === 0) {
+  //   return (
+  //     <div className="min-h-screen flex justify-center items-center text-gray-500">
+  //       <div className="text-lg">No carousel data available.</div>
+  //     </div>
+  //   );
+  // }
 
   // Sort by order (if present)
   const sortedData = [...carouselData].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
@@ -95,8 +89,6 @@ function Home() {
   return (
     <div>
       <NavBar />
-      <SearchBarNav/>
-
       {/* Top area: left large (2/3) and right column with two stacked carousels (1/3) */}
       <div className="flex flex-col lg:flex-row gap-4 p-4 md:p-8 overflow-hidden"> {/* overflow-hidden on row to clip any child overflow */}
         {/* Left large */}

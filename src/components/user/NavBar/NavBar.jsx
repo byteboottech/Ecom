@@ -21,8 +21,9 @@ import { getAllProduct } from "../../../Services/Products";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 // import metrix_logo from '../../../Images/maxtreobgremoved.png';
-import maxtreoLogo from '../../../Images/maxtreo-refined-logo.png'
+import maxtreoLogo from '../../../Images/maxtro_log_with_text.png'
 import Login from "../../user/Login/Login"; 
+import SearchBarNav from "./SearchBarNav";
 
 const ModernNavbar = () => {
   const navigate = useNavigate();
@@ -40,6 +41,13 @@ const ModernNavbar = () => {
   const [syncingCart, setSyncingCart] = useState(false);
   const [cartSyncStatus, setCartSyncStatus] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  // Search states
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [filteredSuggestions, setFilteredSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const searchInputRef = useRef(null);
+  const suggestionsRef = useRef(null);
   
   const { user } = useAuth();
   const dropdownRef = useRef(null);
@@ -149,6 +157,7 @@ const ModernNavbar = () => {
   useEffect(() => {
     setActiveDropdown(null);
     setHoveredCategory(null);
+    setShowSuggestions(false);
   }, [location.pathname]);
 
   const getProductDropDownList = async () => {
@@ -169,6 +178,49 @@ const ModernNavbar = () => {
       setAllProducts([]);
     }
   };
+
+  // Extract product names and categories into suggestions array
+  useEffect(() => {
+    console.log('Building suggestions - allProducts length:', allProducts.length, 'productsItems length:', productsItems.length);
+    const productSuggestions = allProducts.map((p) => ({
+      label: p.name,
+      type: 'product',
+      id: p.id,
+      category: p.category
+    }));
+    const categorySuggestions = productsItems.map((c) => ({
+      label: c.name,
+      type: 'category',
+      id: c.id
+    }));
+    const newSuggestions = [...productSuggestions, ...categorySuggestions];
+    setSuggestions(newSuggestions);
+    console.log('Suggestions built:', newSuggestions.length, newSuggestions.slice(0, 3)); // Log first few for debug
+  }, [allProducts, productsItems]);
+
+  // Filter suggestions based on search query
+  useEffect(() => {
+    console.log('Filtering suggestions for query:', searchQuery);
+    if (searchQuery.trim().length > 0) {
+      const filtered = suggestions.filter((suggestion) =>
+        suggestion.label.toLowerCase().startsWith(searchQuery.toLowerCase())
+      );
+      // Sort filtered suggestions: first by products, then by alphabetical order
+      const sortedFiltered = filtered.sort((a, b) => {
+        if (a.type === 'product' && b.type === 'category') return -1;
+        if (a.type === 'category' && b.type === 'product') return 1;
+        return a.label.localeCompare(b.label);
+      });
+      const limited = sortedFiltered.slice(0, 8);
+      setFilteredSuggestions(limited);
+      setShowSuggestions(limited.length > 0);
+      console.log('Filtered suggestions:', limited.length, limited);
+    } else {
+      setFilteredSuggestions([]);
+      setShowSuggestions(false);
+      console.log('No query, hiding suggestions');
+    }
+  }, [searchQuery, suggestions]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -195,6 +247,16 @@ const ModernNavbar = () => {
       if (!event.target.closest(".dropdown-container")) {
         setActiveDropdown(null);
         setHoveredCategory(null);
+      }
+      // Handle click outside for search suggestions
+      if (
+        suggestionsRef.current &&
+        !suggestionsRef.current.contains(event.target) &&
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target)
+      ) {
+        console.log('Click outside, hiding suggestions');
+        setShowSuggestions(false);
       }
     };
 
@@ -243,13 +305,6 @@ const ModernNavbar = () => {
     }
   };
 
-  const quickLinks = [
-    { name: "Products", path: "/products" },
-      // { name: "Deals & Offers", path: "/deals" },
-    { name: "Track Order", path: "/myorder" },
-    { name: "Support", path: "/support" }
-  ];
-
   const socialMedia = [
     { icon: FaFacebookF, url: "https://facebook.com", color: "#1877F2" },
     { icon: FaTwitter, url: "https://twitter.com", color: "#1DA1F2" },
@@ -265,6 +320,58 @@ const ModernNavbar = () => {
   const closeLoginModal = () => {
     setShowLoginModal(false);
     document.body.style.overflow = "auto"; // Restore body scroll
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${searchQuery}`);
+      setSearchQuery(""); // Clear input
+      setShowSuggestions(false);
+    }
+  };
+
+  // const handleSuggestionClick = (suggestion) => {
+  //   console.log('Suggestion clicked:', suggestion);
+  //   setShowSuggestions(false);
+  //   setSearchQuery("");
+  //   if (suggestion.type === 'product') {
+  //     navigate(`/product/${suggestion.id}`);
+  //   } else if (suggestion.type === 'category') {
+  //     navigate(`/categoryproductlist?categoryId=${suggestion.id}&categoryName=${encodeURIComponent(suggestion.label)}`);
+  //   }
+  // };
+
+      const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion.label); // put clicked value inside input
+    setShowSuggestions(false);        // hide dropdown
+    };
+
+
+  const handleClearSearch = () => {
+    setSearchQuery("");
+    setShowSuggestions(false);
+  };
+
+  // Show suggestions on focus if query exists
+  const handleInputFocus = (e) => {
+    e.target.parentElement.style.borderColor = '#ddd'; 
+    e.target.parentElement.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)'; 
+    if (searchQuery.trim() && filteredSuggestions.length > 0) {
+      setShowSuggestions(true);
+    }
+  };
+
+  const handleInputBlur = (e) => {
+    e.target.parentElement.style.borderColor = '#e0e0e0'; 
+    e.target.parentElement.style.boxShadow = '0 2px 10px rgba(0,0,0,0.08)'; 
+    // Delay hide to allow suggestion click
+    setTimeout(() => {
+      if (document.activeElement !== searchInputRef.current) {
+        setShowSuggestions(false);
+        console.log('Blur, hiding suggestions');
+      }
+    }, 200);
   };
 
   return (
@@ -363,7 +470,7 @@ const ModernNavbar = () => {
           borderBottom: '1px solid rgba(255, 255, 255, 0.2)'
         }}
       >
-        <div className="nav-container">
+        <div className="nav-container" style={{ position: 'relative' }}>
           {/* Logo Section - Hamburger on left for all screens */}
           <div className="logo-section">
             {/* Hamburger - Now visible on all screens */}
@@ -375,7 +482,8 @@ const ModernNavbar = () => {
               style={{ 
                 display: 'flex', 
                 alignItems: 'center',
-                transition: 'transform 0.2s ease'
+                transition: 'transform 0.2s ease',
+                overflow:'hidden'
               }}
               onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
               onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
@@ -524,20 +632,146 @@ const ModernNavbar = () => {
             )}
           </div>
 
-          {/* Quick Links - Center */}
+          {/* Search Bar - Center (Desktop Only) */}
           {!isMobile && (
-            <div>
-              <div className="quick-links">
-                {quickLinks.map((link, index) => (
-                  <Link
-                    key={index}
-                    to={link.path}
-                    className="quick-link"
+            <div className="search-section" style={{ 
+              flex: 1, 
+              maxWidth: '600px', 
+              minWidth: '300px',
+              position: 'relative',
+              display: 'flex',
+              justifyContent: 'center'
+            }} ref={suggestionsRef}>
+              <form onSubmit={handleSearch} className="search-form" style={{ 
+                position: 'relative', 
+                width: '100%',
+                maxWidth: '500px'
+              }}>
+                <div 
+                  className="search-input-container" 
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    border: '2px solid #e0e0e0',
+                    borderRadius: '4px',
+                    padding: '0 20px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
+                    transition: 'all 0.3s ease',
+                    overflow: 'hidden',
+                    width: '100%'
+                  }}
+                >
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search products, brands, categories..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      console.log('Search query changed:', e.target.value);
+                      setSearchQuery(e.target.value);
+                    }}
+                    onFocus={handleInputFocus}
+                    onBlur={handleInputBlur}
+                    className="search-input"
+                    style={{
+                      flex: 1,
+                      border: 'none',
+                      outline: 'none',
+                      padding: '12px 0',
+                      fontSize: '16px',
+                      background: 'transparent'
+                    }}
+                  />
+                  {searchQuery && (
+                    <button 
+                      type="button"
+                      onClick={handleClearSearch}
+                      style={{
+                        background: 'transparent',
+                        border: 'none',
+                        color: '#666',
+                        cursor: 'pointer',
+                        padding: '12px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        transition: 'color 0.2s ease'
+                      }}
+                      onMouseOver={(e) => e.target.style.color = '#333'}
+                      onMouseOut={(e) => e.target.style.color = '#666'}
+                    >
+                      <FaTimes style={{ fontSize: '18px' }} />
+                    </button>
+                  )}
+                  <button 
+                    type="submit" 
+                    className="search-button"
+                    style={{
+                      background: 'transparent',
+                      border: 'none',
+                      color: '#666',
+                      cursor: 'pointer',
+                      padding: '12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'color 0.2s ease'
+                    }}
+                    onMouseOver={(e) => e.target.style.color = '#333'}
+                    onMouseOut={(e) => e.target.style.color = '#666'}
                   >
-                    {link.name}
-                  </Link>
-                ))}
-              </div>
+                    <FaSearch className="search-icon" style={{ fontSize: '18px' }} />
+                  </button>
+                </div>
+              </form>
+
+              {/* Auto-Suggestion Dropdown */}
+              {showSuggestions && filteredSuggestions.length > 0 && (
+                <div 
+                  className="suggestions-dropdown"
+                  style={{
+                    position: 'absolute',
+                    top: '100%',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    width: '500px', // Match input width
+                    backgroundColor: 'white',
+                    border: '1px solid #e0e0e0',
+                    borderTop: 'none',
+                    boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+                    maxHeight: '300px',
+                    overflowY: 'auto',
+                    zIndex: 1002, // Higher than other dropdowns
+                    borderRadius: '0 0 8px 8px',
+                    marginTop: '2px'
+                  }}
+                >
+                  {filteredSuggestions.map((suggestion, index) => (
+                    <div
+                      key={`${suggestion.type}-${suggestion.id}-${index}`}
+                      onMouseDown={() => handleSuggestionClick(suggestion)} // Prevent blur
+                      style={{
+                        padding: '12px 16px',
+                        cursor: 'pointer',
+                        borderBottom: index < filteredSuggestions.length - 1 ? '1px solid #f0f0f0' : 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        transition: 'background-color 0.2s ease'
+                      }}
+                      onMouseEnter={(e) => e.target.style.backgroundColor = '#f8f9fa'}
+                      onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
+                    >
+                      <span style={{ fontWeight: '500', color: '#333' }}>{suggestion.label}</span>
+                      <span style={{ fontSize: '12px', color: '#999', textTransform: 'uppercase' }}>
+                        {suggestion.type}
+                        {suggestion.type === 'product' && suggestion.category ? ` - ${suggestion.category}` : ''}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -609,6 +843,9 @@ const ModernNavbar = () => {
           </div>
         </div> */}
       </nav>
+
+      {/* Mobile Search Bar - Render below navbar on mobile */}
+      {isMobile && <SearchBarNav />}
 
       <SideBar isOpen={isSidebarOpen} onClose={closeSidebar} position="left" />
     </>
