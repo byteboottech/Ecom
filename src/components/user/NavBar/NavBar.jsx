@@ -33,7 +33,6 @@ const ModernNavbar = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [hoveredCategory, setHoveredCategory] = useState(null);
-  const [hoveredSearchCategory, setHoveredSearchCategory] = useState(null);
   const [dropdownScroll, setDropdownScroll] = useState({
     top: true,
     bottom: false,
@@ -41,8 +40,6 @@ const ModernNavbar = () => {
   const [syncingCart, setSyncingCart] = useState(false);
   const [cartSyncStatus, setCartSyncStatus] = useState(null);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
   
   const { user } = useAuth();
   const dropdownRef = useRef(null);
@@ -152,13 +149,7 @@ const ModernNavbar = () => {
   useEffect(() => {
     setActiveDropdown(null);
     setHoveredCategory(null);
-    setHoveredSearchCategory(null);
   }, [location.pathname]);
-
-  // Clear search on blur or escape
-  const handleSearchClear = () => {
-    setSearchQuery("");
-  };
 
   const getProductDropDownList = async () => {
     try {
@@ -201,10 +192,9 @@ const ModernNavbar = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (!event.target.closest(".dropdown-container") && !event.target.closest(".search-category-dropdown")) {
+      if (!event.target.closest(".dropdown-container")) {
         setActiveDropdown(null);
         setHoveredCategory(null);
-        setHoveredSearchCategory(null);
       }
     };
 
@@ -253,30 +243,6 @@ const ModernNavbar = () => {
     }
   };
 
-  const handleSearchCategoryHover = (catId) => {
-    setHoveredSearchCategory(catId);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      const params = new URLSearchParams({ q: searchQuery });
-      if (selectedCategory !== "all") {
-        params.append('category', selectedCategory);
-      }
-      navigate(`/search?${params.toString()}`);
-      setSearchQuery(""); // Clear input
-    }
-  };
-
-  const handleCategoryChange = (e) => {
-    setSelectedCategory(e.target.value);
-  };
-
-  const firstFourCategories = productsItems.slice(0, 4);
-
- 
-
   const quickLinks = [
     { name: "Products", path: "/products" },
       // { name: "Deals & Offers", path: "/deals" },
@@ -299,114 +265,6 @@ const ModernNavbar = () => {
   const closeLoginModal = () => {
     setShowLoginModal(false);
     document.body.style.overflow = "auto"; // Restore body scroll
-  };
-
-  const renderCategoryDropdown = (category) => {
-    const catProducts = allProducts.filter((p) => p.category === category.name).slice(0, 6);
-    return (
-      <div className={`search-category-dropdown ${hoveredSearchCategory === category.id ? 'active' : ''}`} key={category.id} style={{ position: 'relative' }}>
-        <Link
-          to={`/categoryproductlist?categoryId=${category.id}&categoryName=${encodeURIComponent(category.name)}`}
-          className="search-category-trigger"
-          onMouseEnter={() => handleSearchCategoryHover(category.id)}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '5px',
-            background: 'none',
-            border: 'none',
-            padding: '8px 16px',
-            cursor: 'pointer',
-            fontSize: '14px',
-            whiteSpace: 'nowrap',
-            textDecoration: 'none',
-            color: '#333',
-            fontWeight: '500',
-            borderRadius: '4px',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseOver={(e) => e.target.style.backgroundColor = '#f5f5f5'}
-          onMouseOut={(e) => e.target.style.backgroundColor = 'transparent'}
-        >
-          {category.name}
-          <FaChevronDown className="dropdown-icon-small" style={{ fontSize: '10px' }} />
-        </Link>
-        {hoveredSearchCategory === category.id && (
-          <div 
-            className="search-category-menu" 
-            style={{ 
-              position: 'absolute', 
-              top: '100%', 
-              left: '-50%', // Adjust to center or full width as needed
-              zIndex: 1000, 
-              background: 'white', 
-              border: '1px solid #e0e0e0', 
-              boxShadow: '0 8px 25px rgba(0,0,0,0.15)', 
-              minWidth: '400px',
-              padding: '20px',
-              borderRadius: '8px',
-              maxHeight: '400px',
-              overflow: 'hidden'
-            }}
-          >
-            <div className="category-products-section" style={{ display: 'flex', flexDirection: 'column' }}>
-              <h4 style={{ 
-                margin: '0 0 15px 0', 
-                fontSize: '18px', 
-                color: '#333', 
-                fontWeight: '600',
-                paddingBottom: '10px',
-                borderBottom: '1px solid #f0f0f0'
-              }}>
-                {category.name} Products
-              </h4>
-              {catProducts.length > 0 ? (
-                <div className="product-grid" style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(3, 1fr)', 
-                  gap: '12px',
-                  width: '100%'
-                }}>
-                  {catProducts.map((product, idx) => (
-                    <Link 
-                      key={idx} 
-                      to={`/product/${product.id}`} 
-                      className="product-item"
-                      style={{
-                        textDecoration: 'none',
-                        color: '#555',
-                        padding: '10px',
-                        border: '1px solid #f0f0f0',
-                        borderRadius: '6px',
-                        transition: 'all 0.2s ease',
-                        fontSize: '13px',
-                        lineHeight: '1.4',
-                        textAlign: 'center',
-                        backgroundColor: 'white'
-                      }}
-                      onMouseOver={(e) => {
-                        e.target.style.backgroundColor = '#f8f9fa';
-                        e.target.style.borderColor = '#ddd';
-                        e.target.style.transform = 'translateY(-1px)';
-                      }}
-                      onMouseOut={(e) => {
-                        e.target.style.backgroundColor = 'white';
-                        e.target.style.borderColor = '#f0f0f0';
-                        e.target.style.transform = 'none';
-                      }}
-                    >
-                      {product.name}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <div style={{ padding: '20px', color: '#999', textAlign: 'center' }}>No products available</div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
-    );
   };
 
   return (
@@ -751,105 +609,6 @@ const ModernNavbar = () => {
           </div>
         </div> */}
       </nav>
-
-      {/* Search Bar Under Navbar - Less Rounded */}
-      <div className="search-bar-section attractive-search">
-        <div className="search-wrapper" style={{ 
-          display: 'flex', 
-          flexDirection: 'row', 
-          alignItems: 'center', 
-          justifyContent: 'space-between', 
-          padding: '15px 20px', 
-          maxWidth: '1400px', // Full width increase
-          margin: '0 auto',
-          gap: '20px', // Increased space between elements
-          width: '100%'
-        }}>
-          {/* Left Categories - All Four Horizontal - Only on Desktop */}
-          {!isMobile && (
-            <div className="left-categories" style={{ 
-              display: 'flex', 
-              flexDirection: 'row', 
-              gap: '20px', // Space between each category
-              alignItems: 'center',
-              flexShrink: 0
-            }}>
-              {firstFourCategories.map((category) => renderCategoryDropdown(category))}
-            </div>
-          )}
-
-          {/* Center Search - Modern Design, Less Rounded */}
-          <div className="search-container" style={{ 
-            flex: 1, 
-            maxWidth: '600px', 
-            minWidth: '300px',
-            flexShrink: 0,
-            position: 'relative'
-          }}>
-            <form onSubmit={handleSearch} className="search-form" style={{ position: 'relative' }}>
-              <div 
-                className="search-input-container" 
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  backgroundColor: 'white',
-                  border: '2px solid #e0e0e0',
-                  borderRadius: '0px', // Reduced from 50px for less rounded appearance
-                  padding: '0 20px',
-                  boxShadow: '0 2px 10px rgba(0,0,0,0.08)',
-                  transition: 'all 0.2s ease',
-                  overflow: 'hidden'
-                }}
-              >
-                <input
-                  type="text"
-                  placeholder="Search products, brands, categories..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onFocus={(e) => { 
-                    e.target.parentElement.style.borderColor = '#ddd'; 
-                    e.target.parentElement.style.boxShadow = '0 4px 15px rgba(0,0,0,0.1)'; 
-                  }}
-                  onBlur={(e) => { 
-                    e.target.parentElement.style.borderColor = '#e0e0e0'; 
-                    e.target.parentElement.style.boxShadow = '0 2px 10px rgba(0,0,0,0.08)'; 
-                  }}
-                  className="search-input"
-                  style={{
-                    flex: 1,
-                    border: 'none',
-                    outline: 'none',
-                    padding: '12px 0',
-                    fontSize: '16px',
-                    background: 'transparent'
-                  }}
-                />
-                <button 
-                  type="submit" 
-                  className="search-button"
-                  style={{
-                    background: 'transparent',
-                    border: 'none',
-                    color: '#666',
-                    cursor: 'pointer',
-                    padding: '12px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'color 0.2s ease'
-                  }}
-                  onMouseOver={(e) => e.target.style.color = '#333'}
-                  onMouseOut={(e) => e.target.style.color = '#666'}
-                >
-                  <FaSearch className="search-icon" style={{ fontSize: '18px' }} />
-                </button>
-              </div>
-            </form>
-          </div>
-
-          {/* No Right Categories */}
-        </div>
-      </div>
 
       <SideBar isOpen={isSidebarOpen} onClose={closeSidebar} position="left" />
     </>

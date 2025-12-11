@@ -6,8 +6,8 @@ import Footer from "../../../components/user/Footer/Footer"
 import "./PurchasedProduct.css";
 import { FaSync } from "react-icons/fa";
 import { ShoppingBag, ChevronDown, ChevronUp, Download, X } from "lucide-react";
-import neoImage from "../../../Images/back_ground1.jpg";
-import image_on_tokyo from "../../../Images/image_on_tokyo.jpg";
+import neoImage from "../../../Images/maxtreo-refined-logo.png";
+import image_on_tokyo from "../../../Images/maxtreo-refined-logo.png";
 
 function PurchasedProducts() {
   const [loader, setLoader] = useState(true);

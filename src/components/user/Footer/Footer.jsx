@@ -20,6 +20,7 @@ import {
   Package,
   ChevronRight
 } from 'lucide-react';
+import { FaWhatsapp } from 'react-icons/fa'; // Fa stands for Font Awesome
 import MapIframe from "./MapIframe";
 import  UPI  from "../../../Images/new-upi-removebg-preview.png"
 import  Visa  from "../../../Images/new visa.png"
@@ -200,23 +201,23 @@ const MaxtreoFooter = () => {
               <span>Payment System:</span>
             </h4>
 <div className="flex space-x-2 lg:space-x-3">
-  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="UPI">
+  <div className="p-1 lg:p-2 flex items-center justify-center" title="UPI">
     <img src={UPI} alt="UPI" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 
-  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="Visa">
+  <div className="p-1 lg:p-2 flex items-center justify-center" title="Visa">
     <img src={Visa} alt="Visa" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 
-  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="RuPay">
+  <div className="p-1 lg:p-2 flex items-center justify-center" title="RuPay">
     <img src={RuPay} alt="RuPay" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 
-  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="master-card">
+  <div className="p-1 lg:p-2  flex items-center justify-center" title="master-card">
     <img src={MasterCard} alt="master-card" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 
-  <div className="p-1 lg:p-2 bg-gray-700 rounded flex items-center justify-center" title="Bank">
+  <div className="p-1 lg:p-2  flex items-center justify-center" title="Bank">
     <img src={Bank} alt="Bank" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
   </div>
 </div>
@@ -225,18 +226,23 @@ const MaxtreoFooter = () => {
           </div>
 
 
-          <div className="flex space-x-3 lg:space-x-4">
-            <h4 className="sr-only">Our Social Links:</h4>
-            <a href="https://facebook.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
-              <Facebook className="h-4 w-4 lg:h-5 lg:w-5" />
-            </a>
-            <a href="https://instagram.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
-              <Instagram className="h-4 w-4 lg:h-5 lg:w-5" />
-            </a>
-            <a href="https://youtube.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-              <Youtube className="h-4 w-4 lg:h-5 lg:w-5" />
-            </a>
-          </div>
+   <div className="flex space-x-3 lg:space-x-4">
+      <h4 className="sr-only">Our Social Links:</h4>
+      <a href="https://facebook.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+        <Facebook className="h-4 w-4 lg:h-5 lg:w-5" />
+      </a>
+      <a href="https://instagram.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+        <Instagram className="h-4 w-4 lg:h-5 lg:w-5" />
+      </a>
+      <a href="https://youtube.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
+        <Youtube className="h-4 w-4 lg:h-5 lg:w-5" />
+      </a>
+      {/* Use Lucide's MessageCircle icon (or MessageSquare) and style it green */}
+      <a href="YOUR_WHATSAPP_LINK" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+        {/* You can add a text-green-500 or similar class here if your icons are not already colored by the parent */}
+        <FaWhatsapp className="h-4 w-4 lg:h-5 lg:w-5" />  
+      </a>
+</div>
         </div>
       </div>
 

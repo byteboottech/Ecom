@@ -7,6 +7,7 @@ import ReusableCarousel from '../components/user/Carousel/ReusableCarousel';
 import ProductHighlights from '../components/user/Products/ProductHighlights';
 import PopularCategory from '../components/user/Category/PopularCategory';
 import MobileBottomNavbar from '../components/user/NavBar/MobileBottomNavbar';
+import SearchBarNav from '../components/user/NavBar/SearchBarNav';
 
 function Home() {
   const [carouselData, setCarouselData] = useState([]);
@@ -94,6 +95,7 @@ function Home() {
   return (
     <div>
       <NavBar />
+      <SearchBarNav/>
 
       {/* Top area: left large (2/3) and right column with two stacked carousels (1/3) */}
       <div className="flex flex-col lg:flex-row gap-4 p-4 md:p-8 overflow-hidden"> {/* overflow-hidden on row to clip any child overflow */}

@@ -423,9 +423,6 @@ const SearchResults = () => {
         <div className="w-full max-w-7xl mx-auto">
           {/* Dynamic Title Section */}
           <div className="text-center lg:text-left mb-6">
-            <h1 className="text-3xl lg:text-5xl font-bold font-Roboto tracking-tight text-gray-900 relative inline-block">
-              Search Results for "{query}" {categoryFilter ? `in ${categoryFilter}` : ''}
-            </h1>
             <p className="mt-3 text-base text-gray-600">
               {filteredProducts.length} results found. Explore below.
             </p>
