@@ -528,227 +528,260 @@ function Overview({ product }) {
         </div>
 
         {/* Add Address Modal */}
-        {showAddressModal && (
-        <div className="fixed inset-0  flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-lg shadow-lg w-full max-w-md max-h-screen overflow-y-auto">
-              <div className="flex justify-between items-center p-6 border-b">
-                <h3 className="text-lg font-medium text-gray-900">
-                  Add New Address
-                </h3>
-                <button
-                  onClick={() => setShowAddressModal(false)}
-                  className="text-gray-400 hover:text-gray-500 transition-colors"
-                  disabled={loading}
-                >
-                  <X size={20} />
-                </button>
-              </div>
+                {showAddressModal && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 pt-24 pb-20 p-2 sm:p-4">
+    <div className="bg-white rounded-lg shadow-xl w-full max-w-sm sm:max-w-md max-h-[75vh] sm:max-h-[85vh] overflow-y-auto relative">
+      {/* Close Button Only - No Heading */}
+      <button
+        onClick={() => {
+          setShowAddressModal(false);
+          // Assuming formErrors is cleared similarly; adjust if needed
+        }}
+        className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full p-1.5 transition-colors z-10"
+        disabled={loading}
+        aria-label="Close modal"
+      >
+        <X size={16} />
+      </button>
 
-              <form onSubmit={handleAddNewAddress} className="p-6 space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Delivery Person Name*
-                  </label>
-                  <input
-                    type="text"
-                    name="delivery_person_name"
-                    value={newAddress.delivery_person_name}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Full name"
-                    required
-                    minLength={1}
-                    maxLength={255}
-                    disabled={loading}
-                  />
-                </div>
+      <form
+        onSubmit={handleAddNewAddress}
+        className="p-3 sm:p-4 space-y-3"
+        noValidate
+      >
+        {/* Delivery Person Name */}
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1 uppercase">
+            Delivery Person Name*
+          </label>
+          <input
+            type="text"
+            name="delivery_person_name"
+            value={newAddress.delivery_person_name}
+            onChange={handleInputChange}
+            className={`w-full border ${
+              formErrors?.delivery_person_name
+                ? "border-red-500"
+                : "border-gray-300"
+            } rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 uppercase text-sm`}
+            placeholder="DELIVERY PERSON NAME"
+            required
+            disabled={loading}
+          />
+          {formErrors?.delivery_person_name && (
+            <p className="mt-1 text-xs text-red-600 uppercase">
+              {formErrors.delivery_person_name}
+            </p>
+          )}
+        </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone_number"
-                    value={newAddress.phone_number}
-                    onChange={handleInputChange}
-                    className={`w-full border ${
-                      formErrors.phone_number
-                        ? "border-blue-500"
-                        : "border-gray-300"
-                    } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
-                    placeholder="10 digit phone number"
-                    required
-                    maxLength={10}
-                    disabled={loading}
-                    pattern="[0-9]{10}"
-                  />
-                  {formErrors.phone_number && (
-                    <p className="text-blue-500 text-xs mt-1">
-                      {formErrors.phone_number}
-                    </p>
-                  )}
-                </div>
+        {/* Phone Number */}
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1 uppercase">
+            Phone Number*
+          </label>
+          <input
+            type="tel"
+            name="phone_number"
+            value={newAddress.phone_number}
+            onChange={handleInputChange}
+            className={`w-full border ${
+              formErrors?.phone_number
+                ? "border-red-500"
+                : "border-gray-300"
+            } rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm`}
+            placeholder="PHONE NUMBER"
+            required
+            disabled={loading}
+          />
+          {formErrors?.phone_number && (
+            <p className="mt-1 text-xs text-red-600 uppercase">
+              {formErrors.phone_number}
+            </p>
+          )}
+        </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Address*
-                  </label>
-                  <textarea
-                    name="address"
-                    value={newAddress.address}
-                    onChange={handleInputChange}
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Street address"
-                    required
-                    minLength={1}
-                    rows={3}
-                    disabled={loading}
-                  />
-                </div>
+        {/* Address */}
+        <div>
+          <label className="block text-xs font-bold text-gray-700 mb-1 uppercase">
+            Address*
+          </label>
+          <textarea
+            name="address"
+            value={newAddress.address}
+            onChange={handleInputChange}
+            className={`w-full border ${
+              formErrors?.address
+                ? "border-red-500"
+                : "border-gray-300"
+            } rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 uppercase text-sm`}
+            placeholder="FULL ADDRESS"
+            required
+            rows={2}
+            disabled={loading}
+          />
+          {formErrors?.address && (
+            <p className="mt-1 text-xs text-red-600 uppercase">
+              {formErrors.address}
+            </p>
+          )}
+        </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      District
-                    </label>
-                    <input
-                      type="text"
-                      name="district"
-                      value={newAddress.district}
-                      onChange={handleInputChange}
-                      className={`w-full border ${
-                        formErrors.district
-                          ? "border-blue-500"
-                          : "border-gray-300"
-                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
-                      placeholder="District"
-                      required
-                      minLength={1}
-                      maxLength={20}
-                      disabled={loading}
-                    />
-                    {formErrors.district && (
-                      <p className="text-blue-500 text-xs mt-1">
-                        {formErrors.district}
-                      </p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      State
-                    </label>
-                    <input
-                      type="text"
-                      name="state"
-                      value={newAddress.state}
-                      onChange={handleInputChange}
-                      className={`w-full border ${
-                        formErrors.state ? "border-blue-500" : "border-gray-300"
-                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
-                      placeholder="State"
-                      required
-                      minLength={1}
-                      maxLength={20}
-                      disabled={loading}
-                    />
-                    {formErrors.state && (
-                      <p className="text-blue-500 text-xs mt-1">
-                        {formErrors.state}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Zip Code*
-                    </label>
-                    <input
-                      type="text"
-                      name="zip_code"
-                      value={newAddress.zip_code}
-                      onChange={handleInputChange}
-                      className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Zip code"
-                      required
-                      minLength={1}
-                      maxLength={10}
-                      disabled={loading}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Country
-                    </label>
-                    <input
-                      type="text"
-                      name="country"
-                      value={newAddress.country}
-                      onChange={handleInputChange}
-                      className={`w-full border ${
-                        formErrors.country
-                          ? "border-blue-500"
-                          : "border-gray-300"
-                      } rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500`}
-                      placeholder="Country"
-                      required
-                      minLength={1}
-                      maxLength={20}
-                      disabled={loading}
-                    />
-                    {formErrors.country && (
-                      <p className="text-blue-500 text-xs mt-1">
-                        {formErrors.country}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    id="is_primary"
-                    name="is_primary"
-                    checked={newAddress.is_primary}
-                    onChange={handleInputChange}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                    disabled={loading}
-                  />
-                  <label
-                    htmlFor="is_primary"
-                    className="ml-2 block text-sm text-gray-700"
-                  >
-                    Set as primary address
-                  </label>
-                </div>
-
-                <div className="flex justify-end pt-4 border-t">
-                  <button
-                    type="button"
-                    onClick={() => setShowAddressModal(false)}
-                    className="mr-3 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                    disabled={loading}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    className={`px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${
-                      !isFormValid() ? "opacity-50 cursor-not-allowed" : ""
-                    }`}
-                    disabled={loading || !isFormValid()}
-                  >
-                    {loading ? "Saving..." : "Save Address"}
-                  </button>
-                </div>
-              </form>
-            </div>
+        {/* District and State - Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-bold text-gray-700 mb-1 uppercase">
+              District*
+            </label>
+            <input
+              type="text"
+              name="district"
+              value={newAddress.district}
+              onChange={handleInputChange}
+              className={`w-full border ${
+                formErrors?.district
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 uppercase text-sm`}
+              placeholder="DISTRICT"
+              required
+              disabled={loading}
+            />
+            {formErrors?.district && (
+              <p className="mt-1 text-xs text-red-600 uppercase">
+                {formErrors.district}
+              </p>
+            )}
           </div>
-        )}
+
+          <div>
+            <label className="block text-xs font-bold text-gray-700 mb-1 uppercase">
+              State*
+            </label>
+            <input
+              type="text"
+              name="state"
+              value={newAddress.state}
+              onChange={handleInputChange}
+              className={`w-full border ${
+                formErrors?.state
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 uppercase text-sm`}
+              placeholder="STATE"
+              required
+              disabled={loading}
+            />
+            {formErrors?.state && (
+              <p className="mt-1 text-xs text-red-600 uppercase">
+                {formErrors.state}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Zip Code and Country - Responsive Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-bold text-gray-700 mb-1 uppercase">
+              Zip Code*
+            </label>
+            <input
+              type="text"
+              name="zip_code"
+              value={newAddress.zip_code}
+              onChange={handleInputChange}
+              className={`w-full border ${
+                formErrors?.zip_code
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm`}
+              placeholder="ZIP CODE"
+              required
+              disabled={loading}
+            />
+            {formErrors?.zip_code && (
+              <p className="mt-1 text-xs text-red-600 uppercase">
+                {formErrors.zip_code}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-gray-700 mb-1 uppercase">
+              Country*
+            </label>
+            <input
+              type="text"
+              name="country"
+              value={newAddress.country}
+              onChange={handleInputChange}
+              className={`w-full border ${
+                formErrors?.country
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 uppercase text-sm`}
+              placeholder="COUNTRY"
+              required
+              disabled={loading}
+            />
+            {formErrors?.country && (
+              <p className="mt-1 text-xs text-red-600 uppercase">
+                {formErrors.country}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Primary Address Checkbox */}
+        <div className="flex items-start space-x-2">
+          <input
+            type="checkbox"
+            id="is_primary"
+            name="is_primary"
+            checked={newAddress.is_primary}
+            onChange={handleInputChange}
+            className="h-3 w-3 mt-0.5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            disabled={loading}
+          />
+          <label
+            htmlFor="is_primary"
+            className="text-xs text-gray-700 font-bold uppercase leading-tight"
+          >
+            Set as primary address
+          </label>
+        </div>
+
+        {/* Form Actions - Compact */}
+        <div className="flex flex-col sm:flex-row justify-end pt-3 border-t space-y-2 sm:space-y-0 sm:space-x-2">
+          <button
+            type="button"
+            onClick={() => {
+              setShowAddressModal(false);
+              // Assuming formErrors is cleared similarly; adjust if needed
+            }}
+            className="w-full sm:w-auto px-3 py-1.5 text-xs font-bold text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-blue-500 uppercase"
+            disabled={loading}
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="w-full sm:w-auto px-3 py-1.5 text-xs font-bold text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-1 focus:ring-offset-0 focus:ring-blue-500 uppercase"
+            disabled={
+              loading ||
+              Object.values(formErrors || {}).some(
+                (error) => error
+              )
+            }
+          >
+            {loading ? "Saving..." : "Save Address"}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
       </div>
     </>
   );

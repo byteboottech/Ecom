@@ -44,6 +44,8 @@ import CategoryProductListPage from "./Pages/user/CategoryProductListPage";
 import SearchResults from "./components/user/NavBar/SearchResults";
 import WishlistPage from "./components/user/Wishlist/WishlistPage";
 import ScrollToTop from "./ScrollToTop/ScrollToTop";
+import CarouselCategory from "./components/user/CategoryCarousel/CategoryCarousel"
+import AddNewAddress from "./components/user/Profile/AddNewAddress";
 
 function App() {
   return (
@@ -82,6 +84,10 @@ function App() {
           <Route path='/categoryproductlist' element={<CategoryProductListPage/>}/>
           <Route path="/search" element={<SearchResults />} />
           <Route path="/wishlist" element={<WishlistPage/>} />
+          <Route path="/category/:slug" element={<CarouselCategory />} />
+                    <Route path="/newaddress" element={<AddNewAddress />} />
+
+
 
 
 

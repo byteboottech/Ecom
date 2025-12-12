@@ -70,6 +70,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
   // 👈 Handle slide click (e.g., navigate to button_link or custom logic)
   const handleSlideClick = (slide: SlideData, e?: React.MouseEvent | React.TouchEvent) => {
     if (e) {
+      e.preventDefault(); // 👈 Prevent default navigation (e.g., from <a> if any)
       e.stopPropagation(); // 👈 Prevent Swiper from interfering
     }
     if (onSlideClick) {
@@ -122,10 +123,10 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
               onClick={(e) => handleSlideClick(slide, e)}
             />
 
-            {/* 👈 Button: Hidden on mobile/tablet (under md), shown on desktop (md+); clickable via <a> */}
+            {/* 👈 Button: Hidden on mobile/tablet (under md), shown on desktop (md+); clickable via <button> for consistency */}
             <div className="hidden md:block absolute bottom-0 right-0 z-20 p-2 sm:p-4 md:p-6"> {/* 👈 hidden md:block: Show only on desktop */}
-              <a
-                href={slide.button_link}
+              <button
+                type="button"
                 onClick={(e) => handleSlideClick(slide, e)} // 👈 Consistent handler for button too
                 className="
                   inline-block 
@@ -139,7 +140,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
                 "
               >
                 {slide.button_text}
-              </a>
+              </button>
             </div>
           </SwiperSlide>
         ))}

@@ -423,6 +423,9 @@ const SearchResults = () => {
         <div className="w-full max-w-7xl mx-auto">
           {/* Dynamic Title Section */}
           <div className="text-center lg:text-left mb-6">
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+              {query.trim() ? `Search results for "${query}"` : 'All Products'}
+            </h1>
             <p className="mt-3 text-base text-gray-600">
               {filteredProducts.length} results found. Explore below.
             </p>
@@ -460,4 +463,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default SearchResults; 

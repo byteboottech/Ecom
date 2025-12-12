@@ -15,7 +15,7 @@ import {
   FiX,
   FiHeart
 } from "react-icons/fi";
-import metrixLogo from "../../../Images/maxtreobgremoved.png";
+import metrixLogo from "../../../Images/maxtreo-yellow-logo-backgroundremoved.png";
 import {
   ListOrdered,
   HeadphonesIcon,

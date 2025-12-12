@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import {
   FaBars,
   FaUser,
@@ -18,7 +18,7 @@ import { useAuth } from "../../../Context/UserContext";
 import { getCategory } from "../../../Services/Settings";
 import { getAllProduct } from "../../../Services/Products";
 // import NavBarMenu from "./NavBarMenu";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { addTocart } from '../../../Services/userApi';
 // import metrix_logo from '../../../Images/maxtreobgremoved.png';
 import maxtreoLogo from '../../../Images/maxtro_log_with_text.png'
@@ -27,6 +27,7 @@ import SearchBarNav from "./SearchBarNav";
 
 const ModernNavbar = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [scrolled, setScrolled] = useState(false);
   // const [lastScroll, setLastScroll] = useState(0);
   // const [navbarHidden, setNavbarHidden] = useState(false);
@@ -55,6 +56,8 @@ const ModernNavbar = () => {
   const [allProducts, setAllProducts] = useState([]);
   const prevUserRef = useRef(user);
   const location = useLocation();
+
+  const currentSearchQuery = useMemo(() => searchParams.get('q') || '', [searchParams]);
 
   // Guest cart management functions
   const getGuestCart = () => {
@@ -152,6 +155,17 @@ const ModernNavbar = () => {
     }
     prevUserRef.current = user;
   }, [user, syncGuestCartToBackend]);
+
+  // Sync searchQuery with URL params when on /search page
+  useEffect(() => {
+    if (location.pathname === '/search') {
+      setSearchQuery(currentSearchQuery);
+      // The filtering useEffect will handle suggestions visibility
+    } else {
+      setSearchQuery('');
+      setShowSuggestions(false);
+    }
+  }, [location.pathname, currentSearchQuery]);
 
   // Close dropdown on route change
   useEffect(() => {
@@ -325,8 +339,7 @@ const ModernNavbar = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search?q=${searchQuery}`);
-      setSearchQuery(""); // Clear input
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
       setShowSuggestions(false);
     }
   };
@@ -845,7 +858,7 @@ const ModernNavbar = () => {
       </nav>
 
       {/* Mobile Search Bar - Render below navbar on mobile */}
-      {isMobile && <SearchBarNav />}
+      {/* {isMobile && <SearchBarNav />} */}
 
       <SideBar isOpen={isSidebarOpen} onClose={closeSidebar} position="left" />
     </>

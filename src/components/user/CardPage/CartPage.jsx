@@ -1,13 +1,14 @@
+// CartPage.jsx - Full Fixed Code
 import React, { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import NavBar from "../NavBar/NavBar";
-import Loader from "../../../Loader/Loader"
-import RenderRazorpay from "../../../Loader/Loader";  
+import Loader from "../../../Loader/Loader";
+import RenderRazorpay from "../RazorPay/RenderRazorpay";  // Fixed import path (assuming correct; adjust if needed)
 import BaseURL from "../../../Static/Static";
 import AddNewAddress from "../Profile/AddNewAddress";
 import Overview from "./OverView";
-import Footer from "../Footer/Footer"
+import Footer from "../Footer/Footer";
 import { useAuth } from '../../../Context/UserContext';
 
 import {
@@ -60,7 +61,6 @@ const CartPage = () => {
     try {
       sessionStorage.setItem('guestCart', JSON.stringify(cartItems));
       setGuestCart(cartItems);
-      console.log(guestCart)
     } catch (error) {
       console.error('Error saving guest cart:', error);
     }
@@ -85,11 +85,6 @@ const CartPage = () => {
     });
     saveGuestCart(updatedCart);
   };
-
-  // const clearGuestCart = () => {
-  //   sessionStorage.removeItem('guestCart');
-  //   setGuestCart([]);
-  // };
 
   const fetchCartItems = useCallback(async () => {
     try {
@@ -144,8 +139,8 @@ const CartPage = () => {
 
   useEffect(() => {
     fetchCartItems();
-    fetchAddresses();
-  }, [fetchCartItems, fetchAddresses]);
+    if (user) fetchAddresses();
+  }, [fetchCartItems, fetchAddresses, user]);
 
   useEffect(() => {
     const outOfStock = cartItems.items.some(item => item.product_stock < 1);
@@ -194,6 +189,7 @@ const CartPage = () => {
           }),
         }));
       }
+      await fetchCartItems();  // Refetch to sync
     } catch (error) {
       setError("Failed to update quantity");
       fetchCartItems();
@@ -216,6 +212,7 @@ const CartPage = () => {
           items: prev.items.filter((item) => item.product !== productId),
         }));
       }
+      await fetchCartItems();  // Refetch to sync
     } catch (error) {
       setError("Failed to remove item");
       fetchCartItems();
@@ -276,17 +273,9 @@ const CartPage = () => {
     setAddressModal(false);
   };
 
-  // const syncGuestCartToUserAccount = async () => {
-  //   try {
-  //     const guestCartItems = getGuestCart();
-  //     if (guestCartItems.length > 0) {
-  //       clearGuestCart();
-  //       fetchCartItems();
-  //     }
-  //   } catch (error) {
-  //     console.error('Error syncing guest cart:', error);
-  //   }
-  // };
+  const handleAddressSelect = (id) => {
+    setSelectedAddressId(id);
+  };
 
   const subtotal = cartItems.items.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -295,6 +284,8 @@ const CartPage = () => {
   const discount = promoApplied ? 500 : 0;
   const grandTotal = subtotal - discount;
   const isCartEmpty = !cartItems.items?.length;
+
+  const selectedAddress = addresses.find(a => a.id === selectedAddressId);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -307,45 +298,54 @@ const CartPage = () => {
         />
       )}
 
-      {addressModal && user && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-2">
-          <div className="bg-white rounded-md p-4 w-full max-w-sm">
-            <AddNewAddress
-              onClose={() => setAddressModal(false)}
-              fetchAddresses={handleAddressAdded}
-            />
-          </div>
-        </div>
-      )}
+{addressModal && user && (
+  <div className="fixed top-[70px] left-0 right-0 bottom-0 bg-black bg-opacity-50 z-[1020] flex items-center justify-center p-4">
+    <div className="bg-white rounded-xl shadow-xl w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-y-auto relative">
+      <AddNewAddress
+        onClose={() => setAddressModal(false)}
+        onAddressAdded={handleAddressAdded}
+      />
+    </div>
+  </div>
+)}
 
       <AnimatePresence>
-        {showOverview && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center pt-44 p-2">
-            <motion.div
-              className="bg-white rounded-md w-full max-w-2xl max-h-[70vh] overflow-y-auto relative"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-            >
-              <button
-                className="absolute top-2 right-2 w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-gray-200"
-                onClick={() => setShowOverview(false)}
-              >
-                ×
-              </button>
+       {showOverview && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 z-50 
+                  flex items-center justify-center p-2 
+                  pt-4 md:pt-44">
 
-              <div className="px-4 pt-4">
-                <Overview
-                  cartItems={cartItems}
-                  address={addresses.find((a) => a.id === selectedAddressId)}
-                  total={grandTotal}
-                  onBack={() => setShowOverview(false)}
-                  onConfirm={handlePayment}
-                />
-              </div>
-            </motion.div>
-          </div>
-        )}
+    <motion.div
+      className="bg-white rounded-md w-full max-w-2xl max-h-[70vh] overflow-y-auto relative"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -10 }}
+    >
+      <button
+        className="absolute top-2 right-2 w-6 h-6 bg-gray-100 rounded-full 
+                   flex items-center justify-center text-gray-600 hover:bg-gray-200"
+        onClick={() => setShowOverview(false)}
+      >
+        ×
+      </button>
+
+      <div className="px-4 pt-4">
+        <Overview
+          cartItems={cartItems}
+          addresses={addresses}
+          selectedAddressId={selectedAddressId}
+          onAddressSelect={handleAddressSelect}
+          onAddressAdded={handleAddressAdded}
+          total={grandTotal}
+          onBack={() => setShowOverview(false)}
+          onConfirm={handlePayment}
+          hasOutOfStockItems={hasOutOfStockItems}
+        />
+      </div>
+    </motion.div>
+  </div>
+)}
+
       </AnimatePresence>
 
       <motion.div
@@ -452,12 +452,13 @@ const CartPage = () => {
           </div>
         )}
       </motion.div>
-     <Footer/>
-     <MobileBottomNavbar/>
+      <Footer />
+      <MobileBottomNavbar />
     </div>
   );
 };
 
+// Inline Components (unchanged)
 const EmptyCart = () => (
   <motion.div
     className="text-center py-4 bg-white rounded-md shadow-sm"

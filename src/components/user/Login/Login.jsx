@@ -17,8 +17,9 @@
   import { submitOTP } from "../../../Services/userApi";
   import OtpInput from "../OtpSubmit/otp"; // Import OtpInput from the working Login component path
   import { useAuth } from "../../../Context/UserContext";
-  import maxtreo from '../../../Images/maxtreo_yellow_logo.png'
+  import maxtreo from '../../../Images/maxtreo-yellow-logo-backgroundremoved.png'
   import GoogleLoginComponent from "../../user/Google/GoogleLoginComponent";
+  
 
   const ModernLoginForm = ({ isModal = false, onClose }) => {
     const navigate = useNavigate();

@@ -408,15 +408,20 @@ function Details({ product }) {
           onClose={() => setAlertData(null)}
         />
       )}
- {overView && (
-  <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4 pt-32">
-    <div className="relative max-w-4xl w-full max-h-[70vh] bg-white rounded-xl overflow-y-auto scroll-smooth animate-pop-in">
+{overView && (
+  <div className="fixed inset-0 bg-black bg-opacity-70 z-50 
+                  flex items-center justify-center p-4 
+                  pt-4 md:pt-32">
+    <div className="relative max-w-4xl w-full max-h-[70vh] 
+                    bg-white rounded-xl overflow-y-auto scroll-smooth">
       <button
-        className="absolute top-4 right-4 z-50 w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-gray-800 hover:bg-gray-300 transition-colors"
+        className="absolute top-4 right-4 z-50 w-8 h-8 bg-gray-200 rounded-full 
+                   flex items-center justify-center text-gray-800 hover:bg-gray-300"
         onClick={() => setOverView(false)}
       >
-        <X className="w-5 h-5" /> {/* Lucide minimal close icon */}
+        <X className="w-5 h-5" />
       </button>
+
       <SingleProductOverview
         product={product}
         onClose={() => setOverView(false)}
@@ -424,6 +429,7 @@ function Details({ product }) {
     </div>
   </div>
 )}
+
       {/* Desktop Zoom Popup */}
       {showZoomPopup && (
         <div className="fixed inset-0 z-40 pointer-events-none">
