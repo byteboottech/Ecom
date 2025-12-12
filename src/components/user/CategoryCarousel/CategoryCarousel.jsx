@@ -104,26 +104,6 @@ function CategoryCarousel() {
     <div className="min-h-screen bg-gray-50">
       <NavBar />
       
-      {/* Category Header */}
-      <div className="py-10 bg-white">
-        <div className="w-full max-w-7xl mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-extrabold text-gray-900">
-              {categoryData.name}
-            </h1>
-            {categoryData.description && (
-              <p className="text-gray-600 text-base md:text-lg max-w-3xl">
-                {categoryData.description}
-              </p>
-            )}
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <Tag className="w-4 h-4" />
-              <span>{categoryData.total_products} {categoryData.total_products === 1 ? 'Product' : 'Products'}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Products Grid */}
       <div className="py-10 bg-white">
         <div className="w-full max-w-7xl mx-auto px-4">

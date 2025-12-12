@@ -218,7 +218,7 @@ const MaxtreoFooter = () => {
   </div>
 
   <div className="p-1 lg:p-2  flex items-center justify-center" title="Bank">
-    <img src={Bank} alt="Bank" className="h-8 w-8 lg:h-10 lg:w-10 object-contain" />
+    <img src={Bank} alt="Bank" className="h-6 w-6 object-contain" />
   </div>
 </div>
 

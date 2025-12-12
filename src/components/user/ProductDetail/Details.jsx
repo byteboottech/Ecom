@@ -653,14 +653,14 @@ function Details({ product }) {
                     <FaDownload size={12} /> <span>Download Brochure</span>
                   </button>
                 )} */}
-                {videoId && (
+                {/* {videoId && (
                   <button
                     className="flex items-center gap-1 text-blue-600 hover:underline focus:outline-none"
                     onClick={handleWatchYoutube}
                   >
                     <FaYoutube size={14} /> <span>Watch on YouTube</span>
                   </button>
-                )}
+                )} */}
               </div>
             </div>
             {/* Variants Section */}

@@ -489,6 +489,7 @@ const ModernNavbar = () => {
             {/* Hamburger - Now visible on all screens */}
             <button className="menu-btn" onClick={openSidebar}>
               <FaBars />
+              {isMobile && <span className="menu-text">MENU</span>}
             </button>
             <Link 
               to="/" 

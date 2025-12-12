@@ -1126,6 +1126,11 @@
   transform: translateY(-1px);
 }
 
+.menu-text{
+  padding-left: 6px;
+  font-size: 12px;
+}
+
 /* Mobile Independent Categories - Simple list in sidebar or via hamburger, but for now, assume sidebar handles it */
 @media (max-width: 1024px) {
   .search-bar-section.attractive-search {
