@@ -17,7 +17,7 @@ function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Function to split array into n chunks as evenly as possible (kept for potential future use, but not needed now)
+  // Function to split array into n chunks as evenly as possible (kept for potential future use)
   const chunkArray = (arr, n) => {
     const chunks = [];
     const chunkSize = Math.floor(arr.length / n);
@@ -43,18 +43,17 @@ function Home() {
         const sortedCategories = [...(categoriesResponse.data || [])].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
         setCategories(sortedCategories);
 
-        // Step 2: Take first 5 categories (or fewer if less available)
-        const selectedCategories = sortedCategories.slice(0, 5);
-        console.log("Selected categories (up to 5):", selectedCategories.map(c => c.slug));
-
-        // Step 3: Fetch details for each selected category in parallel
-        const detailsPromises = selectedCategories.map(cat => 
+        // Step 2: Fetch details for ALL categories in parallel
+        const detailsPromises = sortedCategories.map(cat => 
           Axios.get(`/advertisement/product/categories/${cat.slug}/`)
-            .then(res => ({
-              ...cat,
-              ...res.data,
-              hero_carousels: (res.data.hero_carousels || []).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-            }))
+            .then(res => {
+              console.log(`Details API Response for ${cat.slug}:`, res.data);
+              return {
+                ...cat,
+                ...res.data,
+                hero_carousels: (res.data.hero_carousels || []).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+              };
+            })
             .catch(err => {
               console.error(`Error fetching details for ${cat.slug}:`, err);
               return { ...cat, hero_carousels: [], category_products: [], total_products: 0 };
@@ -62,7 +61,19 @@ function Home() {
         );
 
         const detailsResponses = await Promise.all(detailsPromises);
-        setCategoryDetails(detailsResponses);
+        
+        // Step 3: Filter to categories with hero_carousels, sort by slides desc then total_products desc, select top 5
+        const filteredWithSlides = detailsResponses.filter(cat => (cat.hero_carousels || []).length > 0);
+        const sortedBySlidesAndPopularity = [...filteredWithSlides].sort((a, b) => {
+          const aSlides = a.hero_carousels.length || 0;
+          const bSlides = b.hero_carousels.length || 0;
+          if (bSlides !== aSlides) return bSlides - aSlides;
+          return (b.total_products ?? 0) - (a.total_products ?? 0);
+        });
+        const selectedCategories = sortedBySlidesAndPopularity.slice(0, 5);
+        console.log("Filtered & Selected top categories (with slides):", selectedCategories.map(c => ({ slug: c.slug, hero_carousels_length: c.hero_carousels.length, total_products: c.total_products })));
+        
+        setCategoryDetails(selectedCategories);
       } catch (err) {
         console.error('Error fetching categories or details:', err);
         setError(err.message || 'Unknown error');
@@ -95,14 +106,10 @@ function Home() {
     );
   }
 
+  const numCats = categoryDetails.length;
+
   // Assign to 5 sections (pad with empty if fewer than 5)
   const getSectionData = (index) => categoryDetails[index] || { hero_carousels: [], slug: '' };
-  const leftLargeData = getSectionData(0).hero_carousels;
-  const rightTopData = getSectionData(1).hero_carousels;
-  const rightBottomData = getSectionData(2).hero_carousels;
-  const leftBottomData = getSectionData(3).hero_carousels;
-  const rightBottomDataNew = getSectionData(4).hero_carousels;
-
   const getCategorySlug = (index) => getSectionData(index).slug || '';
 
   // Navigation handler for carousel clicks/buttons (override to category page)
@@ -113,11 +120,11 @@ function Home() {
   };
 
   console.log("Section carousel lengths:", {
-    leftLarge: leftLargeData.length,
-    rightTop: rightTopData.length,
-    rightBottom: rightBottomData.length,
-    leftBottom: leftBottomData.length,
-    rightBottomNew: rightBottomDataNew.length
+    leftLarge: getSectionData(0).hero_carousels.length,
+    rightTop: getSectionData(1).hero_carousels.length,
+    rightBottom: getSectionData(2).hero_carousels.length,
+    leftBottom: getSectionData(3).hero_carousels.length,
+    rightBottomNew: getSectionData(4).hero_carousels.length
   });
 
   return (
@@ -129,14 +136,14 @@ function Home() {
       </div>
       {/* Top area: left large (2/3) and right column with two stacked carousels (1/3) */}
       <div className="flex flex-col lg:flex-row gap-4 p-4 md:p-8 overflow-hidden">
-        {/* Left large */}
-        {leftLargeData.length > 0 && (
+        {/* Left large - render if at least 1 category with slides */}
+        {numCats >= 1 && getSectionData(0).hero_carousels.length > 0 && (
           <div className="w-full lg:w-2/3 aspect-video lg:aspect-auto lg:h-[500px] overflow-hidden flex-shrink-0 relative">
             <ReusableCarousel
-              data={leftLargeData}
+              data={getSectionData(0).hero_carousels}
               slidesPerView={1}
               speed={500}
-              autoplayDelay={leftLargeData.length > 1 ? 4000 : 0}
+              autoplayDelay={getSectionData(0).hero_carousels.length > 1 ? 4000 : 0}
               width="100%"
               height="100%"
               onSlideClick={(slide) => handleCarouselClick(getCategorySlug(0))} // 👈 Accept slide param for consistency
@@ -144,36 +151,40 @@ function Home() {
           </div>
         )}
 
-        {/* Right column: two carousels — side-by-side on mobile, stacked on lg */}
-        <div className="w-full flex flex-row lg:flex-col gap-2 lg:gap-4 lg:w-1/3 overflow-hidden">
-          {rightTopData.length > 0 && (
-            <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[240px] overflow-hidden relative">
-              <ReusableCarousel
-                data={rightTopData}
-                slidesPerView={1}
-                speed={500}
-                autoplayDelay={rightTopData.length > 1 ? 4000 : 0}
-                width="100%"
-                height="100%"
-                onSlideClick={(slide) => handleCarouselClick(getCategorySlug(1))}
-              />
-            </div>
-          )}
+        {/* Right column: conditional based on numCats - side-by-side on mobile, stacked on lg */}
+        {numCats >= 2 && (
+          <div className={`w-full lg:w-1/3 overflow-hidden ${numCats >= 3 ? 'flex flex-row lg:flex-col gap-2 lg:gap-4' : ''}`}>
+            {/* Right top - render if at least 2 categories with slides for index 1 */}
+            {numCats >= 2 && getSectionData(1).hero_carousels.length > 0 && (
+              <div className={`flex-1 min-w-0 aspect-video lg:aspect-auto overflow-hidden relative ${numCats === 2 ? 'lg:h-[500px]' : 'lg:h-[240px]'}`}>
+                <ReusableCarousel
+                  data={getSectionData(1).hero_carousels}
+                  slidesPerView={1}
+                  speed={500}
+                  autoplayDelay={getSectionData(1).hero_carousels.length > 1 ? 4000 : 0}
+                  width="100%"
+                  height="100%"
+                  onSlideClick={(slide) => handleCarouselClick(getCategorySlug(1))}
+                />
+              </div>
+            )}
 
-          {rightBottomData.length > 0 && (
-            <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[240px] overflow-hidden relative">
-              <ReusableCarousel
-                data={rightBottomData}
-                slidesPerView={1}
-                speed={300}
-                autoplayDelay={rightBottomData.length > 1 ? 4000 : 0}
-                width="100%"
-                height="100%"
-                onSlideClick={(slide) => handleCarouselClick(getCategorySlug(2))}
-              />
-            </div>
-          )}
-        </div>
+            {/* Right bottom - only if at least 3 categories with slides for index 2 */}
+            {numCats >= 3 && getSectionData(2).hero_carousels.length > 0 && (
+              <div className="flex-1 min-w-0 aspect-video lg:aspect-auto lg:h-[240px] overflow-hidden relative">
+                <ReusableCarousel
+                  data={getSectionData(2).hero_carousels}
+                  slidesPerView={1}
+                  speed={300}
+                  autoplayDelay={getSectionData(2).hero_carousels.length > 1 ? 4000 : 0}
+                  width="100%"
+                  height="100%"
+                  onSlideClick={(slide) => handleCarouselClick(getCategorySlug(2))}
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* ProductHighlights */}
@@ -186,36 +197,40 @@ function Home() {
         <PopularCategory />
       </div>
 
-      {/* Bottom side-by-side carousels */}
-      <div className="flex flex-row gap-2 p-4 md:p-8 overflow-hidden">
-        {leftBottomData.length > 0 && (
-          <div className="flex-1 min-w-0 aspect-video overflow-hidden relative">
-            <ReusableCarousel
-              data={leftBottomData}
-              slidesPerView={1}
-              speed={500}
-              autoplayDelay={leftBottomData.length > 1 ? 4000 : 0}
-              width="100%"
-              height="100%"
-              onSlideClick={(slide) => handleCarouselClick(getCategorySlug(3))}
-            />
-          </div>
-        )}
+      {/* Bottom side-by-side carousels - conditional based on numCats */}
+      {numCats >= 4 && (
+        <div className={`overflow-hidden ${numCats >= 5 ? 'flex flex-row gap-2 p-4 md:p-8' : 'p-4 md:p-8 flex justify-center'}`}>
+          {/* Left bottom - render if >=4 and index 3 has slides */}
+          {getSectionData(3).hero_carousels.length > 0 && (
+            <div className={`${numCats >= 5 ? 'flex-1' : 'w-full'} min-w-0 aspect-video overflow-hidden relative`}>
+              <ReusableCarousel
+                data={getSectionData(3).hero_carousels}
+                slidesPerView={1}
+                speed={500}
+                autoplayDelay={getSectionData(3).hero_carousels.length > 1 ? 4000 : 0}
+                width="100%"
+                height="100%"
+                onSlideClick={(slide) => handleCarouselClick(getCategorySlug(3))}
+              />
+            </div>
+          )}
 
-        {rightBottomDataNew.length > 0 && (
-          <div className="flex-1 min-w-0 aspect-video overflow-hidden relative">
-            <ReusableCarousel
-              data={rightBottomDataNew}
-              slidesPerView={1}
-              speed={500}
-              autoplayDelay={rightBottomDataNew.length > 1 ? 4000 : 0}
-              width="100%"
-              height="100%"
-              onSlideClick={(slide) => handleCarouselClick(getCategorySlug(4))}
-            />
-          </div>
-        )}
-      </div>
+          {/* Right bottom - render if >=5 and index 4 has slides */}
+          {numCats >= 5 && getSectionData(4).hero_carousels.length > 0 && (
+            <div className="flex-1 min-w-0 aspect-video overflow-hidden relative">
+              <ReusableCarousel
+                data={getSectionData(4).hero_carousels}
+                slidesPerView={1}
+                speed={500}
+                autoplayDelay={getSectionData(4).hero_carousels.length > 1 ? 4000 : 0}
+                width="100%"
+                height="100%"
+                onSlideClick={(slide) => handleCarouselClick(getCategorySlug(4))}
+              />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Footer */}
       <Footer />

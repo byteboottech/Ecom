@@ -25,6 +25,7 @@ function Overview({ product }) {
   const [showAddressModal, setShowAddressModal] = useState(false);
   const [displayRazorpay, setDisplayRazorpay] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [hasOutOfStock, setHasOutOfStock] = useState(false);
 
   // Form validation errors
   const [formErrors, setFormErrors] = useState({
@@ -45,6 +46,18 @@ function Overview({ product }) {
     is_primary: false,
   });
   const [orderDetails, setOrderDetails] = useState({});
+
+  // Out-of-stock detection
+  useEffect(() => {
+    const stock = product?.stock || 0;
+    setHasOutOfStock(stock < 1);
+    // Set initial quantity based on stock
+    if (stock < 1) {
+      setQuantity(0);
+    } else {
+      setQuantity(1); // Or preserve previous if needed
+    }
+  }, [product?.stock]);
 
   // Calculate order totals based on single product
   let subtotal;
@@ -211,6 +224,12 @@ function Overview({ product }) {
   };
 
   const handleCreateOrder = async () => {
+    if (hasOutOfStock) {
+      setError("This item is out of stock. Please choose another product.");
+      setTimeout(() => setError(null), 3000);
+      return;
+    }
+
     try {
       setLoading(true);
       let getPrimaryAddress = await getMyPrimaryAddress();
@@ -246,9 +265,35 @@ function Overview({ product }) {
   };
 
   const handleQuantityChange = (newQuantity) => {
+    if (hasOutOfStock) return; // Block all changes if out of stock
     if (newQuantity < 1) return;
-    if (newQuantity > (product?.stock || 10)) return; // Assuming product has stock field
+    const maxStock = product?.stock || 0;
+    if (newQuantity > maxStock) return;
     setQuantity(newQuantity);
+  };
+
+  // Stock Status Component (inline, similar to CartPage)
+  const StockStatus = ({ stock }) => {
+    const isOut = stock < 1;
+    return (
+      <div className="mb-1">
+        <div
+          className="inline-flex items-center px-2 py-1 rounded text-xs"
+          style={{
+            backgroundColor: isOut ? "rgba(255, 0, 0, 0.1)" : "rgba(99, 163, 117, 0.1)",
+          }}
+        >
+          <span style={{ color: isOut ? "red" : "#63A375" }}>
+            {isOut ? "OUT OF STOCK" : "In Stock"}
+          </span>
+        </div>
+        {isOut && (
+          <p className="text-red-500 text-xs mt-1">
+            This item is out of stock. Please choose another.
+          </p>
+        )}
+      </div>
+    );
   };
 
   if (loading && addresses.length === 0) {
@@ -400,16 +445,22 @@ function Overview({ product }) {
                       <h3 className="font-medium text-gray-800">
                         {product.name}
                       </h3>
-                      <p className="text-sm text-gray-500">
-                        Available: {product.stock || "N/A"}
-                      </p>
+                      {/* Stock Status Badge */}
+                      <StockStatus stock={product.stock || 0} />
+                      {/* Legacy availability text - can remove if badge suffices */}
+                      {!hasOutOfStock && (
+                        <p className="text-sm text-gray-500">
+                          Available: {product.stock || "N/A"}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center justify-between sm:items-end sm:flex-col">
                     <div className="flex items-center mb-2 sm:mb-0">
                       <button
                         onClick={() => handleQuantityChange(quantity - 1)}
-                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-l-md"
+                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-l-md disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={quantity <= 1 || hasOutOfStock}
                       >
                         -
                       </button>
@@ -418,7 +469,8 @@ function Overview({ product }) {
                       </div>
                       <button
                         onClick={() => handleQuantityChange(quantity + 1)}
-                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-r-md"
+                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-r-md disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={hasOutOfStock}
                       >
                         +
                       </button>
@@ -473,11 +525,11 @@ function Overview({ product }) {
               <button
                 onClick={handleCreateOrder}
                 className={`w-full bg-blue-600 text-white py-4 px-6 rounded-lg font-medium flex items-center justify-center transition-colors duration-300 shadow-sm ${
-                  !selectedAddressId
+                  !selectedAddressId || hasOutOfStock
                     ? "opacity-50 cursor-not-allowed"
                     : "hover:bg-blue-700"
                 }`}
-                disabled={!selectedAddressId || loading}
+                disabled={!selectedAddressId || hasOutOfStock || loading}
               >
                 {loading ? (
                   <>
@@ -491,6 +543,12 @@ function Overview({ product }) {
                   </>
                 )}
               </button>
+
+              {hasOutOfStock && (
+                <p className="text-red-500 text-xs mt-1 text-center">
+                  Please choose an in-stock product.
+                </p>
+              )}
 
               <p className="text-xs text-center text-gray-500 mt-4">
                 By proceeding, you agree to our Terms of Service and Privacy
