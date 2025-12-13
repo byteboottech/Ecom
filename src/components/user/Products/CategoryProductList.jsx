@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 import { 
   FaSearch, 
   FaSpinner, 
@@ -33,6 +34,8 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
   const [guestCart, setGuestCart] = useState([]);
   const alertTimeoutRef = useRef(null);
   const { user } = useAuth();
+  const navigate = useNavigate();
+  
 
   // Guest cart management functions
   const getGuestCart = () => {
@@ -176,23 +179,30 @@ function CategoryProductList({ category }) { // Receives category as prop: { id,
     }
   };
 
-  const handleBuyNow = (product, event) => {
-    event.stopPropagation();
-    
-    if (!user) {
-      addToGuestCart(product.id, product);
-      showAlert({
-        type: "info",
-        message: "Please login to proceed with purchase"
-      });
-      
-      setTimeout(() => {
-        window.location.href = "/login"; // Fallback
-      }, 2000);
-    } else {
-      console.log(product, "buy now product");
-    }
-  };
+const handleBuyNow = (product, event) => {
+  event.stopPropagation(); // ⛔ prevent card click
+
+  if (!user) {
+    // Guest user → save product and go to login
+    addToGuestCart(product.id, product);
+
+    showAlert({
+      type: "info",
+      message: "Please login to continue with Buy Now"
+    });
+
+    navigate("/login");
+  } else {
+    // Logged-in user → go to Details page with Buy Now intent
+    navigate(`/Details/${product.id}`, {
+      state: {
+        buyNow: true,
+        quantity: 1
+      }
+    });
+  }
+};
+
 
   const navigateToDetails = (id) => {
     window.location.href = `/Details/${id}`; // Fallback without navigate

@@ -46,6 +46,7 @@ import WishlistPage from "./components/user/Wishlist/WishlistPage";
 import ScrollToTop from "./ScrollToTop/ScrollToTop";
 import CarouselCategory from "./components/user/CategoryCarousel/CategoryCarousel"
 import AddNewAddress from "./components/user/Profile/AddNewAddress";
+import OverView from "./components/Admin/OverView/OverView";
 
 function App() {
   return (
@@ -86,6 +87,8 @@ function App() {
           <Route path="/wishlist" element={<WishlistPage/>} />
           <Route path="/category/:slug" element={<CarouselCategory />} />
                     <Route path="/newaddress" element={<AddNewAddress />} />
+                                        <Route path="/overview" element={<OverView />} />
+
 
 
 

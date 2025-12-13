@@ -310,13 +310,13 @@ const CartPage = () => {
 )}
 
       <AnimatePresence>
-       {showOverview && (
+      {showOverview && (
   <div className="fixed inset-0 bg-black bg-opacity-50 z-50 
                   flex items-center justify-center p-2 
                   pt-4 md:pt-44">
 
     <motion.div
-      className="bg-white rounded-md w-full max-w-2xl max-h-[70vh] overflow-y-auto relative"
+      className="bg-white rounded-md w-full max-w-2xl md:max-w-4xl max-h-[70vh] overflow-y-auto relative"
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}

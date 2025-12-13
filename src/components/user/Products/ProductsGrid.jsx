@@ -166,22 +166,29 @@ function ProductsGrid() {
   };
 
   const handleBuyNow = (product, event) => {
-    event.stopPropagation();
-    
-    if (!user) {
-      addToGuestCart(product.id, product);
-      showAlert({
-        type: "info",
-        message: "Please login to proceed with purchase"
-      });
-      
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
-    } else {
-      console.log(product, "buy now product");
-    }
-  };
+  event.stopPropagation(); // ⛔ prevent card click
+
+  if (!user) {
+    // Guest user → save product and go to login
+    addToGuestCart(product.id, product);
+
+    showAlert({
+      type: "info",
+      message: "Please login to continue with Buy Now"
+    });
+
+    navigate("/login");
+  } else {
+    // Logged-in user → go to Details page with Buy Now intent
+    navigate(`/Details/${product.id}`, {
+      state: {
+        buyNow: true,
+        quantity: 1
+      }
+    });
+  }
+};
+
 
   const navigateToDetails = (id) => {
     navigate(`/Details/${id}`);
