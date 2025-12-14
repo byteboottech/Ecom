@@ -93,13 +93,16 @@ const ProductSpecifications = ({ product }) => {
       } transition-all duration-500 ease-in-out`}
     >
       <div className="w-full max-w-4xl mx-auto px-4 py-8">
-
-        <div className="mb-8 grid grid-cols-3 gap-4">
+        
+<div className="mb-8 grid grid-cols-2 md:grid-cols-3 gap-4">
           <div className="text-xl  uppercase font-semibold">
             WHAT'S INSIDE
           </div>
           <div>
-            <p className="text-gray-800">{specs.whatsinside}</p>
+           <p className="text-gray-800">
+  {specs.whatsinside.replace(/\s+/g, " ").trim()}
+</p>
+
           </div>
           <div></div>
           {/* <p className="mb-2">AMC Bundles Available at Checkout (Years)</p> */}

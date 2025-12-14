@@ -21,6 +21,7 @@ function DetailedView() {
         console.log("Fetching product ID:", id);
         // Assuming getSingleProduct and other services/components are correctly defined externally
         let productData = await getSingleProduct(id);
+        console.log("Product data:",productData)
         
         if (!productData) {
           console.error("No product data found for ID:", id);

@@ -295,21 +295,21 @@ const deleteAddress = async (id) => {
        
       </header> */}
 
-      <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="max-w-6xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
         {/* User Info Card */}
 
         {/* Recent Orders */}
 
         {/* Main Content Area */}
-        <div className="grid grid-cols-12 gap-6">
+        <div className="grid grid-cols-12 gap-4 sm:gap-6">
           {/* Right Panel - Content */}
 
           <div className="col-span-12 md:col-span-8">
             <div
-              className="bg-gray-200 bg-opacity-60 backdrop-blur-sm rounded-lg p-6 mb-6 flex items-center"
+              className="bg-gray-200 bg-opacity-60 backdrop-blur-sm rounded-lg p-4 sm:p-6 mb-4 sm:mb-6 flex items-center"
               
             >
-             <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full overflow-hidden bg-gray-700 flex items-center justify-center mr-3 sm:mr-4 flex-shrink-0">
+             <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-12 md:h-12 lg:w-16 lg:h-16 rounded-full overflow-hidden bg-gray-700 flex items-center justify-center mr-2 sm:mr-3 md:mr-4 flex-shrink-0">
   {getProfilePicture() ? (
     <img
       src={
@@ -321,14 +321,14 @@ const deleteAddress = async (id) => {
       className="w-full h-full object-cover"
     />
     ) : (
-    <User size={28} className="sm:size-32 text-gray-400" />
+    <User size={24} className="sm:size-28 md:size-28 lg:size-32 text-gray-400" />
   )}
 </div>
               <div>
-                <h2 className="text-xl font-bold">
+                <h2 className="text-base sm:text-lg md:text-xl font-bold">
                   {userData?.first_name} {userData?.last_name || ""}
                 </h2>
-                <div className="flex items-center text-gray-400 text-sm">
+                <div className="flex items-center text-gray-400 text-xs sm:text-sm">
                   <span className="bg-blue-600 text-white text-xs px-2 py-0.5 rounded mr-2">
                     Member
                   </span>
@@ -336,7 +336,7 @@ const deleteAddress = async (id) => {
                 </div>
 
                 {userData?.phone_number && (
-                  <p className="text-gray-400 text-sm mt-1">
+                  <p className="text-gray-400 text-xs sm:text-sm mt-1">
                     {userData.phone_number}
                   </p>
                 )}
@@ -369,7 +369,7 @@ const deleteAddress = async (id) => {
           </div>
           {/* Left Panel */}
           <div
-            className="col-span-12 md:col-span-4 bg-gray-300 rounded-lg p-4 pt-10"
+            className="col-span-12 md:col-span-4 bg-gray-300 rounded-lg p-3 sm:p-4 pt-6 sm:pt-10"
             // style={{
             //   backgroundImage: `url(${image_on_tokyo})`,
             //   backgroundSize: "cover",
@@ -378,38 +378,38 @@ const deleteAddress = async (id) => {
             // }}
           >
             <div
-              className="bg-white bg-opacity-50 backdrop-blur-sm  rounded-lg p-4 mb-6"
+              className="bg-white bg-opacity-50 backdrop-blur-sm  rounded-lg p-3 sm:p-4 mb-4 sm:mb-6"
               style={{ marginTop: "100px" }}
             >
-              <h3 className="text-lg font-semibold mb-4">Profile Actions</h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Profile Actions</h3>
               <div className="space-y-2">
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="w-full text-left px-4 py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
+                  className="w-full text-left px-3 py-2 sm:px-4 sm:py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
                 >
                   <span className="flex items-center">
-                    <Edit size={18} className="mr-3 text-blue-500" />
+                    <Edit size={16} className="mr-2 sm:mr-3 text-blue-500" />
                     <span className="text-black">Edit Profile</span>
                   </span>
-                  <ChevronRight size={18} className="text-gray-400" />
+                  <ChevronRight size={16} className="sm:size-18 text-gray-400" />
                 </button>
                 <button
                   onClick={() => setShowAddressPopup(true)}
-                  className="w-full text-left px-4 py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
+                  className="w-full text-left px-3 py-2 sm:px-4 sm:py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
                 >
                   <span className="flex items-center">
-                    <Plus size={18} className="mr-3 text-blue-500" />
+                    <Plus size={16} className="mr-2 sm:mr-3 text-blue-500" />
                     <span className="black">Add New Address</span>
                   </span>
-                  <ChevronRight size={18} className="text-gray-400" />
+                  <ChevronRight size={16} className="sm:size-18 text-gray-400" />
                 </button>
                 <button
                   onClick={handleLogout}
-                  className="w-full text-left px-4 py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
+                  className="w-full text-left px-3 py-2 sm:px-4 sm:py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md"
                 >
                   <span className="flex items-center">
                     <svg
-                      className="w-5 h-5 mr-3 text-blue-500"
+                      className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-blue-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -424,15 +424,15 @@ const deleteAddress = async (id) => {
                     </svg>
                     <span>Log Out</span>
                   </span>
-                  <ChevronRight size={18} className="text-gray-400" />
+                  <ChevronRight size={16} className="sm:size-18 text-gray-400" />
                 </button>
                 <button
                   onClick={() => setIsDeleting(true)}
-                  className="w-full text-left px-4 py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md text-red-400"
+                  className="w-full text-left px-3 py-2 sm:px-4 sm:py-3 flex items-center justify-between bg-gray-300 bg-opacity-10 backdrop-blur-sm hover:bg-gray-300 transition-colors rounded-md text-red-400"
                 >
                   <span className="flex items-center">
                     <svg
-                      className="w-5 h-5 mr-3 text-red-500"
+                      className="w-4 h-4 sm:w-5 sm:h-5 mr-2 sm:mr-3 text-red-500"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -447,22 +447,22 @@ const deleteAddress = async (id) => {
                     </svg>
                     <span>Delete Account</span>
                   </span>
-                  <ChevronRight size={18} className="text-gray-400" />
+                  <ChevronRight size={16} className="sm:size-18 text-gray-400" />
                 </button>
               </div>
             </div>
-            <div className="mb-6" style={{ borderRadius: "10px" }}>
-              <div className="bg-white bg-opacity-50 backdrop-blur-sm rounded-lg p-4">
-                <h3 className="text-lg font-semibold mb-2 text-black">
+            <div className="mb-4 sm:mb-6" style={{ borderRadius: "10px" }}>
+              <div className="bg-white bg-opacity-50 backdrop-blur-sm rounded-lg p-3 sm:p-4">
+                <h3 className="text-base sm:text-lg font-semibold mb-2 text-black">
                   Recent Activity
                 </h3>
 
                 {userAddresses && userAddresses.length > 0 ? (
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     {userAddresses.slice(0, 3).map((address, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center text-sm border-b border-gray-800 pb-2"
+                        className="flex items-center text-xs sm:text-sm border-b border-gray-800 pb-1 sm:pb-2"
                       >
                         <span className="text-gray-400 mr-2">#{idx + 1}</span>
                         <span className="flex-grow">
@@ -475,7 +475,7 @@ const deleteAddress = async (id) => {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-gray-400 text-center py-4">
+                  <p className="text-gray-400 text-center py-3 sm:py-4">
                     No recent activity
                   </p>
                 )}
@@ -508,29 +508,29 @@ const deleteAddress = async (id) => {
 
 const DeleteConfirmationPopup = ({ onClose, onConfirm, isDeleting }) => (
   <div className="fixed inset-0 bg-white bg-opacity-80 flex items-center justify-center z-50">
-    <div className="bg-gray-100 bg-opacity-10 backdrop-blur-sm rounded-lg p-6 max-w-md w-full border border-gray-800">
-      <h3 className="text-xl font-semibold text-black mb-4">
+    <div className="bg-gray-100 bg-opacity-10 backdrop-blur-sm rounded-lg p-4 sm:p-6 max-w-md w-full border border-gray-800">
+      <h3 className="text-lg sm:text-xl font-semibold text-black mb-3 sm:mb-4">
         Confirm Account Deletion
       </h3>
-      <p className="text-gray-300 mb-6">
+      <p className="text-gray-300 mb-4 sm:mb-6 text-sm">
         Are you sure you want to delete your account? This action cannot be
         undone.
       </p>
-      <div className="flex justify-end space-x-3">
+      <div className="flex justify-end space-x-2 sm:space-x-3">
         <button
           onClick={onClose}
-          className="px-4 py-2 border border-gray-600 rounded-md text-gray-300 hover:bg-gray-800"
+          className="px-3 sm:px-4 py-1.5 sm:py-2 border border-gray-600 rounded-md text-gray-300 hover:bg-gray-800 text-xs sm:text-sm"
           disabled={isDeleting}
         >
           Cancel
         </button>
         <button
           onClick={onConfirm}
-          className="px-4 py-2 bg-red-600 text-black rounded-md hover:bg-red-700 flex items-center"
+          className="px-3 sm:px-4 py-1.5 sm:py-2 bg-red-600 text-black rounded-md hover:bg-red-700 flex items-center text-xs sm:text-sm"
           disabled={isDeleting}
         >
           {isDeleting ? (
-            <Loader className="animate-spin mr-2" size={16} />
+            <Loader className="animate-spin mr-2" size={12} className="sm:size-16" />
           ) : null}
           {isDeleting ? "Deleting..." : "Delete Account"}
         </button>
@@ -553,29 +553,29 @@ const EditProfileForm = ({
   fileInputRef,
 }) => {
   return (
-    <div className="min-h-screen bg-gray-50 rounded-2xl py-8 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-50 rounded-2xl py-6 sm:py-8 px-3 sm:px-4 lg:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <form
           onSubmit={handleSubmit}
-          className="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-6 sm:p-8"
+          className="bg-white bg-opacity-90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 lg:p-8"
         >
           {/* Header */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
-            <h3 className="text-2xl font-bold text-gray-900">Edit Profile</h3>
-            <div className="flex space-x-3 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 sm:mb-8 gap-3 sm:gap-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Edit Profile</h3>
+            <div className="flex space-x-2 sm:space-x-3 w-full sm:w-auto">
               <button
                 type="button"
                 onClick={cancelEdit}
-                className="flex items-center px-3 py-1.5 sm:px-4 sm:py-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+                className="flex items-center px-2 sm:px-3 py-1 sm:py-1.5 lg:px-4 lg:py-2 text-gray-600 hover:text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-xs sm:text-sm"
               >
-                <X size={18} className="mr-2" />
+                <X size={16} className="mr-1 sm:mr-2" />
                 Cancel
               </button>
               <button
                 type="submit"
-                className="flex items-center px-4 py-1.5 sm:px-6 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+                className="flex items-center px-3 sm:px-4 lg:px-6 py-1 sm:py-1.5 lg:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md text-xs sm:text-sm"
               >
-                <Save size={18} className="mr-2" />
+                <Save size={16} className="mr-1 sm:mr-2" />
                 Save Changes
               </button>
             </div>
@@ -583,22 +583,22 @@ const EditProfileForm = ({
 
           {/* Messages */}
           {updateSuccess && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center shadow-sm">
-              <Check size={20} className="mr-3 flex-shrink-0" />
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-center shadow-sm text-xs sm:text-sm">
+              <Check size={16} className="mr-2 sm:mr-3 flex-shrink-0" />
               <span>Profile updated successfully!</span>
             </div>
           )}
           {updateError && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl shadow-sm">
+            <div className="mb-4 sm:mb-6 p-3 sm:p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl shadow-sm text-xs sm:text-sm">
               {updateError}
             </div>
           )}
 
           {/* Profile Picture Section */}
-          <div className="flex justify-center mb-8">
+          <div className="flex justify-center mb-6 sm:mb-8">
             <div className="relative">
               <div
-                className="w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center cursor-pointer ring-2 ring-gray-200 hover:ring-blue-500 transition-colors"
+                className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 lg:w-32 lg:h-32 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center cursor-pointer ring-2 ring-gray-200 hover:ring-blue-500 transition-colors"
                 onClick={triggerFileInput}
               >
                 {getProfilePicture() ? (
@@ -612,7 +612,7 @@ const EditProfileForm = ({
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <User size={48} className="text-gray-400" />
+                  <User size={32} className="sm:size-40 md:size-48 text-gray-400" />
                 )}
               </div>
               <input
@@ -625,19 +625,19 @@ const EditProfileForm = ({
               <button
                 type="button"
                 onClick={triggerFileInput}
-                className="absolute -bottom-2 -right-2 bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition-colors shadow-lg ring-2 ring-white"
+                className="absolute -bottom-1 sm:-bottom-2 -right-1 sm:-right-2 bg-blue-600 text-white p-2 sm:p-3 rounded-full hover:bg-blue-700 transition-colors shadow-lg ring-2 ring-white"
               >
-                <Camera size={18} />
+                <Camera size={16} className="sm:size-18" />
               </button>
             </div>
           </div>
 
           {/* Form Fields */}
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             {/* Personal Info Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   First Name *
                 </label>
                 <input
@@ -645,12 +645,12 @@ const EditProfileForm = ({
                   name="first_name"
                   value={formData.first_name || ""}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors text-sm"
                   required
                 />
               </div>
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   Last Name
                 </label>
                 <input
@@ -658,27 +658,27 @@ const EditProfileForm = ({
                   name="last_name"
                   value={formData.last_name || ""}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors text-sm"
                 />
               </div>
             </div>
 
             {/* Contact Info Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   Email Address
                 </label>
                 <input
                   type="email"
                   value={userData.email || ""}
                   disabled
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-400 rounded-xl text-gray-500 cursor-not-allowed"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 border border-gray-400 rounded-xl text-gray-500 cursor-not-allowed text-sm"
                 />
                 <p className="text-xs text-gray-500 mt-1">Email cannot be changed</p>
               </div>
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   Phone Number *
                 </label>
                 <input
@@ -686,16 +686,16 @@ const EditProfileForm = ({
                   name="phone_number"
                   value={formData.phone_number || ""}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors text-sm"
                   required
                 />
               </div>
             </div>
 
             {/* Additional Info Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   Date of Birth
                 </label>
                 <input
@@ -703,11 +703,11 @@ const EditProfileForm = ({
                   name="date_of_birth"
                   value={formData.date_of_birth || ""}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 transition-colors text-sm"
                 />
               </div>
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   Age
                 </label>
                 <input
@@ -715,16 +715,16 @@ const EditProfileForm = ({
                   name="age"
                   value={formData.age || ""}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 transition-colors text-sm"
                   min="1"
                 />
               </div>
             </div>
 
             {/* Location Info Row */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   PIN Code
                 </label>
                 <input
@@ -732,11 +732,11 @@ const EditProfileForm = ({
                   name="pin_code"
                   value={formData.pin_code || ""}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors text-sm"
                 />
               </div>
               <div className="form-group">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   District
                 </label>
                 <input
@@ -744,13 +744,13 @@ const EditProfileForm = ({
                   name="district"
                   value={formData.district || ""}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                  className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors text-sm"
                 />
               </div>
             </div>
 
             <div className="form-group">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 State
               </label>
               <input
@@ -758,21 +758,21 @@ const EditProfileForm = ({
                 name="state"
                 value={formData.state || ""}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 placeholder-gray-500 transition-colors text-sm"
               />
             </div>
 
             {/* Address */}
             <div className="form-group">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 Address
               </label>
               <textarea
                 name="address"
                 value={formData.address || ""}
                 onChange={handleInputChange}
-                rows="4"
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 resize-none transition-colors"
+                rows="3 sm:rows-4"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 bg-gray-50 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-gray-900 resize-none transition-colors text-sm"
               />
             </div>
           </div>
@@ -790,120 +790,120 @@ const ViewProfile = ({
   setShowAddressPopup,
   deleteAddress
 }) => (
-  <div className="min-h-screen rounded-2xl bg-gray-50 py-6 px-4 sm:px-6 lg:px-8">
-    <div className="max-w-4xl mx-auto space-y-8">
+  <div className="rounded-2xl bg-gray-50 py-4 sm:py-6 px-3 sm:px-4 lg:px-6 lg:px-8">
+    <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8">
       {/* Personal Information Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-          <h3 className="text-2xl font-bold text-gray-900">Personal Information</h3>
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Personal Information</h3>
           <button
             onClick={() => setIsEditing(true)}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+            className="flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md text-xs sm:text-sm"
           >
-            <Edit size={16} className="mr-2" />
+            <Edit size={14} className="mr-1 sm:mr-2" />
             Edit Profile
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div className="space-y-3 sm:space-y-4">
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">First Name</p>
-              <p className="text-lg text-gray-900">{userData.first_name || "Not provided"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">First Name</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.first_name || "Not provided"}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">Last Name</p>
-              <p className="text-lg text-gray-900">{userData.last_name || "Not provided"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">Last Name</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.last_name || "Not provided"}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">Email</p>
-              <p className="text-lg text-gray-900">{userData.email || "Not provided"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">Email</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.email || "Not provided"}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">Phone Number</p>
-              <p className="text-lg text-gray-900">{userData.phone_number || "Not provided"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">Phone Number</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.phone_number || "Not provided"}</p>
             </div>
           </div>
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">Date of Birth</p>
-              <p className="text-lg text-gray-900">{userData.date_of_birth || "Not provided"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">Date of Birth</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.date_of_birth || "Not provided"}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">Age</p>
-              <p className="text-lg text-gray-900">{userData.age || "Not provided"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">Age</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.age || "Not provided"}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">PIN Code</p>
-              <p className="text-lg text-gray-900">{userData.pin_code || "Not provided"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">PIN Code</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.pin_code || "Not provided"}</p>
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-700 mb-1">District</p>
-              <p className="text-lg text-gray-900">{userData.district || "Not available"}</p>
+              <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">District</p>
+              <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.district || "Not available"}</p>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <p className="text-sm font-semibold text-gray-700 mb-1">State</p>
-          <p className="text-lg text-gray-900">{userData.state || "Not available"}</p>
+        <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
+          <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">State</p>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.state || "Not available"}</p>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <p className="text-sm font-semibold text-gray-700 mb-1">Address</p>
-          <p className="text-lg text-gray-900">{userData.address || "No address provided"}</p>
+        <div className="mt-4 sm:mt-6 pt-4 sm:pt-6 border-t border-gray-200">
+          <p className="text-xs sm:text-sm font-semibold text-gray-700 mb-1">Address</p>
+          <p className="text-sm sm:text-base lg:text-lg text-gray-900">{userData.address || "No address provided"}</p>
         </div>
       </div>
 
       {/* Delivery Addresses Section */}
-      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 sm:p-8">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-          <h3 className="text-2xl font-bold text-gray-900">Delivery Addresses</h3>
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 sm:p-6 lg:p-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3 sm:gap-4">
+          <h3 className="text-xl sm:text-2xl font-bold text-gray-900">Delivery Addresses</h3>
           <button
             onClick={() => setShowAddressPopup(true)}
-            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+            className="flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md text-xs sm:text-sm"
           >
-            <Plus size={16} className="mr-2" />
+            <Plus size={14} className="mr-1 sm:mr-2" />
             Add New Address
           </button>
         </div>
 
         {userAddresses && userAddresses.length > 0 ? (
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {userAddresses.map((address, idx) => (
               <div
                 key={idx}
-                className="flex items-start p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
+                className="flex items-start p-3 sm:p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors"
               >
-                <div className="flex-shrink-0 mt-1 mr-4">
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                    <MapPin size={20} className="text-blue-600" />
+                <div className="flex-shrink-0 mt-1 mr-3 sm:mr-4">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                    <MapPin size={16} className="sm:size-20 text-blue-600" />
                   </div>
                 </div>
                 <div className="flex-grow min-w-0">
-                  <p className="font-semibold text-gray-900 truncate">
+                  <p className="font-semibold text-gray-900 truncate text-xs sm:text-sm">
                     {address.address_name || `Address ${idx + 1}`}
                     {address.is_default && (
-                      <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      <span className="ml-2 inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                         Default
                       </span>
                     )}
                   </p>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-xs sm:text-sm text-gray-600 mt-1">
                     {address.address || address.street},{" "}
                     {address.district || address.city}
                   </p>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     {address.state}, {address.pin_code || address.zip_code}
                   </p>
-                  <p className="text-sm text-gray-600">{address.phone_number}</p>
+                  <p className="text-xs sm:text-sm text-gray-600">{address.phone_number}</p>
                 </div>
                 <button 
                   onClick={() => deleteAddress(address.id)}
-                  className="flex-shrink-0 ml-4 p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                  className="flex-shrink-0 ml-3 sm:ml-4 p-1.5 sm:p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-colors"
                 >
                   <svg
-                    className="w-5 h-5"
+                    className="w-4 h-4 sm:w-5 sm:h-5"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -920,14 +920,14 @@ const ViewProfile = ({
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
-            <MapPin size={48} className="text-gray-400 mx-auto mb-4" />
-            <p className="text-lg text-gray-500 mb-4">No delivery addresses found</p>
+          <div className="text-center py-8 sm:py-12 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300">
+            <MapPin size={32} className="sm:size-48 text-gray-400 mx-auto mb-3 sm:mb-4" />
+            <p className="text-base sm:text-lg text-gray-500 mb-3 sm:mb-4">No delivery addresses found</p>
             <button
               onClick={() => setShowAddressPopup(true)}
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+              className="inline-flex items-center px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors shadow-md text-xs sm:text-sm"
             >
-              <Plus size={16} className="mr-2" />
+              <Plus size={14} className="mr-1 sm:mr-2" />
               Add Address
             </button>
           </div>

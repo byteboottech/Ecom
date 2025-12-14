@@ -15,7 +15,7 @@ import {
 import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
-import { getCategory } from "../../../Services/Settings";
+import { getCategoryForUser } from "../../../Services/Settings";
 import { getAllProduct } from "../../../Services/Products";
 // import NavBarMenu from "./NavBarMenu";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
@@ -28,7 +28,7 @@ import SearchBarNav from "./SearchBarNav";
 const ModernNavbar = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [scrolled, setScrolled] = useState(false);
+  // const [scrolled, setScrolled] = useState(false);
   // const [lastScroll, setLastScroll] = useState(0);
   // const [navbarHidden, setNavbarHidden] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -176,7 +176,7 @@ const ModernNavbar = () => {
 
   const getProductDropDownList = async () => {
     try {
-      const originalCategories = await getCategory();
+      const originalCategories = await getCategoryForUser();
       console.log("original categories:", originalCategories);
       const allProductsRes = await getAllProduct();
       console.log("all products:", allProductsRes);
@@ -246,15 +246,15 @@ const ModernNavbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScroll = window.pageYOffset;
-      setScrolled(currentScroll > 50);
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const currentScroll = window.pageYOffset;
+  //     setScrolled(currentScroll > 50);
+  //   };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  //   window.addEventListener("scroll", handleScroll, { passive: true });
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -474,7 +474,7 @@ const ModernNavbar = () => {
 
       {/* Main Navigation - Enhanced for attractiveness */}
       <nav 
-        className={`modern-navbar ${scrolled ? "scrolled" : ""}`}
+        className="modern-navbar"
         style={{
           background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
