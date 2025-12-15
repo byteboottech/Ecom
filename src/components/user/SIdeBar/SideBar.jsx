@@ -149,7 +149,7 @@ function SideBar({ isOpen, onClose, position = "right" }) {
                     className="flex items-center gap-1 py-1.5 px-3 bg-black text-white font-medium rounded-md border border-black hover:bg-gray-800 transition-all duration-300 text-sm"
                     onClick={() => {
                       onClose();
-                      navigate("/register");
+                      navigate("/login");
                     }}
                   >
                     <FiUserPlus size={12} /> Register
