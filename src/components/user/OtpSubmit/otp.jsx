@@ -147,22 +147,22 @@ const OtpInput = ({ email: propEmail }) => {
   };
   
   return (
-    <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto p-6 bg-white rounded-xl shadow-lg">
+    <div className="flex flex-col items-center justify-center w-full max-w-md mx-auto p-4 sm:p-6 bg-white rounded-xl shadow-lg">
       {loading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <Varifying verificstion={verificstion} />
         </div>
       )}
       
-      <div className="w-full text-center mb-8">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">Verification Code</h2>
-        <p className="text-gray-600">
+      <div className="w-full text-center mb-6 sm:mb-8">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Verification Code</h2>
+        <p className="text-sm sm:text-base text-gray-600">
           We've sent a verification code to
           <span className="font-medium text-blue-600 block mt-1">{email}</span>
         </p>
       </div>
       
-      <div className="flex justify-center gap-2 w-full mb-6">
+      <div className="flex justify-center gap-1.5 sm:gap-2 w-full mb-4 sm:mb-6">
         {otpValues.map((digit, index) => (
           <input
             key={index}
@@ -174,7 +174,7 @@ const OtpInput = ({ email: propEmail }) => {
             onKeyDown={(e) => handleKeyDown(index, e)}
             onPaste={index === 0 ? handlePaste : undefined}
             ref={(el) => (inputRefs.current[index] = el)}
-            className="w-12 h-12 text-center text-xl font-bold border rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
+            className="w-10 h-10 sm:w-12 sm:h-12 text-center text-lg sm:text-xl font-bold border rounded-md focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition-all duration-200"
             style={{ backgroundColor: "rgba(217, 217, 217, 1)" }}
             disabled={loading}
             required
@@ -183,18 +183,18 @@ const OtpInput = ({ email: propEmail }) => {
       </div>
       
       <button 
-        className={`w-full bg-black text-white py-3 px-6 rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-800 transition-colors ${
+        className={`w-full bg-black text-white py-2 px-4 sm:py-3 sm:px-6 text-sm sm:text-base rounded-lg flex items-center justify-center space-x-2 hover:bg-gray-800 transition-colors ${
           loading || otpValues.join('').length < 6 ? 'opacity-60 cursor-not-allowed' : ''
         }`}
         onClick={handleSubmitOTP}
         disabled={loading || otpValues.join('').length < 6}
       >
         <span className="mr-2">{loading ? 'Verifying...' : 'Submit OTP'}</span>
-        <IoArrowForwardCircleSharp className="text-xl" />
+        <IoArrowForwardCircleSharp className="text-lg sm:text-xl" />
       </button>
       
-      <div className="mt-6 text-center">
-        <p className="text-gray-600 text-sm">
+      <div className="mt-4 sm:mt-6 text-center">
+        <p className="text-xs sm:text-sm text-gray-600">
           Didn't receive a code? <button className="text-blue-600 font-medium hover:text-blue-800">Resend OTP</button>
         </p>
       </div>

@@ -5,13 +5,14 @@ import {
   FaShoppingCart,
   FaChevronDown,
   FaFacebookF,
-  FaTwitter,
   FaInstagram,
   FaYoutube,
   FaChevronUp,
   FaTimes,
-  FaSearch
+  FaSearch,
+  FaWhatsapp 
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
 import "./nav.css";
 import SideBar from "../SIdeBar/SideBar";
 import { useAuth } from "../../../Context/UserContext";
@@ -321,9 +322,12 @@ const ModernNavbar = () => {
 
   const socialMedia = [
     { icon: FaFacebookF, url: "https://facebook.com", color: "#1877F2" },
-    { icon: FaTwitter, url: "https://twitter.com", color: "#1DA1F2" },
+    { icon: FaXTwitter, url: "https://twitter.com", color: "##000000" },
     { icon: FaInstagram, url: "https://instagram.com", color: "#E4405F" },
-    { icon: FaYoutube, url: "https://youtube.com", color: "#FF0000" },
+    { icon: FaWhatsapp , url: "https://wa.me/919446067663?text=hello", color: "#25D366" }
+
+
+
   ];
 
   const openLoginModal = () => {
@@ -553,7 +557,6 @@ const ModernNavbar = () => {
                               key={index}
                               className={`dropdown-item-wrapper ${hoveredCategory === item.id ? 'active' : ''}`}
                               onMouseEnter={() => setHoveredCategory(item.id)}
-                              onMouseLeave={() => setHoveredCategory(null)}
                             >
                               <Link
                                 to={`/categoryproductlist?categoryId=${item.id}&categoryName=${encodeURIComponent(item.name)}`}
@@ -596,7 +599,7 @@ const ModernNavbar = () => {
                                     {catProducts.map((product, idx) => (
                                       <Link 
                                         key={idx} 
-                                        to={`/product/${product.id}`} 
+                                        to={`/Details/${product.id}`} 
                                         className="product-item"
                                         style={{
                                           textDecoration: 'none',

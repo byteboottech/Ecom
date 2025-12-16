@@ -389,7 +389,7 @@ function Details({ product }) {
   };
   const handleEnquiry = () => {
     const message = `Hi, I'm interested in the product: ${product.name}. Price: ₹${formatPrice(price)}. Please provide more details.`;
-    const adminNumber = '91XXXXXXXXXX'; // Replace with actual admin WhatsApp number (include country code)
+    const adminNumber = '919446067663'; // Replace with actual admin WhatsApp number (include country code)
     const whatsappUrl = `https://wa.me/${adminNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };

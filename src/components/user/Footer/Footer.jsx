@@ -21,6 +21,7 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { FaWhatsapp } from 'react-icons/fa'; // Fa stands for Font Awesome
+import { FaXTwitter } from "react-icons/fa6";
 import MapIframe from "./MapIframe";
 import  UPI  from "../../../Images/new-upi-removebg-preview.png"
 import  Visa  from "../../../Images/new visa.png"
@@ -234,13 +235,14 @@ const MaxtreoFooter = () => {
       <a href="https://instagram.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
         <Instagram className="h-4 w-4 lg:h-5 lg:w-5" />
       </a>
-      <a href="https://youtube.com" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="YouTube" target="_blank" rel="noopener noreferrer">
-        <Youtube className="h-4 w-4 lg:h-5 lg:w-5" />
-      </a>
       {/* Use Lucide's MessageCircle icon (or MessageSquare) and style it green */}
-      <a href="YOUR_WHATSAPP_LINK" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+      <a href="https://wa.me/919446067663?text=hello" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
         {/* You can add a text-green-500 or similar class here if your icons are not already colored by the parent */}
         <FaWhatsapp className="h-4 w-4 lg:h-5 lg:w-5" />  
+      </a>
+      <a href="https://x.com/" className="p-2 hover:bg-gray-700 rounded transition-colors" aria-label="WhatsApp" target="_blank" rel="noopener noreferrer">
+        {/* You can add a text-green-500 or similar class here if your icons are not already colored by the parent */}
+        <FaXTwitter className="h-4 w-4 lg:h-5 lg:w-5" />  
       </a>
 </div>
         </div>

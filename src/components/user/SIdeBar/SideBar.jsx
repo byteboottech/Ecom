@@ -21,7 +21,7 @@ import {
   HeadphonesIcon,
 } from "lucide-react";
 import { logout } from "../../../Services/userApi";
-import { getProductCategories } from "../../../Services/Settings";
+import { getCategoryForUser } from "../../../Services/Settings";
 
 function SideBar({ isOpen, onClose, position = "right" }) {
   const { token, setToken, user } = useAuth();
@@ -80,7 +80,7 @@ function SideBar({ isOpen, onClose, position = "right" }) {
   useEffect(() => {
     const getProductDropDownList = async () => {
       try {
-        const categories = await getProductCategories();
+        const categories = await getCategoryForUser();
         console.log(categories, "categories from sidebar");
         const categoryData = Array.isArray(categories) ? categories : (categories.data || []);
         setProductsItems(categoryData);

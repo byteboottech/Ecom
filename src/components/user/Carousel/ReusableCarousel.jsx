@@ -115,7 +115,7 @@ const ReusableCarousel: React.FC<ReusableCarouselProps> = ({
               }}
             />
 
-            <div className="absolute inset-0 bg-black bg-opacity-40 z-10" />
+            <div className="absolute inset-0  z-10" />
 
             {/* 👈 Clickable overlay: Full slide on all devices, z-15 below button (z-20) on desktop; pointer cursor for feedback */}
             <div
