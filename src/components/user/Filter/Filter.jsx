@@ -317,16 +317,15 @@ function Filter({ products, setProducts }) {
                         
                         {/* Range Slider */}
                         <div className="mb-4">
-                          <div className="relative pt-6 pb-1">
-                            <div className="h-1 w-full bg-gray-200 rounded-full">
-                              <div 
-                                className="absolute h-1 bg-indigo-500 rounded-full" 
-                                style={{
-                                  left: `${minThumbPosition}%`,
-                                  right: `${100 - maxThumbPosition}%`
-                                }}
-                              ></div>
-                            </div>
+                          <div className="relative h-6">
+                            <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 bg-gray-200 rounded-full"></div>
+                            <div 
+                              className="absolute top-1/2 h-1 bg-indigo-500 rounded-full" 
+                              style={{
+                                left: `${minThumbPosition}%`,
+                                width: `${maxThumbPosition - minThumbPosition}%`
+                              }}
+                            ></div>
                             <input
                               type="range"
                               name="min"
@@ -334,7 +333,7 @@ function Filter({ products, setProducts }) {
                               max={priceRange.max}
                               value={currentPriceRange.min}
                               onChange={handleSliderChange}
-                              className="range-slider range-slider-min absolute w-full top-5 h-1 appearance-none bg-transparent pointer-events-none"
+                              className="range-slider range-slider-min absolute inset-x-0 top-0 h-full appearance-none bg-transparent pointer-events-none z-10"
                             />
                             <input
                               type="range"
@@ -343,7 +342,7 @@ function Filter({ products, setProducts }) {
                               max={priceRange.max}
                               value={currentPriceRange.max}
                               onChange={handleSliderChange}
-                              className="range-slider range-slider-max absolute w-full top-5 h-1 appearance-none bg-transparent pointer-events-none"
+                              className="range-slider range-slider-max absolute inset-x-0 top-0 h-full appearance-none bg-transparent pointer-events-none z-20"
                             />
                           </div>
                         </div>
@@ -514,7 +513,7 @@ function Filter({ products, setProducts }) {
           border: 2px solid #6366f1;
           cursor: pointer;
           pointer-events: auto;
-          margin-top: -8px;
+          margin-top: 0;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           transition: transform 0.2s, box-shadow 0.2s;
         }
@@ -534,6 +533,8 @@ function Filter({ products, setProducts }) {
           pointer-events: auto;
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
           transition: transform 0.2s, box-shadow 0.2s;
+          border: none;
+          margin-top: 0;
         }
         
         .range-slider::-moz-range-thumb:hover {
