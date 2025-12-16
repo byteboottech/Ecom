@@ -10,6 +10,14 @@ function Filter({ products, setProducts }) {
   const [selectedBrands, setSelectedBrands] = useState([]);
   const [priceRange, setPriceRange] = useState({ min: 0, max: 0 });
   const [currentPriceRange, setCurrentPriceRange] = useState({ min: 0, max: 0 });
+  // Temporary input states: Allow free typing in number inputs without immediate clamping or state updates.
+  // This prevents UX interruptions like auto-resetting values during keystrokes.
+  // Inputs display as strings to handle incomplete typing (e.g., '40' while typing '400').
+  const [inputMin, setInputMin] = useState('0');
+  const [inputMax, setInputMax] = useState('0');
+  // Editing field state: Tracks which input (if any) is currently focused for disabling the slider.
+  // Ensures the slider is non-interactive only while typing in inputs, re-enabling on blur.
+  const [editingField, setEditingField] = useState(null);
   const [originalProducts, setOriginalProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedAvailability, setSelectedAvailability] = useState('');
@@ -85,9 +93,37 @@ function Filter({ products, setProducts }) {
       const maxPrice = Math.max(...prices);
       
       setPriceRange({ min: minPrice, max: maxPrice });
+      // Initialize committed slider state
       setCurrentPriceRange({ min: minPrice, max: maxPrice });
+      // Sync temporary input displays to initial values
+      setInputMin(minPrice.toString());
+      setInputMax(maxPrice.toString());
     }
   }, [products, originalProducts.length]);
+
+  // Sync input displays whenever the committed slider state changes (e.g., from slider drag or quick range selection).
+  // This ensures inputs reflect the current valid range without interfering with temporary typing.
+  useEffect(() => {
+    setInputMin(currentPriceRange.min.toString());
+    setInputMax(currentPriceRange.max.toString());
+  }, [currentPriceRange.min, currentPriceRange.max]);
+
+  // Validation function: Clamps and commits temporary input values to the slider state.
+  // Called only on blur, Enter key, or Apply button click.
+  // - Parses string inputs, defaults to bounds on invalid/empty.
+  // - Ensures min >= priceRange.min and min <= max (by adjusting max if needed).
+  // - Allows min > priceRange.max or max < priceRange.min (results in empty filter, correct for out-of-range).
+  // - This timing prevents real-time clamping during typing, fixing the reset bug.
+  const syncValidate = () => {
+    const parsedMin = isNaN(parseInt(inputMin)) ? priceRange.min : parseInt(inputMin);
+    const parsedMax = isNaN(parseInt(inputMax)) ? priceRange.max : parseInt(inputMax);
+    let finalMin = Math.max(priceRange.min, parsedMin);
+    let finalMax = parsedMax;
+    if (finalMin > finalMax) {
+      finalMax = finalMin;
+    }
+    setCurrentPriceRange({ min: finalMin, max: finalMax });
+  };
 
   const toggleCategory = (index) => {
     setActiveCategory(activeCategory === index ? null : index);
@@ -114,31 +150,45 @@ function Filter({ products, setProducts }) {
     });
   };
 
-  const handlePriceChange = (type, value) => {
-    setCurrentPriceRange(prev => {
-      const newValue = parseInt(value);
-      // Ensure min doesn't exceed max and max doesn't go below min
-      if (type === 'min' && newValue > prev.max) {
-        return { ...prev, min: prev.max };
-      } else if (type === 'max' && newValue < prev.min) {
-        return { ...prev, max: prev.min };
-      } else {
-        return { ...prev, [type]: newValue };
-      }
-    });
-  };
-
+  // Quick range selection: Updates committed state immediately (no typing involved).
+  // useEffect syncs inputs afterward.
   const handleRangeSelection = (min, max) => {
     setCurrentPriceRange({ min, max });
   };
 
+  // Slider change handler: Updates committed state immediately with clamping to ensure valid range.
+  // Slider values are always within priceRange bounds due to <input range> attributes.
   const handleSliderChange = (e) => {
     const value = parseInt(e.target.value);
     const type = e.target.name;
-    handlePriceChange(type, value);
+    setCurrentPriceRange(prev => {
+      if (type === 'min') {
+        const newMin = Math.max(priceRange.min, Math.min(value, prev.max));
+        return { min: newMin, max: prev.max };
+      } else {
+        const newMax = Math.min(priceRange.max, Math.max(value, prev.min));
+        return { min: prev.min, max: newMax };
+      }
+    });
   };
 
+  // Determines if slider should be disabled (non-interactive and visually dimmed).
+  const isEditing = editingField !== null;
+
+  // Calculate clamped thumb positions to prevent overflow (e.g., if current.min > priceRange.max).
+  // Ensures track and thumbs stay within 0-100% bounds.
+  const rangeWidth = priceRange.max - priceRange.min;
+  const rawMinPos = rangeWidth > 0 ? ((currentPriceRange.min - priceRange.min) / rangeWidth) * 100 : 0;
+  const rawMaxPos = rangeWidth > 0 ? ((currentPriceRange.max - priceRange.min) / rangeWidth) * 100 : 100;
+  const minThumbPosition = Math.max(0, Math.min(100, rawMinPos));
+  const maxThumbPosition = Math.max(0, Math.min(100, rawMaxPos));
+  // Track style: Always draw from leftmost to rightmost position, with non-negative width.
+  const trackLeft = Math.min(minThumbPosition, maxThumbPosition);
+  const trackWidth = Math.max(0, Math.abs(maxThumbPosition - minThumbPosition));
+
   const handleFilter = () => {
+    // Sync and validate inputs before filtering (handles case where user typed but didn't blur/enter).
+    syncValidate();
     let filtered = [...originalProducts];
 
     // Filter by categories
@@ -155,7 +205,7 @@ function Filter({ products, setProducts }) {
       );
     }
 
-    // Filter by price range
+    // Filter by price range (uses committed state, always valid)
     filtered = filtered.filter(product => {
       const price = parseInt(product.price);
       return price >= currentPriceRange.min && price <= currentPriceRange.max;
@@ -186,6 +236,9 @@ function Filter({ products, setProducts }) {
     setSelectedAvailability('');
     setSelectedRating('');
     setProducts(originalProducts);
+    // Reset inputs to bounds
+    setInputMin(priceRange.min.toString());
+    setInputMax(priceRange.max.toString());
   };
 
   const selectedLabel = uiCategories[activeCategory];
@@ -194,10 +247,6 @@ function Filter({ products, setProducts }) {
   const isPriceSelected = selectedLabel === "PRICE";
   const isAvailabilitySelected = selectedLabel === "AVAILABILITY";
   const isRatingSelected = selectedLabel === "RATING";
-
-  // Calculate percentage for the slider thumb positions
-  const minThumbPosition = ((currentPriceRange.min - priceRange.min) / (priceRange.max - priceRange.min)) * 100;
-  const maxThumbPosition = ((currentPriceRange.max - priceRange.min) / (priceRange.max - priceRange.min)) * 100;
 
   return (
     <div className="w-full bg-white font-sans">
@@ -317,13 +366,15 @@ function Filter({ products, setProducts }) {
                         
                         {/* Range Slider */}
                         <div className="mb-4">
-                          <div className="relative h-6">
+                          <div 
+                            className={`relative h-6 ${isEditing ? 'pointer-events-none opacity-75' : ''}`}
+                          >
                             <div className="absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 bg-gray-200 rounded-full"></div>
                             <div 
                               className="absolute top-1/2 h-1 bg-indigo-500 rounded-full" 
                               style={{
-                                left: `${minThumbPosition}%`,
-                                width: `${maxThumbPosition - minThumbPosition}%`
+                                left: `${trackLeft}%`,
+                                width: `${trackWidth}%`
                               }}
                             ></div>
                             <input
@@ -353,10 +404,20 @@ function Filter({ products, setProducts }) {
                             <label className="block text-xs text-gray-600 mb-1">Min Price (₹)</label>
                             <input
                               type="number"
+                              value={inputMin}
+                              onChange={(e) => setInputMin(e.target.value)}
+                              onFocus={() => setEditingField('min')}
+                              onBlur={() => {
+                                syncValidate();
+                                setEditingField(null);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  syncValidate();
+                                }
+                              }}
                               min={priceRange.min}
                               max={priceRange.max}
-                              value={currentPriceRange.min}
-                              onChange={(e) => handlePriceChange('min', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition-all duration-200"
                             />
                           </div>
@@ -367,10 +428,20 @@ function Filter({ products, setProducts }) {
                             <label className="block text-xs text-gray-600 mb-1">Max Price (₹)</label>
                             <input
                               type="number"
+                              value={inputMax}
+                              onChange={(e) => setInputMax(e.target.value)}
+                              onFocus={() => setEditingField('max')}
+                              onBlur={() => {
+                                syncValidate();
+                                setEditingField(null);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter') {
+                                  syncValidate();
+                                }
+                              }}
                               min={priceRange.min}
                               max={priceRange.max}
-                              value={currentPriceRange.max}
-                              onChange={(e) => handlePriceChange('max', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 transition-all duration-200"
                             />
                           </div>
