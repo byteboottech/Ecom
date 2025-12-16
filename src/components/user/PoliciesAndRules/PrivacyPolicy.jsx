@@ -156,7 +156,7 @@
           className="flex flex-col lg:flex-row gap-0 lg:gap-8 p-2 sm:p-4 lg:p-6 max-w-7xl mx-auto bg-white pt-24 pb-12 px-2 sm:px-4 lg:px-8 w-full"
           style={{
             fontFamily:
-              "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+            "Roboto"
           }}
         >
         

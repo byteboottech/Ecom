@@ -4,10 +4,10 @@ import Footer from "../Footer/Footer";
 export default function TermsConditions() {
   return (
     <>
-      <style jsx global>{`
+      {/* <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
         body { font-family: 'Rajdhani', sans-serif; }
-      `}</style>
+      `}</style> */}
       <Navbar />
       <div className="flex flex-col lg:flex-row gap-0 lg:gap-8 p-2 sm:p-4 lg:p-6 max-w-7xl mx-auto bg-white pt-24 pb-12 px-2 sm:px-4 lg:px-8 w-full">
         {/* Main Content */}
