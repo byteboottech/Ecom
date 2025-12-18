@@ -834,11 +834,21 @@ const ModernNavbar = () => {
               )}
                 
               {/* Mobile Cart Icon - Right side */}
-              {isMobile && (
+              {/* {isMobile && (
                 <Link to="/cart" className="mobile-cart-icon">
                   <FaShoppingCart className="action-icon" />
                 </Link>
-              )}
+              )} */}
+             {isMobile && (
+  <a
+    href="https://wa.me/919446067663?text=hello"
+    className="mobile-cart-icon"
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    <FaWhatsapp className="whatsapp-icon" />
+  </a>
+)}
             </div>
           </div>
         </div>

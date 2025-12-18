@@ -138,7 +138,8 @@ const ProductCard = React.memo(({ product, onAddToCart, onBuyNow, addingToCart }
           </button>
 
           <button 
-            onClick={handleBuyNowClick}
+            // onClick={handleBuyNowClick}
+            onClick={() => navigateToDetails(product.id)}
             className="flex-1 py-1.5 lg:py-2 text-xs lg:text-sm font-Roboto font-bold text-white flex items-center justify-center gap-1 lg:gap-2 bg-red-600 hover:bg-red-700 transition-all duration-300"
           >
             <FaBolt className="text-xs lg:text-sm" />

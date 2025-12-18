@@ -16,6 +16,7 @@ import {
   Moon,
   Sun,
   Download,
+  CircleUser ,
 } from "lucide-react";
 import Loader from "../../../Loader/Loader";
 import { useAuth } from "../../../Context/UserContext";
@@ -33,6 +34,9 @@ export default function Orders() {
   const [showOrderModal, setShowOrderModal] = useState(false);
   const [showFullDetailsModal, setShowFullDetailsModal] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
+  const getInitials = (firstName = "", lastName = "") => {
+  return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+};
   const renderProfileImage = () => {
     if (!user) {
       return <Loader />;
@@ -55,18 +59,11 @@ export default function Orders() {
         />
       );
     } else {
-      return (
-        <img
-          src={userAvatar} // Replace with your default image path
-          alt="Default Profile"
-          className="w-full h-full object-cover rounded-lg"
-          onError={(e) => {
-            // Fallback to initials if default image fails to load
-            e.target.style.display = "none";
-            e.target.nextSibling.style.display = "flex";
-          }}
-        />
-      );
+       return (
+   <div className="w-full h-full flex items-center justify-center rounded-full bg-gray-300 text-gray-800 dark:bg-gray-700 dark:text-gray-100 font-extrabold leading-none text-lg sm:text-xl md:text-2xl lg:text-3xl">
+  {getInitials(user.first_name, user.last_name)}
+</div>
+  );
     }
   };
   const fetchMyOrders = async () => {
