@@ -729,10 +729,6 @@
     display: none;
   }
 
-  .social-icons {
-    display: none;
-  }
-
   .categories-container {
     justify-content: center;
   }
@@ -867,6 +863,20 @@
   .search-category-menu {
     display: none; /* Optional: Hide complex submenus on mobile to save space */
   }
+
+  /* Social icons responsive in mobile */
+  .social-link {
+    width: 28px;
+    height: 28px;
+  }
+
+  .social-icon {
+    font-size: 1rem;
+  }
+
+  .social-icons {
+    gap: 4px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -961,6 +971,21 @@
 
   .search-icon {
     font-size: 16px;
+  }
+
+  /* Social icons even tighter in small mobile */
+  .social-link {
+    width: 24px;
+    height: 24px;
+    padding: 2px;
+  }
+
+  .social-icon {
+    font-size: 0.9rem;
+  }
+
+  .social-icons {
+    gap: 2px;
   }
 }
 

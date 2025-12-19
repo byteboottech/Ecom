@@ -122,7 +122,7 @@ export default function OrderConfirmationModal() {
           
           <div className="mb-6 bg-green-50 p-4 rounded-lg border border-green-100">
             <p className="mb-2 text-gray-700">
-              Thank you for your order. NEO TOKYO will contact you soon.
+              Thank you for your order. Maxtreo will contact you soon.
             </p>
             <p className="text-gray-600 text-sm">
               You'll receive a confirmation email with your order details shortly.

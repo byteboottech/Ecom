@@ -9,6 +9,7 @@ import ProductHighlights from '../components/user/Products/ProductHighlights';
 import PopularCategory from '../components/user/Category/PopularCategory';
 import MobileBottomNavbar from '../components/user/NavBar/MobileBottomNavbar';
 import SearchBarNav from '../components/user/NavBar/SearchBarNav';
+import WhatsappEnquiryButton from '../components/user/ProductDetail/WhatsappEnquiryButton';
 
 function Home() {
   const navigate = useNavigate();
@@ -233,6 +234,7 @@ function Home() {
       )}
 
       {/* Footer */}
+      <WhatsappEnquiryButton/>
       <Footer />
       <MobileBottomNavbar />
     </div>

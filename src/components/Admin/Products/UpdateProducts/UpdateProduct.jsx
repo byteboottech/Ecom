@@ -83,12 +83,41 @@ function UpdateProduct() {
   const [overviewContent, setOverviewContent] = useState("");
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const loadData = async () => {
       try {
         setLoading(true);
-        const productData = await getSingleProduct(id);
+        const [productData, categoryData, brandData, taxData, allProducts, relationships, overviewCat, attributes] = await Promise.all([
+          getSingleProduct(id),
+          getCategory(),
+          getBrand(),
+          getTax(),
+          getAllProduct(),
+          relationShip(),
+          getOverViewCategory(),
+          getAttribute(),
+        ]);
+
         console.log(productData, "productData");
         setProduct(productData);
+
+        setCategories(categoryData.data || categoryData);
+        setBrands(brandData.data || brandData);
+        setTaxes(taxData.data || taxData);
+        setProducts(allProducts);
+        setRelationShip(relationships);
+
+        // Combine overview contents if both are valid
+        const overviewData = [
+          ...(overviewCat || []),
+          ...(attributes.data || attributes || [])
+        ];
+        setOverviewContents(overviewData);
+
+        // Safely extract IDs for selects
+        const categoryId = productData.category?.id ?? productData.category ?? "";
+        const brandId = productData.brand?.id ?? productData.brand ?? "";
+        const taxValueId = productData.tax_value?.id ?? productData.tax_value ?? "";
+
         setFormData({
           name: productData.name || "",
           description: productData.description || "",
@@ -97,96 +126,27 @@ function UpdateProduct() {
           product_code: productData.product_code || "",
           stock: productData.stock ? Number(productData.stock) : 0,
           whats_inside: productData.whats_inside || "",
-          category: productData.category ? String(productData.category) : "",
-          brand: productData.brand ? String(productData.brand) : "",
+          category: categoryId ? Number(categoryId) : "",
+          brand: brandId ? Number(brandId) : "",
           is_available: productData.is_available || false,
           broacher: null,
           youtube_url: productData.youtube_url || "",
-          tax: productData.tax ? String(productData.tax) : "",
-          tax_value: productData.tax_value ? Number(productData.tax_value) : "",
+          tax: productData.tax || "",
+          tax_value: taxValueId ? Number(taxValueId) : "",
           discount_price: productData.discount_price
             ? String(productData.discount_price)
             : "",
           more_info: productData.more_info || "",
         });
       } catch (error) {
+        console.error("Error loading data:", error);
         setError(error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    const fetchCategory = async () => {
-      try {
-        let categoryData = await getCategory();
-        setCategories(categoryData.data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    const fetchBrand = async () => {
-      try {
-        let brandData = await getBrand();
-        setBrands(brandData.data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    const fetchTax = async () => {
-      try {
-        let taxData = await getTax();
-        setTaxes(taxData.data);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
-
-    const getAllProductFromDB = async () => {
-      try {
-        const response = await getAllProduct();
-        setProducts(response);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    const GetrelationShip = async () => {
-      try {
-        const response = await relationShip();
-        setRelationShip(response);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    const getOverViewCategoryFn = async () => {
-      try {
-        const response = await getOverViewCategory();
-        setOverviewContents(response);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-
-    const getAttributeData = async () => {
-      try {
-        let attribute = await getAttribute();
-        setOverviewContents(attribute.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    getAttributeData();
-    getOverViewCategoryFn();
-    GetrelationShip();
-    getAllProductFromDB();
-    fetchProduct();
-    fetchCategory();
-    fetchBrand();
-    fetchTax();
+    loadData();
   }, [id]);
 
   const handleChange = (e) => {
@@ -214,7 +174,7 @@ function UpdateProduct() {
 
   const handleSelectChange = (e) => {
     const { name, value } = e.target;
-    // For select fields that should be numbers (category, brand, tax)
+    // For select fields that should be numbers (category, brand, tax_value)
     setFormData((prev) => ({
       ...prev,
       [name]: value === "" ? "" : Number(value),
@@ -619,11 +579,11 @@ function UpdateProduct() {
             {/* Tax Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
-                <label htmlFor="tax" className="block mb-2">
+                <label htmlFor="tax_type" className="block mb-2">
                   Tax Type
                 </label>
                 <select
-                  id="tax"
+                  id="tax_type"
                   name="tax_value"
                   value={formData.tax_value}
                   onChange={handleSelectChange}
@@ -639,24 +599,20 @@ function UpdateProduct() {
               </div>
 
               <div>
-                <label htmlFor="tax_value" className="block mb-2">
-                  Tax
+                <label htmlFor="tax" className="block mb-2">
+                  Tax (Inclusive/Exclusive)
                 </label>
-                <input
-                  type="number"
+                <select
                   id="tax"
                   name="tax"
                   value={formData.tax}
                   onChange={handleChange}
                   className="w-full p-2 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:outline-none"
-                  min="0"
-                  step="0.01"
-                  onBlur={(e) => {
-                    if (e.target.value === "" || isNaN(Number(e.target.value))) {
-                      setFormData((prev) => ({ ...prev, tax: "" }));
-                    }
-                  }}
-                />
+                >
+                  <option value="">Select Tax Mode</option>
+                  <option value="Inclusive">Inclusive</option>
+                  <option value="Exclusive">Exclusive</option>
+                </select>
               </div>
             </div>
 
