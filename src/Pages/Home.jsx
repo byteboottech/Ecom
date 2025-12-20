@@ -10,6 +10,7 @@ import PopularCategory from '../components/user/Category/PopularCategory';
 import MobileBottomNavbar from '../components/user/NavBar/MobileBottomNavbar';
 import SearchBarNav from '../components/user/NavBar/SearchBarNav';
 import WhatsappEnquiryButton from '../components/user/ProductDetail/WhatsappEnquiryButton';
+import MaxtreoLanding from '../components/user/MaxtreoLanding/MaxtreoLanding';
 
 function Home() {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ function Home() {
           if (bSlides !== aSlides) return bSlides - aSlides;
           return (b.total_products ?? 0) - (a.total_products ?? 0);
         });
-        const selectedCategories = sortedBySlidesAndPopularity.slice(0, 5);
+        const selectedCategories = sortedBySlidesAndPopularity.slice(0, 3);
         console.log("Filtered & Selected top categories (with slides):", selectedCategories.map(c => ({ slug: c.slug, hero_carousels_length: c.hero_carousels.length, total_products: c.total_products })));
         
         setCategoryDetails(selectedCategories);
@@ -193,45 +194,15 @@ function Home() {
         <ProductHighlights />
       </div>
 
+        <div className='overflow-hidden'>
+          <MaxtreoLanding/>
+        </div>
+
       {/* PopularCategory */}
       <div className="overflow-hidden">
         <PopularCategory />
       </div>
-
-      {/* Bottom side-by-side carousels - conditional based on numCats */}
-      {numCats >= 4 && (
-        <div className={`overflow-hidden ${numCats >= 5 ? 'flex flex-row gap-2 p-4 md:p-8' : 'p-4 md:p-8 flex justify-center'}`}>
-          {/* Left bottom - render if >=4 and index 3 has slides */}
-          {getSectionData(3).hero_carousels.length > 0 && (
-            <div className={`${numCats >= 5 ? 'flex-1' : 'w-full'} min-w-0 aspect-video overflow-hidden relative`}>
-              <ReusableCarousel
-                data={getSectionData(3).hero_carousels}
-                slidesPerView={1}
-                speed={500}
-                autoplayDelay={getSectionData(3).hero_carousels.length > 1 ? 4000 : 0}
-                width="100%"
-                height="100%"
-                onSlideClick={(slide) => handleCarouselClick(getCategorySlug(3))}
-              />
-            </div>
-          )}
-
-          {/* Right bottom - render if >=5 and index 4 has slides */}
-          {numCats >= 5 && getSectionData(4).hero_carousels.length > 0 && (
-            <div className="flex-1 min-w-0 aspect-video overflow-hidden relative">
-              <ReusableCarousel
-                data={getSectionData(4).hero_carousels}
-                slidesPerView={1}
-                speed={500}
-                autoplayDelay={getSectionData(4).hero_carousels.length > 1 ? 4000 : 0}
-                width="100%"
-                height="100%"
-                onSlideClick={(slide) => handleCarouselClick(getCategorySlug(4))}
-              />
-            </div>
-          )}
-        </div>
-      )}
+        
 
       {/* Footer */}
       <WhatsappEnquiryButton/>
